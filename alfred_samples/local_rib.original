@@ -1,0 +1,348 @@
+##AlfredToDo 3.0
+
+Job -title {recalc} -comment {#Created for onelson by RenderMan for Maya 3.0.2 (Sep 22 2009 15:42:18) Pro} -dirmaps {
+    {{mayabatch} {maya -batch} NFS}
+} -envkey {} -pbias 0 -crews {} -tags {} -service {} -whendone {} -whenerror {}  -serialsubtasks 1 -subtasks {
+  Task -title {Frames 1-100} -serialsubtasks 1 -subtasks {
+
+    Task -title { Preflight} -serialsubtasks 1 -subtasks {
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/job/preflight.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /job/recalc_rmanRenderRadiosityPass.job.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /job/recalc_rmanRenderApproxGlobalDiffusePass.job.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /job/recalc_rmanMakeApproxGlobalDiffusePass.job.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.job.iff" }    }
+
+    Task -title { Frames 1-100} -serialsubtasks 0 -subtasks {
+
+    Task -title { Frames 1-20} -serialsubtasks 1 -subtasks {
+      Task -title {Render  1-20} -serialsubtasks 0 -subtasks {
+      Task -title {Render Frame 1} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0001/0001.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0001/recalc_rmanRenderRadiosityPass.001.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0001/recalc_rmanRenderApproxGlobalDiffusePass.001.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0001/recalc_rmanMakeApproxGlobalDiffusePass.001.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0001.iff" }
+      Task -title {Render Frame 2} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0002/0002.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0002/recalc_rmanRenderRadiosityPass.002.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0002/recalc_rmanRenderApproxGlobalDiffusePass.002.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0002/recalc_rmanMakeApproxGlobalDiffusePass.002.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0002.iff" }
+      Task -title {Render Frame 3} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0003/0003.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0003/recalc_rmanRenderRadiosityPass.003.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0003/recalc_rmanRenderApproxGlobalDiffusePass.003.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0003/recalc_rmanMakeApproxGlobalDiffusePass.003.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0003.iff" }
+      Task -title {Render Frame 4} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0004/0004.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0004/recalc_rmanRenderRadiosityPass.004.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0004/recalc_rmanRenderApproxGlobalDiffusePass.004.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0004/recalc_rmanMakeApproxGlobalDiffusePass.004.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0004.iff" }
+      Task -title {Render Frame 5} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0005/0005.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0005/recalc_rmanRenderRadiosityPass.005.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0005/recalc_rmanRenderApproxGlobalDiffusePass.005.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0005/recalc_rmanMakeApproxGlobalDiffusePass.005.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0005.iff" }
+      Task -title {Render Frame 6} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0006/0006.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0006/recalc_rmanRenderRadiosityPass.006.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0006/recalc_rmanRenderApproxGlobalDiffusePass.006.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0006/recalc_rmanMakeApproxGlobalDiffusePass.006.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0006.iff" }
+      Task -title {Render Frame 7} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0007/0007.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0007/recalc_rmanRenderRadiosityPass.007.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0007/recalc_rmanRenderApproxGlobalDiffusePass.007.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0007/recalc_rmanMakeApproxGlobalDiffusePass.007.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0007.iff" }
+      Task -title {Render Frame 8} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0008/0008.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0008/recalc_rmanRenderRadiosityPass.008.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0008/recalc_rmanRenderApproxGlobalDiffusePass.008.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0008/recalc_rmanMakeApproxGlobalDiffusePass.008.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0008.iff" }
+      Task -title {Render Frame 9} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0009/0009.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0009/recalc_rmanRenderRadiosityPass.009.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0009/recalc_rmanRenderApproxGlobalDiffusePass.009.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0009/recalc_rmanMakeApproxGlobalDiffusePass.009.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0009.iff" }
+      Task -title {Render Frame 10} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0010/0010.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0010/recalc_rmanRenderRadiosityPass.010.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0010/recalc_rmanRenderApproxGlobalDiffusePass.010.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0010/recalc_rmanMakeApproxGlobalDiffusePass.010.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0010.iff" }
+      Task -title {Render Frame 11} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0011/0011.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0011/recalc_rmanRenderRadiosityPass.011.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0011/recalc_rmanRenderApproxGlobalDiffusePass.011.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0011/recalc_rmanMakeApproxGlobalDiffusePass.011.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0011.iff" }
+      Task -title {Render Frame 12} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0012/0012.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0012/recalc_rmanRenderRadiosityPass.012.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0012/recalc_rmanRenderApproxGlobalDiffusePass.012.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0012/recalc_rmanMakeApproxGlobalDiffusePass.012.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0012.iff" }
+      Task -title {Render Frame 13} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0013/0013.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0013/recalc_rmanRenderRadiosityPass.013.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0013/recalc_rmanRenderApproxGlobalDiffusePass.013.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0013/recalc_rmanMakeApproxGlobalDiffusePass.013.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0013.iff" }
+      Task -title {Render Frame 14} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0014/0014.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0014/recalc_rmanRenderRadiosityPass.014.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0014/recalc_rmanRenderApproxGlobalDiffusePass.014.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0014/recalc_rmanMakeApproxGlobalDiffusePass.014.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0014.iff" }
+      Task -title {Render Frame 15} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0015/0015.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0015/recalc_rmanRenderRadiosityPass.015.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0015/recalc_rmanRenderApproxGlobalDiffusePass.015.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0015/recalc_rmanMakeApproxGlobalDiffusePass.015.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0015.iff" }
+      Task -title {Render Frame 16} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0016/0016.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0016/recalc_rmanRenderRadiosityPass.016.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0016/recalc_rmanRenderApproxGlobalDiffusePass.016.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0016/recalc_rmanMakeApproxGlobalDiffusePass.016.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0016.iff" }
+      Task -title {Render Frame 17} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0017/0017.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0017/recalc_rmanRenderRadiosityPass.017.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0017/recalc_rmanRenderApproxGlobalDiffusePass.017.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0017/recalc_rmanMakeApproxGlobalDiffusePass.017.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0017.iff" }
+      Task -title {Render Frame 18} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0018/0018.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0018/recalc_rmanRenderRadiosityPass.018.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0018/recalc_rmanRenderApproxGlobalDiffusePass.018.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0018/recalc_rmanMakeApproxGlobalDiffusePass.018.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0018.iff" }
+      Task -title {Render Frame 19} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0019/0019.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0019/recalc_rmanRenderRadiosityPass.019.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0019/recalc_rmanRenderApproxGlobalDiffusePass.019.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0019/recalc_rmanMakeApproxGlobalDiffusePass.019.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0019.iff" }
+      Task -title {Render Frame 20} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0020/0020.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0020/recalc_rmanRenderRadiosityPass.020.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0020/recalc_rmanRenderApproxGlobalDiffusePass.020.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0020/recalc_rmanMakeApproxGlobalDiffusePass.020.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0020.iff" }
+
+      }
+    }
+
+    Task -title { Frames 21-40} -serialsubtasks 1 -subtasks {
+      Task -title {Render  21-40} -serialsubtasks 0 -subtasks {
+      Task -title {Render Frame 21} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0021/0021.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0021/recalc_rmanRenderRadiosityPass.021.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0021/recalc_rmanRenderApproxGlobalDiffusePass.021.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0021/recalc_rmanMakeApproxGlobalDiffusePass.021.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0021.iff" }
+      Task -title {Render Frame 22} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0022/0022.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0022/recalc_rmanRenderRadiosityPass.022.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0022/recalc_rmanRenderApproxGlobalDiffusePass.022.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0022/recalc_rmanMakeApproxGlobalDiffusePass.022.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0022.iff" }
+      Task -title {Render Frame 23} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0023/0023.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0023/recalc_rmanRenderRadiosityPass.023.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0023/recalc_rmanRenderApproxGlobalDiffusePass.023.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0023/recalc_rmanMakeApproxGlobalDiffusePass.023.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0023.iff" }
+      Task -title {Render Frame 24} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0024/0024.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0024/recalc_rmanRenderRadiosityPass.024.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0024/recalc_rmanRenderApproxGlobalDiffusePass.024.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0024/recalc_rmanMakeApproxGlobalDiffusePass.024.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0024.iff" }
+      Task -title {Render Frame 25} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0025/0025.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0025/recalc_rmanRenderRadiosityPass.025.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0025/recalc_rmanRenderApproxGlobalDiffusePass.025.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0025/recalc_rmanMakeApproxGlobalDiffusePass.025.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0025.iff" }
+      Task -title {Render Frame 26} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0026/0026.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0026/recalc_rmanRenderRadiosityPass.026.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0026/recalc_rmanRenderApproxGlobalDiffusePass.026.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0026/recalc_rmanMakeApproxGlobalDiffusePass.026.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0026.iff" }
+      Task -title {Render Frame 27} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0027/0027.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0027/recalc_rmanRenderRadiosityPass.027.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0027/recalc_rmanRenderApproxGlobalDiffusePass.027.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0027/recalc_rmanMakeApproxGlobalDiffusePass.027.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0027.iff" }
+      Task -title {Render Frame 28} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0028/0028.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0028/recalc_rmanRenderRadiosityPass.028.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0028/recalc_rmanRenderApproxGlobalDiffusePass.028.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0028/recalc_rmanMakeApproxGlobalDiffusePass.028.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0028.iff" }
+      Task -title {Render Frame 29} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0029/0029.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0029/recalc_rmanRenderRadiosityPass.029.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0029/recalc_rmanRenderApproxGlobalDiffusePass.029.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0029/recalc_rmanMakeApproxGlobalDiffusePass.029.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0029.iff" }
+      Task -title {Render Frame 30} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0030/0030.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0030/recalc_rmanRenderRadiosityPass.030.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0030/recalc_rmanRenderApproxGlobalDiffusePass.030.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0030/recalc_rmanMakeApproxGlobalDiffusePass.030.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0030.iff" }
+      Task -title {Render Frame 31} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0031/0031.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0031/recalc_rmanRenderRadiosityPass.031.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0031/recalc_rmanRenderApproxGlobalDiffusePass.031.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0031/recalc_rmanMakeApproxGlobalDiffusePass.031.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0031.iff" }
+      Task -title {Render Frame 32} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0032/0032.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0032/recalc_rmanRenderRadiosityPass.032.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0032/recalc_rmanRenderApproxGlobalDiffusePass.032.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0032/recalc_rmanMakeApproxGlobalDiffusePass.032.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0032.iff" }
+      Task -title {Render Frame 33} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0033/0033.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0033/recalc_rmanRenderRadiosityPass.033.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0033/recalc_rmanRenderApproxGlobalDiffusePass.033.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0033/recalc_rmanMakeApproxGlobalDiffusePass.033.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0033.iff" }
+      Task -title {Render Frame 34} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0034/0034.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0034/recalc_rmanRenderRadiosityPass.034.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0034/recalc_rmanRenderApproxGlobalDiffusePass.034.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0034/recalc_rmanMakeApproxGlobalDiffusePass.034.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0034.iff" }
+      Task -title {Render Frame 35} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0035/0035.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0035/recalc_rmanRenderRadiosityPass.035.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0035/recalc_rmanRenderApproxGlobalDiffusePass.035.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0035/recalc_rmanMakeApproxGlobalDiffusePass.035.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0035.iff" }
+      Task -title {Render Frame 36} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0036/0036.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0036/recalc_rmanRenderRadiosityPass.036.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0036/recalc_rmanRenderApproxGlobalDiffusePass.036.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0036/recalc_rmanMakeApproxGlobalDiffusePass.036.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0036.iff" }
+      Task -title {Render Frame 37} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0037/0037.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0037/recalc_rmanRenderRadiosityPass.037.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0037/recalc_rmanRenderApproxGlobalDiffusePass.037.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0037/recalc_rmanMakeApproxGlobalDiffusePass.037.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0037.iff" }
+      Task -title {Render Frame 38} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0038/0038.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0038/recalc_rmanRenderRadiosityPass.038.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0038/recalc_rmanRenderApproxGlobalDiffusePass.038.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0038/recalc_rmanMakeApproxGlobalDiffusePass.038.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0038.iff" }
+      Task -title {Render Frame 39} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0039/0039.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0039/recalc_rmanRenderRadiosityPass.039.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0039/recalc_rmanRenderApproxGlobalDiffusePass.039.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0039/recalc_rmanMakeApproxGlobalDiffusePass.039.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0039.iff" }
+      Task -title {Render Frame 40} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0040/0040.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0040/recalc_rmanRenderRadiosityPass.040.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0040/recalc_rmanRenderApproxGlobalDiffusePass.040.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0040/recalc_rmanMakeApproxGlobalDiffusePass.040.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0040.iff" }
+
+      }
+    }
+
+    Task -title { Frames 41-60} -serialsubtasks 1 -subtasks {
+      Task -title {Render  41-60} -serialsubtasks 0 -subtasks {
+      Task -title {Render Frame 41} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0041/0041.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0041/recalc_rmanRenderRadiosityPass.041.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0041/recalc_rmanRenderApproxGlobalDiffusePass.041.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0041/recalc_rmanMakeApproxGlobalDiffusePass.041.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0041.iff" }
+      Task -title {Render Frame 42} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0042/0042.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0042/recalc_rmanRenderRadiosityPass.042.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0042/recalc_rmanRenderApproxGlobalDiffusePass.042.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0042/recalc_rmanMakeApproxGlobalDiffusePass.042.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0042.iff" }
+      Task -title {Render Frame 43} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0043/0043.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0043/recalc_rmanRenderRadiosityPass.043.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0043/recalc_rmanRenderApproxGlobalDiffusePass.043.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0043/recalc_rmanMakeApproxGlobalDiffusePass.043.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0043.iff" }
+      Task -title {Render Frame 44} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0044/0044.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0044/recalc_rmanRenderRadiosityPass.044.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0044/recalc_rmanRenderApproxGlobalDiffusePass.044.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0044/recalc_rmanMakeApproxGlobalDiffusePass.044.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0044.iff" }
+      Task -title {Render Frame 45} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0045/0045.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0045/recalc_rmanRenderRadiosityPass.045.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0045/recalc_rmanRenderApproxGlobalDiffusePass.045.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0045/recalc_rmanMakeApproxGlobalDiffusePass.045.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0045.iff" }
+      Task -title {Render Frame 46} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0046/0046.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0046/recalc_rmanRenderRadiosityPass.046.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0046/recalc_rmanRenderApproxGlobalDiffusePass.046.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0046/recalc_rmanMakeApproxGlobalDiffusePass.046.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0046.iff" }
+      Task -title {Render Frame 47} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0047/0047.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0047/recalc_rmanRenderRadiosityPass.047.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0047/recalc_rmanRenderApproxGlobalDiffusePass.047.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0047/recalc_rmanMakeApproxGlobalDiffusePass.047.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0047.iff" }
+      Task -title {Render Frame 48} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0048/0048.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0048/recalc_rmanRenderRadiosityPass.048.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0048/recalc_rmanRenderApproxGlobalDiffusePass.048.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0048/recalc_rmanMakeApproxGlobalDiffusePass.048.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0048.iff" }
+      Task -title {Render Frame 49} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0049/0049.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0049/recalc_rmanRenderRadiosityPass.049.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0049/recalc_rmanRenderApproxGlobalDiffusePass.049.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0049/recalc_rmanMakeApproxGlobalDiffusePass.049.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0049.iff" }
+      Task -title {Render Frame 50} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0050/0050.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0050/recalc_rmanRenderRadiosityPass.050.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0050/recalc_rmanRenderApproxGlobalDiffusePass.050.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0050/recalc_rmanMakeApproxGlobalDiffusePass.050.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0050.iff" }
+      Task -title {Render Frame 51} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0051/0051.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0051/recalc_rmanRenderRadiosityPass.051.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0051/recalc_rmanRenderApproxGlobalDiffusePass.051.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0051/recalc_rmanMakeApproxGlobalDiffusePass.051.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0051.iff" }
+      Task -title {Render Frame 52} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0052/0052.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0052/recalc_rmanRenderRadiosityPass.052.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0052/recalc_rmanRenderApproxGlobalDiffusePass.052.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0052/recalc_rmanMakeApproxGlobalDiffusePass.052.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0052.iff" }
+      Task -title {Render Frame 53} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0053/0053.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0053/recalc_rmanRenderRadiosityPass.053.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0053/recalc_rmanRenderApproxGlobalDiffusePass.053.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0053/recalc_rmanMakeApproxGlobalDiffusePass.053.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0053.iff" }
+      Task -title {Render Frame 54} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0054/0054.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0054/recalc_rmanRenderRadiosityPass.054.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0054/recalc_rmanRenderApproxGlobalDiffusePass.054.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0054/recalc_rmanMakeApproxGlobalDiffusePass.054.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0054.iff" }
+      Task -title {Render Frame 55} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0055/0055.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0055/recalc_rmanRenderRadiosityPass.055.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0055/recalc_rmanRenderApproxGlobalDiffusePass.055.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0055/recalc_rmanMakeApproxGlobalDiffusePass.055.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0055.iff" }
+      Task -title {Render Frame 56} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0056/0056.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0056/recalc_rmanRenderRadiosityPass.056.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0056/recalc_rmanRenderApproxGlobalDiffusePass.056.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0056/recalc_rmanMakeApproxGlobalDiffusePass.056.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0056.iff" }
+      Task -title {Render Frame 57} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0057/0057.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0057/recalc_rmanRenderRadiosityPass.057.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0057/recalc_rmanRenderApproxGlobalDiffusePass.057.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0057/recalc_rmanMakeApproxGlobalDiffusePass.057.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0057.iff" }
+      Task -title {Render Frame 58} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0058/0058.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0058/recalc_rmanRenderRadiosityPass.058.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0058/recalc_rmanRenderApproxGlobalDiffusePass.058.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0058/recalc_rmanMakeApproxGlobalDiffusePass.058.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0058.iff" }
+      Task -title {Render Frame 59} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0059/0059.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0059/recalc_rmanRenderRadiosityPass.059.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0059/recalc_rmanRenderApproxGlobalDiffusePass.059.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0059/recalc_rmanMakeApproxGlobalDiffusePass.059.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0059.iff" }
+      Task -title {Render Frame 60} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0060/0060.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0060/recalc_rmanRenderRadiosityPass.060.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0060/recalc_rmanRenderApproxGlobalDiffusePass.060.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0060/recalc_rmanMakeApproxGlobalDiffusePass.060.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0060.iff" }
+
+      }
+    }
+
+    Task -title { Frames 61-80} -serialsubtasks 1 -subtasks {
+      Task -title {Render  61-80} -serialsubtasks 0 -subtasks {
+      Task -title {Render Frame 61} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0061/0061.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0061/recalc_rmanRenderRadiosityPass.061.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0061/recalc_rmanRenderApproxGlobalDiffusePass.061.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0061/recalc_rmanMakeApproxGlobalDiffusePass.061.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0061.iff" }
+      Task -title {Render Frame 62} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0062/0062.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0062/recalc_rmanRenderRadiosityPass.062.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0062/recalc_rmanRenderApproxGlobalDiffusePass.062.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0062/recalc_rmanMakeApproxGlobalDiffusePass.062.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0062.iff" }
+      Task -title {Render Frame 63} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0063/0063.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0063/recalc_rmanRenderRadiosityPass.063.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0063/recalc_rmanRenderApproxGlobalDiffusePass.063.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0063/recalc_rmanMakeApproxGlobalDiffusePass.063.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0063.iff" }
+      Task -title {Render Frame 64} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0064/0064.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0064/recalc_rmanRenderRadiosityPass.064.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0064/recalc_rmanRenderApproxGlobalDiffusePass.064.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0064/recalc_rmanMakeApproxGlobalDiffusePass.064.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0064.iff" }
+      Task -title {Render Frame 65} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0065/0065.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0065/recalc_rmanRenderRadiosityPass.065.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0065/recalc_rmanRenderApproxGlobalDiffusePass.065.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0065/recalc_rmanMakeApproxGlobalDiffusePass.065.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0065.iff" }
+      Task -title {Render Frame 66} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0066/0066.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0066/recalc_rmanRenderRadiosityPass.066.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0066/recalc_rmanRenderApproxGlobalDiffusePass.066.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0066/recalc_rmanMakeApproxGlobalDiffusePass.066.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0066.iff" }
+      Task -title {Render Frame 67} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0067/0067.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0067/recalc_rmanRenderRadiosityPass.067.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0067/recalc_rmanRenderApproxGlobalDiffusePass.067.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0067/recalc_rmanMakeApproxGlobalDiffusePass.067.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0067.iff" }
+      Task -title {Render Frame 68} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0068/0068.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0068/recalc_rmanRenderRadiosityPass.068.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0068/recalc_rmanRenderApproxGlobalDiffusePass.068.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0068/recalc_rmanMakeApproxGlobalDiffusePass.068.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0068.iff" }
+      Task -title {Render Frame 69} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0069/0069.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0069/recalc_rmanRenderRadiosityPass.069.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0069/recalc_rmanRenderApproxGlobalDiffusePass.069.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0069/recalc_rmanMakeApproxGlobalDiffusePass.069.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0069.iff" }
+      Task -title {Render Frame 70} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0070/0070.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0070/recalc_rmanRenderRadiosityPass.070.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0070/recalc_rmanRenderApproxGlobalDiffusePass.070.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0070/recalc_rmanMakeApproxGlobalDiffusePass.070.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0070.iff" }
+      Task -title {Render Frame 71} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0071/0071.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0071/recalc_rmanRenderRadiosityPass.071.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0071/recalc_rmanRenderApproxGlobalDiffusePass.071.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0071/recalc_rmanMakeApproxGlobalDiffusePass.071.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0071.iff" }
+      Task -title {Render Frame 72} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0072/0072.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0072/recalc_rmanRenderRadiosityPass.072.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0072/recalc_rmanRenderApproxGlobalDiffusePass.072.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0072/recalc_rmanMakeApproxGlobalDiffusePass.072.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0072.iff" }
+      Task -title {Render Frame 73} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0073/0073.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0073/recalc_rmanRenderRadiosityPass.073.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0073/recalc_rmanRenderApproxGlobalDiffusePass.073.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0073/recalc_rmanMakeApproxGlobalDiffusePass.073.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0073.iff" }
+      Task -title {Render Frame 74} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0074/0074.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0074/recalc_rmanRenderRadiosityPass.074.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0074/recalc_rmanRenderApproxGlobalDiffusePass.074.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0074/recalc_rmanMakeApproxGlobalDiffusePass.074.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0074.iff" }
+      Task -title {Render Frame 75} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0075/0075.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0075/recalc_rmanRenderRadiosityPass.075.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0075/recalc_rmanRenderApproxGlobalDiffusePass.075.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0075/recalc_rmanMakeApproxGlobalDiffusePass.075.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0075.iff" }
+      Task -title {Render Frame 76} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0076/0076.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0076/recalc_rmanRenderRadiosityPass.076.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0076/recalc_rmanRenderApproxGlobalDiffusePass.076.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0076/recalc_rmanMakeApproxGlobalDiffusePass.076.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0076.iff" }
+      Task -title {Render Frame 77} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0077/0077.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0077/recalc_rmanRenderRadiosityPass.077.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0077/recalc_rmanRenderApproxGlobalDiffusePass.077.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0077/recalc_rmanMakeApproxGlobalDiffusePass.077.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0077.iff" }
+      Task -title {Render Frame 78} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0078/0078.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0078/recalc_rmanRenderRadiosityPass.078.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0078/recalc_rmanRenderApproxGlobalDiffusePass.078.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0078/recalc_rmanMakeApproxGlobalDiffusePass.078.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0078.iff" }
+      Task -title {Render Frame 79} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0079/0079.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0079/recalc_rmanRenderRadiosityPass.079.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0079/recalc_rmanRenderApproxGlobalDiffusePass.079.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0079/recalc_rmanMakeApproxGlobalDiffusePass.079.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0079.iff" }
+      Task -title {Render Frame 80} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0080/0080.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0080/recalc_rmanRenderRadiosityPass.080.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0080/recalc_rmanRenderApproxGlobalDiffusePass.080.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0080/recalc_rmanMakeApproxGlobalDiffusePass.080.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0080.iff" }
+
+      }
+    }
+
+    Task -title { Frames 81-100} -serialsubtasks 1 -subtasks {
+      Task -title {Render  81-100} -serialsubtasks 0 -subtasks {
+      Task -title {Render Frame 81} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0081/0081.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0081/recalc_rmanRenderRadiosityPass.081.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0081/recalc_rmanRenderApproxGlobalDiffusePass.081.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0081/recalc_rmanMakeApproxGlobalDiffusePass.081.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0081.iff" }
+      Task -title {Render Frame 82} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0082/0082.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0082/recalc_rmanRenderRadiosityPass.082.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0082/recalc_rmanRenderApproxGlobalDiffusePass.082.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0082/recalc_rmanMakeApproxGlobalDiffusePass.082.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0082.iff" }
+      Task -title {Render Frame 83} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0083/0083.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0083/recalc_rmanRenderRadiosityPass.083.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0083/recalc_rmanRenderApproxGlobalDiffusePass.083.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0083/recalc_rmanMakeApproxGlobalDiffusePass.083.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0083.iff" }
+      Task -title {Render Frame 84} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0084/0084.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0084/recalc_rmanRenderRadiosityPass.084.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0084/recalc_rmanRenderApproxGlobalDiffusePass.084.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0084/recalc_rmanMakeApproxGlobalDiffusePass.084.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0084.iff" }
+      Task -title {Render Frame 85} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0085/0085.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0085/recalc_rmanRenderRadiosityPass.085.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0085/recalc_rmanRenderApproxGlobalDiffusePass.085.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0085/recalc_rmanMakeApproxGlobalDiffusePass.085.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0085.iff" }
+      Task -title {Render Frame 86} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0086/0086.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0086/recalc_rmanRenderRadiosityPass.086.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0086/recalc_rmanRenderApproxGlobalDiffusePass.086.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0086/recalc_rmanMakeApproxGlobalDiffusePass.086.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0086.iff" }
+      Task -title {Render Frame 87} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0087/0087.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0087/recalc_rmanRenderRadiosityPass.087.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0087/recalc_rmanRenderApproxGlobalDiffusePass.087.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0087/recalc_rmanMakeApproxGlobalDiffusePass.087.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0087.iff" }
+      Task -title {Render Frame 88} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0088/0088.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0088/recalc_rmanRenderRadiosityPass.088.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0088/recalc_rmanRenderApproxGlobalDiffusePass.088.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0088/recalc_rmanMakeApproxGlobalDiffusePass.088.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0088.iff" }
+      Task -title {Render Frame 89} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0089/0089.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0089/recalc_rmanRenderRadiosityPass.089.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0089/recalc_rmanRenderApproxGlobalDiffusePass.089.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0089/recalc_rmanMakeApproxGlobalDiffusePass.089.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0089.iff" }
+      Task -title {Render Frame 90} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0090/0090.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0090/recalc_rmanRenderRadiosityPass.090.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0090/recalc_rmanRenderApproxGlobalDiffusePass.090.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0090/recalc_rmanMakeApproxGlobalDiffusePass.090.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0090.iff" }
+      Task -title {Render Frame 91} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0091/0091.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0091/recalc_rmanRenderRadiosityPass.091.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0091/recalc_rmanRenderApproxGlobalDiffusePass.091.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0091/recalc_rmanMakeApproxGlobalDiffusePass.091.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0091.iff" }
+      Task -title {Render Frame 92} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0092/0092.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0092/recalc_rmanRenderRadiosityPass.092.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0092/recalc_rmanRenderApproxGlobalDiffusePass.092.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0092/recalc_rmanMakeApproxGlobalDiffusePass.092.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0092.iff" }
+      Task -title {Render Frame 93} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0093/0093.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0093/recalc_rmanRenderRadiosityPass.093.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0093/recalc_rmanRenderApproxGlobalDiffusePass.093.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0093/recalc_rmanMakeApproxGlobalDiffusePass.093.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0093.iff" }
+      Task -title {Render Frame 94} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0094/0094.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0094/recalc_rmanRenderRadiosityPass.094.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0094/recalc_rmanRenderApproxGlobalDiffusePass.094.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0094/recalc_rmanMakeApproxGlobalDiffusePass.094.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0094.iff" }
+      Task -title {Render Frame 95} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0095/0095.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0095/recalc_rmanRenderRadiosityPass.095.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0095/recalc_rmanRenderApproxGlobalDiffusePass.095.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0095/recalc_rmanMakeApproxGlobalDiffusePass.095.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0095.iff" }
+      Task -title {Render Frame 96} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0096/0096.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0096/recalc_rmanRenderRadiosityPass.096.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0096/recalc_rmanRenderApproxGlobalDiffusePass.096.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0096/recalc_rmanMakeApproxGlobalDiffusePass.096.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0096.iff" }
+      Task -title {Render Frame 97} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0097/0097.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0097/recalc_rmanRenderRadiosityPass.097.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0097/recalc_rmanRenderApproxGlobalDiffusePass.097.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0097/recalc_rmanMakeApproxGlobalDiffusePass.097.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0097.iff" }
+      Task -title {Render Frame 98} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0098/0098.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0098/recalc_rmanRenderRadiosityPass.098.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0098/recalc_rmanRenderApproxGlobalDiffusePass.098.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0098/recalc_rmanMakeApproxGlobalDiffusePass.098.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0098.iff" }
+      Task -title {Render Frame 99} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0099/0099.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0099/recalc_rmanRenderRadiosityPass.099.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0099/recalc_rmanRenderApproxGlobalDiffusePass.099.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0099/recalc_rmanMakeApproxGlobalDiffusePass.099.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0099.iff" }
+      Task -title {Render Frame 100} -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/recalc/rib/0100/0100.rib)"} -service {pixarRender}
+      } -preview {sho "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0100/recalc_rmanRenderRadiosityPass.100.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0100/recalc_rmanRenderApproxGlobalDiffusePass.100.ptc" "S:/onelson/MAYA/projects/remote/ D_/rfmdata/onelson/recalc/data /0100/recalc_rmanMakeApproxGlobalDiffusePass.100.bkm" "S:/onelson/MAYA/projects/remote/renderman/recalc/images/recalc.0100.iff" }
+
+      }
+    }
+    }
+
+  } -cleanup {
+    File delete "S:/onelson/MAYA/projects/remote//renderScenes/_recalc_4756846.mb"   }
+}

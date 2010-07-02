@@ -1,0 +1,48 @@
+Job -title {%(stage)s} -comment {#Created for %(user)s by %(version)s } -dirmaps {
+    {{mayabatch} {maya -batch} NFS}
+} -envkey {} -pbias 0 -crews {} -tags {} -service {} -whendone {} -whenerror {}  -serialsubtasks 1 -subtasks {
+  
+  # preflight
+  Task -title {Frames 1-100} -serialsubtasks 1 -subtasks {
+
+    Task -title { Preflight} -serialsubtasks 1 -subtasks {
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/%(stage)s/rib/job/preflight.rib)"} -service {pixarRender}
+      }
+    }
+   # frame renders (1st chunk)
+    Task -title { Frames %(start)d-%(end)d} -serialsubtasks 0 -subtasks {
+
+      Task -title { Frames %(start)d-%(end)d} -serialsubtasks 1 -subtasks {
+        # loop here....
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0018/0018.rib)"} -service {pixarRender}
+        } 
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0019/0019.rib)"} -service {pixarRender}
+        } 
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0020/0020.rib)"} -service {pixarRender}
+        } 
+      }
+    }
+
+   # frame renders (2nd chunk)
+    Task -title { Frames %(start)d-%(end)d} -serialsubtasks 0 -subtasks {
+
+      Task -title { Frames %(start)d-%(end)d} -serialsubtasks 1 -subtasks {
+        # loop here....
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0018/0018.rib)"} -service {pixarRender}
+        } 
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0019/0019.rib)"} -service {pixarRender}
+        } 
+        Task -title {Render Frame %(frame)d} -cmds {
+          RemoteCmd {prman -t:0 -Progress -cwd "%D(%(project_dir)s)" "%D(renderman/recalc/rib/0020/0020.rib)"} -service {pixarRender}
+        } 
+      }
+    }
+  } -cleanup {
+    File delete "%(render_scene)s"   }
+}
