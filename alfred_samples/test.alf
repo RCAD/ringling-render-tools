@@ -1,0 +1,112 @@
+Job -title {chunk test} -comment {#Created for onelson by hand } -dirmaps {
+    {{mayabatch} {maya -batch} NFS}
+} -envkey {} -pbias 0 -crews {} -tags {} -service {} -whendone {} -whenerror {}  -serialsubtasks 1 -subtasks {
+
+  Task -title { Frames 1-10} -serialsubstasks 0 -subtasks {
+
+    Task -title { Chunk 1 (Frames 1-5) } -id {chunk1} -service {pixarRender} -serialsubtasks 1 -subtasks {
+      
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/job/preflight.rib)"}  -refersto {chunk1}
+      }
+      
+      Task -title {Render  1-5} -serialsubtasks 0 -subtasks {
+	      Task -title {Render Frame 1} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0001/0001.rib)"}  -refersto {chunk1}
+	      } 
+	      Task -title {Render Frame 2} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0002/0002.rib)"}  -refersto {chunk1}
+	      } 
+	      Task -title {Render Frame 3} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0003/0003.rib)"}  -refersto {chunk1}
+	      } 
+	      Task -title {Render Frame 4} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0004/0004.rib)"}  -refersto {chunk1}
+	      } 
+	      Task -title {Render Frame 5} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0005/0005.rib)"}  -refersto {chunk1}
+	      }
+	  } 
+    } -cleanup {  Cmd {Alfred} -msg {File delete "D:/rfmdata/onelson/phaser/"} -refersto {chunk1} }
+    
+    Task -title { Chunk 2 (Frames 6-10) } -id {chunk2} -service {pixarRender} -serialsubtasks 1 -subtasks {
+      
+      #Task -title {Setup Local Disk} -cmds {
+      #  RemoteCmd { cmd.exe /x /a /c mkdir "D:\\\\rfmdata\\\\onelson\\\\phaser\\\\data" }  -refersto {chunk2}      
+      #}
+      
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/job/preflight.rib)"}  -refersto {chunk2}
+      }
+      
+	  Task -title {Render  6-10} -subtasks {
+	      Task -title {Render Frame 6} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0006/0006.rib)"}  -refersto {chunk2}
+	      } 
+	      Task -title {Render Frame 7} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0007/0007.rib)"}  -refersto {chunk2}
+	      } 
+	      Task -title {Render Frame 8} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0008/0008.rib)"}  -refersto {chunk2}
+	      } 
+	      Task -title {Render Frame 9} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0009/0009.rib)"}  -refersto {chunk2}
+	      } 
+	      Task -title {Render Frame 10} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0010/0010.rib)"}  -refersto {chunk2}
+	      } 
+      }
+    } -cleanup { Cmd {Alfred} -msg {File delete "D:/rfmdata/onelson/phaser/"} -refersto {chunk2} }
+    
+    Task -title { Chunk 3 (Frames 11-15) } -id {chunk3} -service {pixarRender} -serialsubtasks 1 -subtasks {
+      
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/job/preflight.rib)"}  -refersto {chunk3}
+      }
+      
+	  Task -title {Render  11-15} -subtasks {
+	      Task -title {Render Frame 11} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0011/0011.rib)"}  -refersto {chunk3}
+	      } 
+	      Task -title {Render Frame 12} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0012/0012.rib)"}  -refersto {chunk3}
+	      } 
+	      Task -title {Render Frame 13} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0013/0013.rib)"}  -refersto {chunk3}
+	      } 
+	      Task -title {Render Frame 14} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0014/0014.rib)"}  -refersto {chunk3}
+	      } 
+	      Task -title {Render Frame 15} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0015/0015.rib)"}  -refersto {chunk3}
+	      } 
+      }
+    } -cleanup { Cmd {Alfred} -msg {File delete "D:/rfmdata/onelson/phaser/"} -refersto {chunk3} }
+    
+    Task -title { Chunk 4 (Frames 16-20) } -id {chunk4} -service {pixarRender} -serialsubtasks 1 -subtasks {
+      
+      Task -title {Render Preflight } -cmds {
+        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/job/preflight.rib)"}  -refersto {chunk4}
+      }
+      
+	  Task -title {Render  16-20} -subtasks {
+	      Task -title {Render Frame 16} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0016/0016.rib)"}  -refersto {chunk4}
+	      } 
+	      Task -title {Render Frame 17} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0017/0017.rib)"}  -refersto {chunk4}
+	      } 
+	      Task -title {Render Frame 18} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0018/0018.rib)"}  -refersto {chunk4}
+	      } 
+	      Task -title {Render Frame 19} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0019/0019.rib)"}  -refersto {chunk4}
+	      } 
+	      Task -title {Render Frame 20} -cmds {
+	        RemoteCmd {prman -t:0 -Progress -cwd "%D(S:/onelson/MAYA/projects/remote/)" "%D(renderman/phaser/rib/0020/0020.rib)"}  -refersto {chunk4}
+	      } 
+      }
+    } -cleanup { Cmd {Alfred} -msg {File delete "D:/rfmdata/onelson/phaser/"} -refersto {chunk4} }
+    
+  } 
+}
