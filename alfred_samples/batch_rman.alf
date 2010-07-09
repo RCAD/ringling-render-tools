@@ -2,37 +2,37 @@ Job -title {baseline} -comment {#Created for onelson } -dirmaps {
     {{mayabatch} {maya -batch} NFS}
 } -envkey {MAYA_APP_DIR=D:/onelson/MAYA} -pbias 0 -crews {} -tags {} -service {} -whendone {} -whenerror {}  -serialsubtasks 1 -subtasks {
   Task -title { Preflight} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,1,10,1,1)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,1,10,1,1)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
   Task -title {Frames 1-10} -serialsubtasks 0 -subtasks {
 
         Task -title {Chunk 1 (Frames 1-2)} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,1,2,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
-            RemoteCmd {%D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 1 -e 2 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,1,2,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 1 -e 2 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
         
         
         Task -title {Chunk 2 (Frames 3-4)} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,3,4,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
-            RemoteCmd {%D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 3 -e 4 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,3,4,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 3 -e 4 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
         
         
         Task -title {Chunk 3 (Frames 5-6)} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,5,6,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
-            RemoteCmd {%D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 5 -e 6 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,5,6,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 5 -e 6 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
         
         
         Task -title {Chunk 4 (Frames 7-8)} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,7,8,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
-            RemoteCmd {%D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 7 -e 8 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,7,8,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 7 -e 8 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
         
         
         Task -title {Chunk 5 (Frames 9-10)} -cmds {
-            RemoteCmd {%D(mayabatch) -command "renderManBatchRenderScript(1,9,10,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
-            RemoteCmd {%D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 9 -e 10 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(mayabatch) -command "renderManBatchRenderScript(1,9,10,1,2)" -proj "%D(D:/onelson/MAYA/projects/default)" -file "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
+            RemoteCmd {cmd.exe /x /a /c %D(Render) -proj "%D(D:/onelson/MAYA/projects/default)" -s 9 -e 10 -r rman -rd "%D(S:/onelson/output)" "%D(S:/onelson/MAYA/projects/hpc/scenes/baseline.mb)"} -service {pixarmtor}
         }
 
   } 
