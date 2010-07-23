@@ -7,12 +7,6 @@ LOG.setLevel(logging.DEBUG)
 __VERSION__ = (0,0,1)
 __VERSION_TAG__ = "dev"
 
-# using this global keeps the object alive after it is created -- important!
-WINDOW = None # global tracks the GUI instance
-# these globals track the user configurable values in the GUI
-JOB_THREADS = None
-JOB_TITLE = None
-
 def get_version():
     version_string = __name__+' v'+'.'.join([str(n) for n in __VERSION__])
     if __VERSION_TAG__:
@@ -41,14 +35,17 @@ threads = $threads
 step = $step""")
 
 def scene_is_dirty():
+    """Checks to see if the scene has unsaved changes"""
     return mel.eval('file -q -amf')
 
 def get_job_type():
+    """Determine if we are using renderman or maya software"""
     if RG.currentRenderer.get() == 'renderMan':
         return 'maya_render_rman'
     return 'maya_render_sw'
  
 def get_scene_name():
+    """Returns the filename (no extension) of the current scene"""
     return os.path.splitext(os.path.basename(sceneName()))[0]
 
 def get_frame_range():
@@ -57,6 +54,11 @@ def get_frame_range():
 
 
 class SubmitGui(object):
+    """
+    Manages the window, its data, the ini generation, and submission 
+    routines.
+    """
+    
     window_title = "Send to HPC Cluster"
     
     _win = None
@@ -70,7 +72,7 @@ class SubmitGui(object):
     def job_threads(self):
         return int(self._controls['threads'].getValue())
 
-    def build_job_script(self):
+    def build_ini_file(self):
         range = get_frame_range()
         data = {
                 'date': datetime.datetime.now(),
@@ -93,7 +95,7 @@ class SubmitGui(object):
                                                     ).replace('/', '\\') 
         return script
     
-    def write_job_script(self, data):
+    def write_ini_file(self, data):
         """
         Creates a file with the HPC job defined inside then 
         returns the path to the file.
@@ -104,20 +106,22 @@ class SubmitGui(object):
         with open(file_path,'w+b') as fh:
             fh.write(data)
         return file_path
-
-
     
     def submit_job(self, *args, **kwargs):
         if scene_is_dirty():
             LOG.error("File has unsaved changes.  Save before submitting!")
             return
-        fp = self.write_job_script(self.build_job_script())
+        fp = self.write_ini_file(self.build_ini_file())
         cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
         LOG.debug("job script:")
         LOG.debug(open(fp).read())
         LOG.debug(cmd)
         os.system(cmd)
-        
+    
+    def __del__(self):
+        try: self._win.delete()
+        except: pass        
+    
     def __init__(self):
         self._win = window(title=self.window_title, resizeToFitChildren=True)
         with self._win:
@@ -161,9 +165,3 @@ class SubmitGui(object):
                             submit_btn = button(label="Submit", width=200, height=40, align='center')
                             submit_btn.setCommand(self.submit_job)
         # WINDOW.show() is implied at the end of the `with WINDOW` block
-                        
-        
-    def __del__(self):
-        try: self._win.delete()
-        except: pass
-
