@@ -148,7 +148,7 @@ class SubmitGui:
             if ' ' in sceneName():
                 LOG.error("Scene name or project path contains spaces. Rename/Save As... before submitting.")
                 return False
-            if re.search('[%s]' % re.escape(self._illegal_path), sceneName()):
+            if re.search('[%s]' % re.escape(self._illegal_path), os.path.splitdrive(sceneName())[1]):
                 LOG.error("Scene name or project path contains illegal characters: e.g. %s -- Rename/Save As... before submitting." % self._illegal_path)
                 return False
             
