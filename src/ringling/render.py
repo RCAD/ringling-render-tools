@@ -1,5 +1,5 @@
-import os, logging, datetime
-from string import Template
+import os, logging, datetime, re
+import string
 from pymel.core import SCENE, mel, workspace, sceneName, Env, window
 from pymel.core import frameLayout, formLayout, uiTemplate
 from pymel.core import columnLayout, button, optionMenu, menuItem, intField
@@ -15,7 +15,7 @@ JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpcjobs', Env().user())
 SPOOL_UNC = "//desmond/spool"
 SPOOL_LETTER = "S:"
 
-INI_TEMPLATE = Template("""
+INI_TEMPLATE = string.Template("""
 # Created for $user on $date by $version
 renderer = $job_type
 name = $job_name
@@ -87,12 +87,18 @@ class SubmitGui:
         
         _win = None
         _controls = {}
-        _script_jobs = []
+        # a regex used to strip out bad chars in filenames
+        _filter_text_pattern = re.compile('[%s]' % re.escape(string.punctuation))
+        _allowed_punctuation = r'/\._-'
+        _illegal_path = re.sub('[%s]' % re.escape(_allowed_punctuation),'',string.punctuation)
+        
+        def filter_text(self, s):
+            return self._filter_text_pattern.sub('', s).strip()
 
         # references to key controls
         @property
         def job_title(self):
-            return self._controls['title'].getText()
+            return self.filter_text(self._controls['title'].getText())
         @property
         def job_threads(self):
             return int(self._controls['threads'].getValue())
@@ -132,28 +138,34 @@ class SubmitGui:
                 fh.write(data)
             return file_path
         
-        def submit_job(self, *args, **kwargs):
+        def _is_valid(self):
+            if not self.job_title:
+                LOG.error("Job title must not be blank.")
+                return False
             if scene_is_dirty():
-                LOG.error("File has unsaved changes.  Save before submitting!")
-                return
-            fp = self.write_ini_file(self.build_ini_file())
-            cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
-            LOG.debug("job script:")
-            LOG.debug(open(fp).read())
-            LOG.debug(cmd)
-            os.system(cmd)
+                LOG.error("File has unsaved changes.  Save before submitting.")
+                return False
+            if ' ' in sceneName():
+                LOG.error("Scene name or project path contains spaces. Rename/Save As... before submitting.")
+                return False
+            if re.search('[%s]' % re.escape(self._illegal_path), sceneName()):
+                LOG.error("Scene name or project path contains illegal characters: e.g. %s -- Rename/Save As... before submitting." % self._illegal_path)
+                return False
+            
+            return True
+        def submit_job(self, *args, **kwargs):
+            if self._is_valid(): 
+                fp = self.write_ini_file(self.build_ini_file())
+                cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
+                LOG.debug("job script:")
+                LOG.debug(open(fp).read())
+                LOG.debug(cmd)
+                os.system(cmd)
         
         def destroy(self):
             try: self._win.delete()
             except Exception, e:
                 LOG.debug(e)
-            self.kill_script_jobs()
-        
-        def kill_script_jobs(self):
-            for id in self._script_jobs:
-                LOG.debug("Killing scriptJob %d" % id)
-                if scriptJob(exists=id):
-                    scriptJob(kill=id, force=True)
         
         def __init__(self):
             self.create()
@@ -185,16 +197,16 @@ class SubmitGui:
                                     self._controls['title'] = textField(text=get_scene_name())
                                     
                                     start_field = intField(editable=False, value=get_frame_range()[0])
-                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.startFrame, 
-                                        lambda: start_field.setValue(get_frame_range()[0])]))
+                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.startFrame, 
+                                        lambda: start_field.setValue(get_frame_range()[0])])
                                                            
                                     end_field = intField(editable=False, value=get_frame_range()[1])
-                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.endFrame, 
-                                        lambda: end_field.setValue(get_frame_range()[1])]))
+                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.endFrame, 
+                                        lambda: end_field.setValue(get_frame_range()[1])])
                                     
                                     step_field = intField(editable=False, value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
-                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.byFrameStep, 
-                                        lambda: step_field.setValue(int(SCENE.defaultRenderGlobals.byFrameStep.get()))]))
+                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.byFrameStep, 
+                                        lambda: step_field.setValue(int(SCENE.defaultRenderGlobals.byFrameStep.get()))])
                                     
                                     with columnLayout(adj=False):
                                         self._controls['threads'] = optionMenu(w=40)
