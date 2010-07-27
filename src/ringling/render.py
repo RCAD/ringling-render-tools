@@ -9,8 +9,6 @@ import ringling
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.DEBUG)
 
-RG = SCENE.defaultRenderGlobals
-
 HPC_SPOOL_BIN = r'hpc-spool.exe' # just use whichever is in the path first
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpcjobs', Env().user())
 
@@ -36,7 +34,7 @@ def scene_is_dirty():
 
 def get_job_type():
     """Determine if we are using renderman or maya software"""
-    if RG.currentRenderer.get() == 'renderMan':
+    if SCENE.defaultRenderGlobals.currentRenderer.get() == 'renderMan':
         return 'maya_render_rman'
     return 'maya_render_sw'
  
@@ -46,7 +44,7 @@ def get_scene_name():
 
 def get_frame_range():
     """Returns a tuple of start and end frame numbers"""
-    return (int(RG.startFrame.get()), int(RG.endFrame.get()))
+    return (int(SCENE.defaultRenderGlobals.startFrame.get()), int(SCENE.defaultRenderGlobals.endFrame.get()))
 
 
 class SubmitGui:
@@ -65,7 +63,10 @@ class SubmitGui:
         # Store instance reference as the only member in the handle
         self.__dict__['_SubmitGui__instance'] = SubmitGui.__instance
     
-    def destroy(self):
+    @staticmethod
+    def destroy():
+        try: SubmitGui.__instance.destroy()
+        except: pass
         SubmitGui.__instance = None
         
     def __getattr__(self, attr):
@@ -86,7 +87,8 @@ class SubmitGui:
         
         _win = None
         _controls = {}
-        
+        _script_jobs = []
+
         # references to key controls
         @property
         def job_title(self):
@@ -110,7 +112,7 @@ class SubmitGui:
                     'start': min(range),
                     'end': max(range),
                     'threads': self.job_threads,
-                    'step': int(RG.byFrameStep.get()),
+                    'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
             }
             script = INI_TEMPLATE.substitute(data).replace(SPOOL_LETTER, SPOOL_UNC
                                                         ).replace(
@@ -145,6 +147,13 @@ class SubmitGui:
             try: self._win.delete()
             except Exception, e:
                 LOG.debug(e)
+            self.kill_script_jobs()
+        
+        def kill_script_jobs(self):
+            for id in self._script_jobs:
+                LOG.debug("Killing scriptJob %d" % id)
+                if scriptJob(exists=id):
+                    scriptJob(kill=id, force=True)
         
         def __init__(self):
             self.create()
@@ -176,16 +185,16 @@ class SubmitGui:
                                     self._controls['title'] = textField(text=get_scene_name())
                                     
                                     start_field = intField(editable=False, value=get_frame_range()[0])
-                                    scriptJob(parent=self._win, attributeChange=[RG.startFrame, 
-                                        lambda: start_field.setValue(get_frame_range()[0])])
+                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.startFrame, 
+                                        lambda: start_field.setValue(get_frame_range()[0])]))
                                                            
                                     end_field = intField(editable=False, value=get_frame_range()[1])
-                                    scriptJob(parent=self._win, attributeChange=[RG.endFrame, 
-                                        lambda: end_field.setValue(get_frame_range()[1])])
+                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.endFrame, 
+                                        lambda: end_field.setValue(get_frame_range()[1])]))
                                     
-                                    step_field = intField(editable=False, value=int(RG.byFrameStep.get()))
-                                    scriptJob(parent=self._win, attributeChange=[RG.byFrameStep, 
-                                        lambda: step_field.setValue(int(RG.byFrameStep.get()))])
+                                    step_field = intField(editable=False, value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
+                                    self._script_jobs.append(scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.byFrameStep, 
+                                        lambda: step_field.setValue(int(SCENE.defaultRenderGlobals.byFrameStep.get()))]))
                                     
                                     with columnLayout(adj=False):
                                         self._controls['threads'] = optionMenu(w=40)

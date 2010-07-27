@@ -1,5 +1,5 @@
-__VERSION__ = (0,0,2)
-__VERSION_TAG__ = "dev"
+__VERSION__ = (0,0,1)
+__VERSION_TAG__ = "rc1"
 
 def get_version():
     version_string = __name__+' '+'.'.join([str(n) for n in __VERSION__])

@@ -2,8 +2,6 @@ import maya.OpenMayaMPx as OpenMayaMPx
 import ringling
 from ringling.render import SubmitGui
 
-GUI = None
-
 kPluginCmdName="hpcSubmit"
 
 class scriptedCommand(OpenMayaMPx.MPxCommand):
@@ -11,9 +9,7 @@ class scriptedCommand(OpenMayaMPx.MPxCommand):
         OpenMayaMPx.MPxCommand.__init__(self)
     
     def doIt(self,args):
-        global GUI
-        GUI = SubmitGui()
-        GUI.new_window()
+        SubmitGui().new_window()
         
 def cmdCreator():
     return OpenMayaMPx.asMPxPtr(scriptedCommand())
@@ -30,10 +26,10 @@ def initializePlugin(mobject):
 # Runs when plug-in is disabled
 def uninitializePlugin(mobject):
     mplugin = OpenMayaMPx.MFnPlugin(mobject)
-    global GUI
-    try: GUI.window.delete()
-    except: pass
-    GUI = None
+    """
+    Note: it's SubmitGui.destroy() not SubmitGui().destroy() since it's static.
+    """
+    SubmitGui.destroy() 
     try:
         mplugin.deregisterCommand( kPluginCmdName )
     except:
