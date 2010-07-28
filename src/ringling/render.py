@@ -3,7 +3,7 @@ import string
 from pymel.core import SCENE, mel, workspace, sceneName, Env, window
 from pymel.core import frameLayout, formLayout, uiTemplate
 from pymel.core import columnLayout, button, optionMenu, menuItem, intField
-from pymel.core import text, textField, scriptJob
+from pymel.core import text, textField, scriptJob, confirmBox
 import ringling
 
 LOG = logging.getLogger(__name__)
@@ -142,15 +142,17 @@ class SubmitGui:
             if not self.job_title:
                 LOG.error("Job title must not be blank.")
                 return False
-            if scene_is_dirty():
-                LOG.error("File has unsaved changes.  Save before submitting.")
-                return False
             if ' ' in sceneName():
                 LOG.error("Scene name or project path contains spaces. Rename/Save As... before submitting.")
                 return False
             if re.search('[%s]' % re.escape(self._illegal_path), os.path.splitdrive(sceneName())[1]):
                 LOG.error("Scene name or project path contains illegal characters: e.g. %s -- Rename/Save As... before submitting." % self._illegal_path)
                 return False
+            if scene_is_dirty():
+                LOG.error("File has unsaved changes.  Save before submitting.")
+                if not confirmBox('Unsaved changes?', 'Scene may have unsaved changes.', 'Submit Anyway', 'Cancel'):
+                    return False
+            
             
             return True
         def submit_job(self, *args, **kwargs):
