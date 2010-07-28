@@ -152,9 +152,8 @@ class SubmitGui:
                 LOG.error("File has unsaved changes.  Save before submitting.")
                 if not confirmBox('Unsaved changes?', 'Scene may have unsaved changes.', 'Submit Anyway', 'Cancel'):
                     return False
-            
-            
             return True
+        
         def submit_job(self, *args, **kwargs):
             if self._is_valid(): 
                 fp = self.write_ini_file(self.build_ini_file())
