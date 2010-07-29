@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),'src')
 import ringling
 setup(
     name = "ringling_render_tools",
-    version = ringling.get_version(),
+    version = ringling.__version__,
     package_dir = {'':'src'},
     packages = find_packages('src'),
 
