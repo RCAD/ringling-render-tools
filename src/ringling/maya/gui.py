@@ -1,14 +1,14 @@
-import os, logging, datetime, re
-import string
-from pymel.core import SCENE, mel, workspace, sceneName, Env, window
+import os, datetime, re, string
+
+import ringling
+from ringling.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
+
+from pymel.core import SCENE, workspace, sceneName, Env, window
 from pymel.core import frameLayout, formLayout, uiTemplate
 from pymel.core import columnLayout, button, optionMenu, menuItem, intField
 from pymel.core import text, textField, scriptJob, confirmBox
-import ringling
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.DEBUG)
-
+LOG = ringling.get_log('hpcSubmit')
 HPC_SPOOL_BIN = r'hpc-spool.exe' # just use whichever is in the path first
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpcjobs', Env().user())
 
@@ -27,25 +27,6 @@ start = $start
 end = $end
 threads = $threads
 step = $step""")
-
-def scene_is_dirty():
-    """Checks to see if the scene has unsaved changes"""
-    return mel.eval('file -q -amf')
-
-def get_job_type():
-    """Determine if we are using renderman or maya software"""
-    if SCENE.defaultRenderGlobals.currentRenderer.get() == 'renderMan':
-        return 'maya_render_rman'
-    return 'maya_render_sw'
- 
-def get_scene_name():
-    """Returns the filename (no extension) of the current scene"""
-    return os.path.splitext(os.path.basename(sceneName()))[0]
-
-def get_frame_range():
-    """Returns a tuple of start and end frame numbers"""
-    return (int(SCENE.defaultRenderGlobals.startFrame.get()), int(SCENE.defaultRenderGlobals.endFrame.get()))
-
 
 class SubmitGui:
     """ A python singleton """

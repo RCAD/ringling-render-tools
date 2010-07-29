@@ -1,6 +1,6 @@
 import maya.OpenMayaMPx as OpenMayaMPx
-import ringling
-from ringling.render import SubmitGui
+from ringling import get_version
+from ringling.maya.gui import SubmitGui
 
 kPluginCmdName="hpcSubmit"
 
@@ -17,7 +17,7 @@ def cmdCreator():
 
 # Runs when plug-in is enabled
 def initializePlugin(mobject):
-    mplugin = OpenMayaMPx.MFnPlugin(mobject, "Ringling College", ringling.get_version(), "Any")
+    mplugin = OpenMayaMPx.MFnPlugin(mobject, "Ringling College", get_version(), "Any")
     try:
         mplugin.registerCommand( kPluginCmdName, cmdCreator )
     except:
