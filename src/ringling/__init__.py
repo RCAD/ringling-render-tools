@@ -1,10 +1,12 @@
-import logging
+import logging, os
 
-__LOG_LEVEL__ = logging.DEBUG
+__LOG_LEVEL__ = logging.DEBUG if os.getenv('RRT_DEBUG',False) else logging.INFO
 
-def get_log(name=__name__):
+def get_log(name=__name__, stream=False):
     log = logging.getLogger(name)
     log.setLevel(__LOG_LEVEL__)
+    if stream:
+        log.addHandler(logging.StreamHandler())
     return log
     
 
@@ -18,3 +20,5 @@ if __VERSION_TAG__:
 def get_version():
     version_string = 'Ringling Render Tools '+__version__
     return version_string
+
+class RinglingException(Exception):pass

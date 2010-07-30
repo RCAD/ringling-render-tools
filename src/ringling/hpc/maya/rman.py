@@ -1,5 +1,5 @@
 """
-Node Prep/Release script entry points for maya software jobs
+Node Prep/Release script entry points for jobs ran with `Render.exe -r rman ...`
 """
 
 def prep():pass
