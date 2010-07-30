@@ -1,11 +1,10 @@
 """
 Node Prep/Release script entry points for jobs ran with `Render.exe -r sw ...`
 """
-import os, sys
+import os
 from shutil import copyfile
 from subprocess import call
 from ringling.hpc import env
-from ringling import get_log
 from ringling.hpc.scripts import LOG
 ENV = env()
 
