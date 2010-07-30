@@ -32,8 +32,6 @@ def _cleanup_node_project():
     
     LOG.info("\t%0.1f MB" % (folder_size/(1024*1024.0)))
     call('rmdir /S /Q %s' % ENV['NODE_PROJECT'], shell=True)
-    
-
 
 def _setup_dirmaps():
     dst = os.path.join(ENV['NODE_PROJECT'],'scripts','userSetup.mel')
