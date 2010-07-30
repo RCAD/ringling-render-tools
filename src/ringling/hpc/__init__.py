@@ -10,5 +10,5 @@ def env():
             'JOBID': os.getenv('CCP_JOBID', None),
             'PROJECT': os.getenv('PROJECT', None),
             'SCENE': os.getenv('SCENE', None),
-            'NODE_PROJECT': os.getenv('NODE_PROJECT', None),
+            'NODE_PROJECT': os.path.expandvars(os.getenv('NODE_PROJECT', None)),
             'RENDERER': os.getenv('RENDERER', None)}
