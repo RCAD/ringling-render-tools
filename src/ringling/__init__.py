@@ -6,7 +6,10 @@ def get_log(name=__name__, stream=False):
     log = logging.getLogger(name)
     log.setLevel(__LOG_LEVEL__)
     if stream:
-        log.addHandler(logging.StreamHandler())
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter("%(name)s %(levelname)s: %(message)s")
+        handler.setFormatter(formatter)
+        log.addHandler(handler)
     return log
     
 
