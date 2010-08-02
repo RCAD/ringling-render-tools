@@ -10,7 +10,7 @@ from pymel.core import text, textField, scriptJob, confirmBox
 
 LOG = ringling.get_log('hpcSubmit')
 HPC_SPOOL_BIN = r'hpc-spool.exe' # just use whichever is in the path first
-JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpcjobs', Env().user())
+JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
 
 SPOOL_UNC = "//desmond/spool"
 SPOOL_LETTER = "S:"
