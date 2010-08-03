@@ -23,14 +23,9 @@ def _setup_node_project():
 def _cleanup_node_project():
     LOG.info("Cleaning up node project: %s" % ENV['NODE_PROJECT'])
     LOG.info("\tCalculating size...")
-    # pick a folder you have ...
-    folder_size = 0
-    for (path, dirs, files) in os.walk(ENV['NODE_PROJECT']):
-        for file in files:
-            filename = os.path.join(path, file)
-            folder_size += os.path.getsize(filename)
-    
-    LOG.info("\t%0.1f MB" % (folder_size/(1024*1024.0)))
+    LOG.info("\tThis could take a while...")
+    size = sum([os.path.getsize(os.path.join(root,f)) for root,dirs,files in os.walk(ENV['NODE_PROJECT']) for f in files])
+    LOG.info("\t%0.1f MB" % (size/(1024*1024.0)))
     call('rmdir /S /Q %s' % ENV['NODE_PROJECT'], shell=True)
 
 def _setup_dirmaps():
