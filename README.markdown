@@ -76,12 +76,15 @@ Deploy the ringling-render-tools python package
 
 1. Add C:\Ringling\HPC\maya\plugins\2010 to the `MAYA_PLUG_IN_PATH` environment variable
 1. Add C:\Ringling\HPC\maya\scripts to both `MAYA_SCRIPT_PATH` and `MAYA_SHELF_PATH`
-1. run the following:
+
+Run the following:
 
     easy_install -U --prefix C:\Ringling\Python26 ringling-render-tools
+    
 
 *Since this package is not available on pypi or any other index, you'll need to supply a location to download from.*
 *I have a dist directory where I'm dumping developemnt snapshots here on campus, so contact me for the current location.*
+
 *The usage would be like:*
     
     easy_install -U --prefix C:\Ringling\Python26 --find-links <OUR DIST LOCATION> ringling-render-tools
