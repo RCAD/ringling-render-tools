@@ -108,8 +108,10 @@ The client will follow the same procedure as the compute node, but with one addi
 
 The `hpc-spool` application is built with the dot net HPC library, and requires dot net 4, and IronPython.
 If they are not installed yet, get them and install them:
-* <http://www.microsoft.com/downloads/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en> (dot net 4) 
-* <http://ironpython.codeplex.com/releases/view/36280#DownloadId=116507> (IronPython: must be version 2.6.1 for dot net 4)
+
+> <http://www.microsoft.com/downloads/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en> (dot net 4)
+ 
+> <http://ironpython.codeplex.com/releases/view/36280#DownloadId=116507> (IronPython: must be version 2.6.1 for dot net 4)
 
 Once dot net 4 and IronPython are installed run `hpc-deploy-extras` in a cmd prompt.
 
