@@ -9,9 +9,12 @@ from pymel.core import columnLayout, button, optionMenu, menuItem, intField
 from pymel.core import text, textField, scriptJob, confirmBox
 
 LOG = ringling.get_log('hpcSubmit')
-HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' # just use whichever is in the path first
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
 
+# abspath because we can't count on it being in the PATH
+HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' 
+
+# Blessed  file system locations
 SPOOL_UNC = "//desmond/spool"
 SPOOL_LETTER = "S:"
 
@@ -149,12 +152,10 @@ class SubmitGui:
             except Exception, e:
                 LOG.debug(e)
         
-        def __init__(self):
-            self.create()
-        
         def new_window(self):
             self.destroy()
             self.create()
+        
         @property
         def window(self): return self._win
         def create(self):
