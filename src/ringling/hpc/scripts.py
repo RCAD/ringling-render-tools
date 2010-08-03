@@ -4,7 +4,9 @@ They identify the job style based on the environment, then pass the request off
 to application specific implementations.
 """
 
-import os, sys, platform, datetime
+import os, sys, shutil, platform, datetime
+from pkg_resources import Requirement, resource_filename
+
 from ringling import RinglingException, get_log
 from ringling.hpc import env
 LOG = get_log(platform.uname()[1], True)
@@ -54,4 +56,12 @@ def release_delegator():
     end = datetime.datetime.now()
     LOG.info("Elapsed time: %s" % str(end - start))
     LOG.info("Done.")
+    sys.exit(0)
+    
+def deploy_extras():
+    DEPLOY_LOCATION = r'C:\Ringling\HPC'
+    extras = resource_filename(Requirement.parse("ringling-render-tools"),"ringling/extras")
+    if os.path.exists(DEPLOY_LOCATION): shutil.rmtree(DEPLOY_LOCATION)
+    shutil.copytree(extras,DEPLOY_LOCATION)
+    print "Done."
     sys.exit(0)
