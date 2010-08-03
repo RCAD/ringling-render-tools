@@ -9,7 +9,7 @@ from pymel.core import columnLayout, button, optionMenu, menuItem, intField
 from pymel.core import text, textField, scriptJob, confirmBox
 
 LOG = ringling.get_log('hpcSubmit')
-HPC_SPOOL_BIN = r'hpc-spool.exe' # just use whichever is in the path first
+HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' # just use whichever is in the path first
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
 
 SPOOL_UNC = "//desmond/spool"
