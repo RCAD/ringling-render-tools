@@ -125,7 +125,7 @@ Output should look like:
     
     Exiting...
 
-If instead, you get an error about dot net, a reboot might be required. Reboot the machine and run the command again. If your output still doesn't match find me.
+If instead, you get an error about dot net, a reboot might be required. Reboot the machine and run the command again. If your output still doesn't match **find me**.
 
 Client Configuration
 --------------------
