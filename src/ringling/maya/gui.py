@@ -1,6 +1,8 @@
 import os, datetime, re, string
 
 import ringling
+from ringling import SPOOL_UNC, SPOOL_LETTER
+from ringling.maya.helpers import Path, InvalidPathError
 from ringling.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
 from pymel.core import SCENE, workspace, sceneName, Env, window
@@ -13,10 +15,6 @@ JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
 
 # abspath because we can't count on it being in the PATH
 HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' 
-
-# Blessed  file system locations
-SPOOL_UNC = "//desmond/spool"
-SPOOL_LETTER = "S:"
 
 INI_TEMPLATE = string.Template("""
 # Created for $user on $date by $version
@@ -89,25 +87,26 @@ class SubmitGui:
     
         def build_ini_file(self):
             range = get_frame_range()
+            proj = Path(workspace.getPath()).unc
+            scene = Path(sceneName()).unc
+            logs = Path(SPOOL_UNC+'/'+Env().user()+'/logs/'+self.job_title+'.*.txt').unc
+            output = Path(SPOOL_UNC+'/'+Env().user()+'/output/').unc
             data = {
                     'date': datetime.datetime.now(),
                     'version': ringling.get_version(),
                     'job_type': get_job_type(),
                     'job_name': self.job_title,
                     'user': Env().user(),
-                    'project_path': workspace.getPath(),
-                    'output_path': SPOOL_LETTER+'/'+Env().user()+'/output/',
-                    'scene_path': sceneName(),
-                    'logs': SPOOL_LETTER+'/'+Env().user()+'/logs/'+self.job_title+'.*.txt', 
+                    'project_path': proj,
+                    'output_path': output,
+                    'scene_path': scene,
+                    'logs': logs, 
                     'start': min(range),
                     'end': max(range),
                     'threads': self.job_threads,
                     'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
             }
-            script = INI_TEMPLATE.substitute(data).replace(SPOOL_LETTER, SPOOL_UNC
-                                                        ).replace(
-                                                        SPOOL_LETTER.lower(), SPOOL_UNC
-                                                        ).replace('/', '\\') 
+            script = INI_TEMPLATE.substitute(data)
             return script
         
         def write_ini_file(self, data):
@@ -123,6 +122,11 @@ class SubmitGui:
             return file_path
         
         def _is_valid(self):
+            try: 
+                self.build_ini_file()
+            except InvalidPathError:
+                LOG.error("Cannot submit from this location. Save this file in %s (aka %s) before submitting" % (SPOOL_LETTER, SPOOL_UNC))
+                return False
             if not self.job_title:
                 LOG.error("Job title must not be blank.")
                 return False
@@ -216,3 +220,4 @@ class SubmitGui:
                     mainForm.attachForm(subFrame, 'bottom', 4)
                     mainForm.attachForm(subFrame, 'left', 4)
                     mainForm.attachForm(subFrame, 'right', 4)
+                    

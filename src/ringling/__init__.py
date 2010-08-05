@@ -14,7 +14,7 @@ def get_log(name=__name__, stream=False):
     
 
 __VERSION__ = (0,0,1)
-__VERSION_TAG__ = "rc7"
+__VERSION_TAG__ = "rc8"
 
 __version__ = '.'.join([str(n) for n in __VERSION__]) 
 if __VERSION_TAG__:
@@ -25,3 +25,7 @@ def get_version():
     return version_string
 
 class RinglingException(Exception):pass
+
+# Blessed  file system locations
+SPOOL_UNC = r"\\desmond\spool"
+SPOOL_LETTER = "S:"

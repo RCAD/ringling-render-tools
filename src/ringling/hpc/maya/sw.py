@@ -37,8 +37,9 @@ def _setup_dirmaps():
         fh.write("""
 dirmap -m "S:/" "//desmond/spool/";
 dirmap -m "{node_project}" "{project}";
+dirmap -m "{project_name}//" "{project}/";
 dirmap -en on;
-""".format(node_project=ENV['NODE_PROJECT'].replace('\\', '/'), 
+""".format(project_name=os.path.basename(ENV['PROJECT'])[-1],node_project=ENV['NODE_PROJECT'].replace('\\', '/'), 
            project=ENV['PROJECT'].replace('\\', '/')))
     with open(dst) as fh:
         LOG.debug(fh.read())

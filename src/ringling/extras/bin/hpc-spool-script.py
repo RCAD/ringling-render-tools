@@ -16,7 +16,7 @@ The expected directory structure of this deployment is:
 """
 
 __ROOT__ = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(os.path.abspath(os.path.join(__ROOT__,'..', 'Lib')))
+sys.path.insert(0,os.path.abspath(os.path.join(__ROOT__,'..', 'Lib')))
 clr.AddReferenceToFile("Microsoft.Hpc.Scheduler.dll")
 clr.AddReferenceToFile("Microsoft.Hpc.Scheduler.Properties.dll")
 
