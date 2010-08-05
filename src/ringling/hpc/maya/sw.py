@@ -6,6 +6,7 @@ from shutil import copyfile
 from subprocess import call
 from ringling.hpc import env
 from ringling.hpc.scripts import LOG
+from ringling.maya.helpers import Path
 ENV = env()
 
 def _setup_node_project():
@@ -39,8 +40,8 @@ dirmap -m "S:/" "//desmond/spool/";
 dirmap -m "{node_project}" "{project}";
 dirmap -m "{project_name}//" "{project}/";
 dirmap -en on;
-""".format(project_name=os.path.basename(ENV['PROJECT'])[-1],node_project=ENV['NODE_PROJECT'].replace('\\', '/'), 
-           project=ENV['PROJECT'].replace('\\', '/')))
+""".format(project_name=Path(ENV['PROJECT']).name, node_project=ENV['NODE_PROJECT'].replace('\\', '/'), 
+           project=Path(ENV['PROJECT']).punc))
     with open(dst) as fh:
         LOG.debug(fh.read())
 
