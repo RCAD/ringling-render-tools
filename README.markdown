@@ -59,7 +59,8 @@ To confirm this step worked:
 Setup Render command line tools
 -------------------------------
 
-Ensure that the Maya bin and 3dsmax directories are in the PATH (probably place these at the back): `C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010`
+Ensure that the Maya bin and 3dsmax directories are in the PATH (probably place 
+these at the back): `C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010`
 
 To confirm:
 
@@ -104,9 +105,22 @@ If it finished cleanly, the following should work:
 Submit Client Installation Notes
 ================================
 
-The client will follow the same procedure as the compute node, but with one addition: the **"extras"**.
+The client will follow the same procedure as the compute node, but with one 
+addition: the **"extras"**.
 
-The `hpc-spool` application is built with the dot net HPC library, and requires dot net 4, and IronPython.
+The extras include:
+
+* the hpc-spool script(s)
+* the hpc-submit maya plugin
+* a *Ringling* maya shelf with a button to load/launch the plugin
+* a **stub** for a 3dsmax version of the maya plugin
+
+All of this stuff should *just work* once deployed, so long as the environment 
+variables mentioned in the steps above have all been set correctly.
+
+The `hpc-spool` application is built with the dot net HPC library, and requires 
+dot net 4, and IronPython.
+
 If they are not installed yet, get them and install them:
 
 > <http://www.microsoft.com/downloads/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en> (dot net 4)
@@ -115,10 +129,13 @@ If they are not installed yet, get them and install them:
 
 Once dot net 4 and IronPython are installed run `hpc-deploy-extras` in a cmd prompt.
 
-`hpc-deploy-extras` is a command that is a part of the ringling-render-tools package. 
+`hpc-deploy-extras` is a command that is a part of the ringling-render-tools 
+package. 
 It uncompresses files inside the package and copies them to `C:\Ringling\HPC`. 
 Verify the installation by opening a cmd prompt and typing the following:
+
     C:\Ringling\HPC\bin\hpc-spool.bat
+
 Output should look like:
 
     Error!
@@ -127,7 +144,9 @@ Output should look like:
     
     Exiting...
 
-If instead, you get an error about dot net, a reboot might be required. Reboot the machine and run the command again. If your output still doesn't match **find me**.
+If instead, you get an error about dot net, a reboot might be required. 
+Reboot the machine and run the command again. If your output still doesn't 
+match **find me**.
 
 Client Configuration
 --------------------
