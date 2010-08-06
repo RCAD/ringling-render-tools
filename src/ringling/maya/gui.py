@@ -87,27 +87,26 @@ class SubmitGui:
     
         def build_ini_file(self):
             range = get_frame_range()
-            proj = Path(workspace.getPath()).unc
-            scene = Path(sceneName()).unc
-            logs = Path(SPOOL_UNC+'/'+Env().user()+'/logs/'+self.job_title+'.*.txt').unc
-            output = Path(SPOOL_UNC+'/'+Env().user()+'/output/').unc
             data = {
                     'date': datetime.datetime.now(),
                     'version': ringling.get_version(),
                     'job_type': get_job_type(),
                     'job_name': self.job_title,
                     'user': Env().user(),
-                    'project_path': proj,
-                    'output_path': output,
-                    'scene_path': scene,
-                    'logs': logs, 
+                    'project_path': workspace.getPath(),
+                    'output_path': SPOOL_LETTER+'/'+Env().user()+'/output/',
+                    'scene_path': sceneName(),
+                    'logs': SPOOL_LETTER+'/'+Env().user()+'/logs/'+self.job_title+'.*.txt', 
                     'start': min(range),
                     'end': max(range),
                     'threads': self.job_threads,
                     'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
             }
-            script = INI_TEMPLATE.substitute(data)
-            return script
+            return INI_TEMPLATE.substitute(data).replace(SPOOL_LETTER, SPOOL_UNC
+                                                        ).replace(
+                                                        SPOOL_LETTER.lower(), SPOOL_UNC
+                                                        ).replace('/', '\\') 
+
         
         def write_ini_file(self, data):
             """
