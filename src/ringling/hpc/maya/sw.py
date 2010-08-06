@@ -6,6 +6,7 @@ from shutil import copyfile
 from subprocess import call
 from ringling.hpc import env
 from ringling.hpc.scripts import LOG
+from ringling import SPOOL_UNC
 from ringling.maya.helpers import Path
 ENV = env()
 
@@ -13,7 +14,7 @@ def _setup_node_project():
     LOG.info("Setting up node project directory: %s" % ENV['NODE_PROJECT'])
     if not os.path.isdir(ENV['NODE_PROJECT']):
         os.makedirs(ENV['NODE_PROJECT'])
-    src = os.path.join(ENV['PROJECT'],'workspace.mel')
+    src = os.path.join(Path(ENV['PROJECT']).unc,'workspace.mel')
     dst = os.path.join(ENV['NODE_PROJECT'],'workspace.mel')
     copyfile(src,dst)
     LOG.debug("File copied: %s -> %s" % (src,dst))
@@ -34,15 +35,19 @@ def _setup_dirmaps():
     LOG.info("Writing Dirmaps to: %s" % dst)
     if not os.path.isdir(os.path.dirname(dst)):
         os.makedirs(os.path.dirname(dst))
+    proj = Path(ENV['PROJECT'])
+    root = Path(SPOOL_UNC)
+    map_pairs = (
+        (proj.ppath, proj.punc),
+        (proj.ppath+'//', proj.punc+'/'), 
+        (root.ppath, root.punc),
+        (ENV['NODE_PROJECT'].replace('\\','/'), proj.punc)
+    )
+    maps = ['dirmap -m "%s" "%s";' % pair for pair in map_pairs]
+    maps.append('dirmap -en on;')
     with open(dst,'wb') as fh:
-        fh.write("""
-dirmap -m "S:/" "//desmond/spool/";
-dirmap -m "{node_project}" "{project}";
-dirmap -m "{project_name}//" "{project}/";
-dirmap -en on;
-""".format(project_name=Path(ENV['PROJECT']).name, node_project=ENV['NODE_PROJECT'].replace('\\', '/'), 
-           project=Path(ENV['PROJECT']).punc))
-    with open(dst) as fh:
+        fh.write(os.linesep.join(maps))
+    with open(dst, 'rb') as fh:
         LOG.debug(fh.read())
 
 

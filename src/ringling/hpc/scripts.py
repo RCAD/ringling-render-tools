@@ -42,7 +42,6 @@ class Delegator(object):
 def prep_delegator():
     start = datetime.datetime.now()
     LOG.info("Starting node prep. %s" % str(start))
-    LOG.info(str(start))
     Delegator().prep()
     end = datetime.datetime.now()
     LOG.info("Elapsed time: %s" % str(end - start))
