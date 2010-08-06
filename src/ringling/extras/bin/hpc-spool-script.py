@@ -120,13 +120,13 @@ class Spooler(object):
         setup_task = job.CreateTask()
         setup_task.Type = TaskType.NodePrep
         setup_task.Name = "Setup"
-        setup_task.CommandLine = "hpc-node-prep"
+        setup_task.CommandLine = "cmd.exe /X /C hpc-node-prep"
 
         # TearDown Task
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
         cleanup_task.Name = "Cleanup"
-        cleanup_task.CommandLine = "hpc-node-release"
+        cleanup_task.CommandLine = "cmd.exe /X /C hpc-node-release"
 
         # Add Env Vars
         self.SetJobEnv(setup_task)

@@ -14,7 +14,7 @@ def _setup_node_project():
     LOG.info("Setting up node project directory: %s" % ENV['NODE_PROJECT'])
     if not os.path.isdir(ENV['NODE_PROJECT']):
         os.makedirs(ENV['NODE_PROJECT'])
-    src = os.path.join(Path(ENV['PROJECT']).unc,'workspace.mel')
+    src = Path(ENV['PROJECT']+r'\workspace.mel').unc
     dst = os.path.join(ENV['NODE_PROJECT'],'workspace.mel')
     copyfile(src,dst)
     LOG.debug("File copied: %s -> %s" % (src,dst))
