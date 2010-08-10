@@ -20,7 +20,7 @@ setup(
         'console_scripts': [
             'hpc-node-prep = rrt.hpc.scripts:prep_delegator',
             'hpc-node-release = rrt.hpc.scripts:release_delegator',
-            'hpc-deploy-extras = rrt.hpc.scripts:deploy_extras [pymel]'
+            'hpc-deploy-extras = rrt.hpc.scripts:deploy_extras'
         ],
         'gui_scripts': []
     }
