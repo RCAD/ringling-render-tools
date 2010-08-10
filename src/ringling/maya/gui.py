@@ -89,7 +89,7 @@ class SubmitGui:
             range = get_frame_range()
             proj = Path(workspace.getPath()).unc
             scene = Path(sceneName()).unc
-            logs = Path(SPOOL_UNC,Env().user(),'logs', +self.job_title+'.*.txt').unc
+            logs = Path(SPOOL_UNC,Env().user(),'logs', self.job_title+'.*.txt').unc
             output = Path(SPOOL_UNC, Env().user(),'output').unc
             data = {
                     'date': datetime.datetime.now(),

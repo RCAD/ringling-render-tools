@@ -12,6 +12,8 @@ setup(
     dependency_links = ['http://pymel.googlecode.com/files/pymel-1.0.2.zip'],
     author = "Owen Nelson",
     author_email = "onelson@ringling.edu",
+    license = "MIT",
+    platform = "Windows",
     description = "Pipeline tools for Maya and 3DSmax rendering with Windows HPC",
     keywords = "Maya 3DSmax WindowsHPC",
     include_package_data = True,
