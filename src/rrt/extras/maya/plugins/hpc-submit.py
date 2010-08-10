@@ -1,6 +1,6 @@
 import maya.OpenMayaMPx as OpenMayaMPx
-from ringling import get_version
-from ringling.maya.gui import SubmitGui
+from rrt import get_version
+from rrt.maya.gui import SubmitGui
 
 kPluginCmdName="hpcSubmit"
 

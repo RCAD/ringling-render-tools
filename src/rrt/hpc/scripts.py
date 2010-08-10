@@ -7,17 +7,17 @@ to application specific implementations.
 import os, sys, shutil, platform, datetime
 from pkg_resources import Requirement, resource_filename
 
-from ringling import RinglingException, get_log
-from ringling.hpc import env
+from rrt import RinglingException, get_log
+from rrt.hpc import env
 LOG = get_log(platform.uname()[1], True)
 
 class MissingDelegateError(RinglingException):pass
 
 class Delegator(object):
     __delegates__ = {
-                     'maya_render_sw': 'ringling.hpc.maya.sw',
-                     'maya_render_rman': 'ringling.hpc.maya.rman', 
-                     'max': 'ringling.hpc.max'
+                     'maya_render_sw': 'rrt.hpc.maya.sw',
+                     'maya_render_rman': 'rrt.hpc.maya.rman', 
+                     'max': 'rrt.hpc.max'
                      }
     _delegate = None
     
@@ -59,7 +59,7 @@ def release_delegator():
     
 def deploy_extras():
     DEPLOY_LOCATION = r'C:\Ringling\HPC'
-    extras = resource_filename(Requirement.parse("ringling-render-tools"),"ringling/extras")
+    extras = resource_filename(Requirement.parse("ringling-render-tools"),"rrt/extras")
     if os.path.exists(DEPLOY_LOCATION): shutil.rmtree(DEPLOY_LOCATION)
     shutil.copytree(extras,DEPLOY_LOCATION)
     print "Done."

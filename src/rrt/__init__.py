@@ -14,7 +14,7 @@ def get_log(name=__name__, stream=False):
     
 
 __VERSION__ = (0,0,1)
-__VERSION_TAG__ = "rc14"
+__VERSION_TAG__ = "rc15"
 
 __version__ = '.'.join([str(n) for n in __VERSION__]) 
 if __VERSION_TAG__:

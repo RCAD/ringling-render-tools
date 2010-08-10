@@ -1,6 +1,6 @@
 import unittest, os
-from ringling.maya.helpers import Path, InvalidPathError
-from ringling import SPOOL_LETTER, SPOOL_UNC
+from rrt.maya.helpers import Path, InvalidPathError
+from rrt import SPOOL_LETTER, SPOOL_UNC
 class TestPathHelper(unittest.TestCase):
 
     def setUp(self):pass

@@ -4,10 +4,10 @@ Node Prep/Release script entry points for jobs ran with `Render.exe -r sw ...`
 import os
 from shutil import copyfile
 from subprocess import call
-from ringling.hpc import env
-from ringling.hpc.scripts import LOG
-from ringling import SPOOL_UNC
-from ringling.maya.helpers import Path
+from rrt.hpc import env
+from rrt.hpc.scripts import LOG
+from rrt import SPOOL_UNC
+from rrt.maya.helpers import Path
 ENV = env()
 
 def _setup_node_project():

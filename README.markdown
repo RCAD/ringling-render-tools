@@ -6,7 +6,7 @@ Overview
 *The installation/deployment is outrageously specific to our architecture and overall infrastructure.*
 *Use with caution!*
 
-`ringling-render-tools` is a suite of python packages and scripts to ease the submission of *Maya* and *3dsmax* render jobs to a Windows HPC cluster.
+`ringling-render-tools` is a suite of python packages and scripts (under the **rrt** namespace) to ease the submission of *Maya* and *3dsmax* render jobs to a Windows HPC cluster.
 
 
 Definitions
@@ -15,7 +15,7 @@ Definitions
 * Compute Node: a node that will be doing rendering (usually, but not always, running windows hpc).
 * Submit Client: a workstation that can submit new jobs to a hpc cluster - these workstations can also be compute nodes.
 * hpc-spool: An IronPython script that parses a short ini-style file to submit a job to a hpc cluster.
-* ringling-render-tools: This python package (provides modules and scripts that deal with an assortment of render tasks).
+* ringling-render-tools (**rrt**): This python package (provides modules and scripts that deal with an assortment of render tasks).
 * hpcSubmit: A mel command (provided by our hpc-submit.py maya plugin) that presents the submission UI to the user. It is really just a wrapper for code inside `ringling-render-tools`.
 
 
@@ -75,7 +75,7 @@ and...
 Deploy the ringling-render-tools python package
 -----------------------------------------------
 
-1. Add C:\Ringling\HPC\maya\plugins\2010 to the `MAYA_PLUG_IN_PATH` environment variable
+1. Add C:\Ringling\HPC\maya\plugins to the `MAYA_PLUG_IN_PATH` environment variable
 1. Add C:\Ringling\HPC\maya\scripts to both `MAYA_SCRIPT_PATH` and `MAYA_SHELF_PATH`
 
 Run the following:
@@ -95,11 +95,11 @@ If it finished cleanly, the following should work:
     mayapy -c "import pymel;print pymel.__version__"
     1.0.2
     
-    mayapy -c "import ringling;print ringling.get_version()"
-    ringling 0.0.1
+    mayapy -c "import rrt;print rrt.get_version()"
+    rrt 0.0.1
     
-    python -c "import ringling;print ringling.get_version()"
-    ringling 0.0.1
+    python -c "import rrt;print rrt.get_version()"
+    rrt 0.0.1
 
 
 Submit Client Installation Notes

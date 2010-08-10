@@ -1,5 +1,5 @@
 import os
-from ringling import SPOOL_UNC, SPOOL_LETTER, RinglingException
+from rrt import SPOOL_UNC, SPOOL_LETTER, RinglingException
 
 class InvalidPathError(RinglingException):pass
 

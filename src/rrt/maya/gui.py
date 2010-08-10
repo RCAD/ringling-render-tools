@@ -1,16 +1,16 @@
 import os, datetime, re, string
 
-import ringling
-from ringling import SPOOL_UNC, SPOOL_LETTER
-from ringling.maya.helpers import Path, InvalidPathError
-from ringling.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
+import rrt
+from rrt import SPOOL_UNC, SPOOL_LETTER
+from rrt.maya.helpers import Path, InvalidPathError
+from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
 from pymel.core import SCENE, workspace, sceneName, Env, window
 from pymel.core import frameLayout, formLayout, uiTemplate
 from pymel.core import columnLayout, button, optionMenu, menuItem, intField
 from pymel.core import text, textField, scriptJob, confirmBox
 
-LOG = ringling.get_log('hpcSubmit')
+LOG = rrt.get_log('hpcSubmit')
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
 
 # abspath because we can't count on it being in the PATH
@@ -93,7 +93,7 @@ class SubmitGui:
             output = Path(SPOOL_UNC, Env().user(),'output').unc
             data = {
                     'date': datetime.datetime.now(),
-                    'version': ringling.get_version(),
+                    'version': rrt.get_version(),
                     'job_type': get_job_type(),
                     'job_name': self.job_title,
                     'user': Env().user(),
