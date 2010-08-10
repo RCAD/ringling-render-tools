@@ -32,7 +32,7 @@ Python Installation
 
 Create the Ringling Python dirs by running at a cmd prompt: 
 
-    mkdir C:\Ringling\Python26\Lib\site-packages & mkdir C:\Ringling\Python26\Scripts
+    mkdir C:\Ringling\Python26\Lib\site-packages & mkdir C:\Ringling\Python26\Scripts & mkdir C:\Ringling\Python26\Data
 
 Verify the python installation:
 
