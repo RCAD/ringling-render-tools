@@ -90,6 +90,17 @@ Run the following:
     
     easy_install -U --prefix C:\Ringling\Python26 --find-links <OUR DIST LOCATION> ringling-render-tools
 
+> **New in 0.0.1rc15**
+> The code that drives the maya plugin relies on `pymel`.  **Maya 2010** needs 
+> `pymel` to be installed, whereas in **Maya 2011**, it is bundled with `mayapy`.
+> 
+> I've added pymel as an **optional dependency**, which means installing 
+> ringling-render-tools by default *will not* install pymel for you.
+> If you are installing rrt for Maya <2011, then use `ringling-render-tools[pymel]`
+> instead of just `ringling-render-tools` on the `easy_install` command line. Like so:
+
+	easy_install -U --prefix C:\Ringling\Python26 --find-links <OUR DIST LOCATION> ringling-render-tools[pymel]
+
 If it finished cleanly, the following should work:
 
     mayapy -c "import pymel;print pymel.__version__"
