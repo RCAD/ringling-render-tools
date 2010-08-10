@@ -1,3 +1,4 @@
 include README*
+include LICENSE
 recursive-include src/ringling/extras *.py *.bat *.mel *.ms *.dll
 
