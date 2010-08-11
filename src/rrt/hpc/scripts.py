@@ -31,7 +31,15 @@ class Delegator(object):
         __import__(self._delegate, globals(), locals())
         
     def prep(self):
-        """ Delegate access to implementation """
+        # Generic Prep
+        log_dir = os.path.dirname(os.getenv('LOGS', None))
+        output_dir = os.path.dirname(os.getenv('OUTPUT', None))
+        for d in (log_dir, output_dir):
+            if not os.path.exists(d):
+                try: os.makedirs(d)
+                except Exception, e:
+                    LOG.warning(e)
+        # Delegate access to implementation
         return sys.modules[self._delegate].prep()
 
     def release(self):

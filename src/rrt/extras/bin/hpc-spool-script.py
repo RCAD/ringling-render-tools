@@ -147,6 +147,8 @@ class Spooler(object):
         task.SetEnvironmentVariable("PROJECT", self._conf["project"])
         task.SetEnvironmentVariable("SCENE", self._conf["scene"])
         task.SetEnvironmentVariable("RENDERER", self._conf["renderer"])
+        task.SetEnvironmentVariable("LOGS", self._conf["logs"])
+        task.SetEnvironmentVariable("OUTPUT", self._conf["output"])
 
     def DoIt(self):
         scheduler = Scheduler()
