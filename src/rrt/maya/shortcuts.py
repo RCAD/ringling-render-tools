@@ -1,5 +1,5 @@
 import os
-from pymel.core import SCENE, mel, sceneName
+from pymel.core import *
 
 def scene_is_dirty():
     """Checks to see if the scene has unsaved changes"""

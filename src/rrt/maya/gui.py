@@ -5,10 +5,8 @@ from rrt import SPOOL_UNC, SPOOL_LETTER
 from rrt.maya.helpers import Path, InvalidPathError
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
-from pymel.core import SCENE, workspace, sceneName, Env, window
-from pymel.core import frameLayout, formLayout, uiTemplate
-from pymel.core import columnLayout, button, optionMenu, menuItem, intField
-from pymel.core import text, textField, scriptJob, confirmBox
+from pymel import versions
+from pymel.core import *
 
 LOG = rrt.get_log('hpcSubmit')
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
@@ -152,9 +150,10 @@ class SubmitGui:
                 os.system(cmd)
         
         def destroy(self):
-            try: self._win.delete()
-            except Exception, e:
-                LOG.debug(e)
+            if self._win:
+                try: self._win.delete()
+                except Exception, e:
+                    LOG.debug(e)
         
         def new_window(self):
             self.destroy()
@@ -169,7 +168,11 @@ class SubmitGui:
                 template.define(frameLayout, bs='etchedIn', mw=6, mh=6, labelVisible=False)
                 template.define(columnLayout, adj=True, rs=4)
                 template.define(formLayout, nd=100)
-                template.define(text, align='right', h=22)
+                # padding adjustment for pre-qt maya versions
+                if versions.current() <= versions.v2010:
+                    template.define(text, align='right', h=22)
+                else:
+                    template.define(text, align='right', h=20)
                 with template:
                     with formLayout() as mainForm:
                         with frameLayout() as setFrame:
