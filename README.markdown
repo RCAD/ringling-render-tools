@@ -49,7 +49,8 @@ Setuptools Installation
 
 1. Download and extract <http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz#md5=7df2a529a074f613b509fb44feefe74e>
 1. Once extracted, you should see a file called setup.py -- shift-right-click in the window and do open command prompt here. Then type:
-1. python setup.py install
+
+    python setup.py install --prefix C:\Ringling\Python26
 
 To confirm this step worked:
 
