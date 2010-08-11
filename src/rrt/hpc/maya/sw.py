@@ -7,14 +7,14 @@ from subprocess import call
 from rrt.hpc import env
 from rrt.hpc.scripts import LOG
 from rrt import SPOOL_UNC
-from rrt.maya.helpers import Path
+from rrt.maya.helpers import ProjectPath
 ENV = env()
 
 def _setup_node_project():
     LOG.info("Setting up node project directory: %s" % ENV['NODE_PROJECT'])
     if not os.path.isdir(ENV['NODE_PROJECT']):
         os.makedirs(ENV['NODE_PROJECT'])
-    src = Path(ENV['PROJECT']+r'\workspace.mel').unc
+    src = ProjectPath(ENV['PROJECT']+r'\workspace.mel').unc
     dst = os.path.join(ENV['NODE_PROJECT'],'workspace.mel')
     copyfile(src,dst)
     LOG.debug("File copied: %s -> %s" % (src,dst))
@@ -35,8 +35,8 @@ def _setup_dirmaps():
     LOG.info("Writing Dirmaps to: %s" % dst)
     if not os.path.isdir(os.path.dirname(dst)):
         os.makedirs(os.path.dirname(dst))
-    proj = Path(ENV['PROJECT'])
-    root = Path(SPOOL_UNC)
+    proj = ProjectPath(ENV['PROJECT'])
+    root = ProjectPath(SPOOL_UNC)
     map_pairs = (
         (proj.ppath, proj.punc),
         (proj.ppath+'//', proj.punc+'/'), 

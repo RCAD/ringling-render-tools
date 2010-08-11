@@ -6,7 +6,7 @@ class InvalidPathError(RinglingException):pass
 def _to_posix(path): return path.replace("\\", "/")
 def _to_nt(path): return path.replace("/", "\\")
 
-class Path(object):
+class ProjectPath(object):
     _source = None
 
     def __init__(self, *path):

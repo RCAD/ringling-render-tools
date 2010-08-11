@@ -2,7 +2,7 @@ import os, datetime, re, string
 
 import rrt
 from rrt import SPOOL_UNC, SPOOL_LETTER
-from rrt.maya.helpers import Path, InvalidPathError
+from rrt.maya.helpers import ProjectPath, InvalidPathError
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
 from pymel import versions
@@ -85,10 +85,10 @@ class SubmitGui:
     
         def build_ini_file(self):
             range = get_frame_range()
-            proj = Path(workspace.getPath()).unc
-            scene = Path(sceneName()).unc
-            logs = Path(SPOOL_UNC,Env().user(),'logs','%CCP_JOBID%',self.job_title+'.*.txt').unc
-            output = Path(SPOOL_UNC, Env().user(),'output','%CCP_JOBID%').unc
+            proj = ProjectPath(workspace.getPath()).unc
+            scene = ProjectPath(sceneName()).unc
+            logs = ProjectPath(SPOOL_UNC,Env().user(),'logs','%CCP_JOBID%',self.job_title+'.*.txt').unc
+            output = ProjectPath(SPOOL_UNC, Env().user(),'output','%CCP_JOBID%').unc
             data = {
                     'date': datetime.datetime.now(),
                     'version': rrt.get_version(),
