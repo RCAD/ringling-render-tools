@@ -32,13 +32,14 @@ class Delegator(object):
         
     def prep(self):
         # Generic Prep
-        log_dir = os.path.dirname(os.getenv('LOGS', None))
-        output_dir = os.path.dirname(os.getenv('OUTPUT', None))
+        log_dir = os.path.dirname(os.path.expandvars(os.getenv('LOGS', None)))
+        output_dir = os.path.dirname(os.path.expandvars(os.getenv('OUTPUT', None)))
         for d in (log_dir, output_dir):
-            if not os.path.exists(d):
-                try: os.makedirs(d)
-                except Exception, e:
-                    LOG.warning(e)
+            try: 
+                os.makedirs(d)
+                LOG.info("Creating directory %s" % d)
+            except Exception: pass
+                    
         # Delegate access to implementation
         return sys.modules[self._delegate].prep()
 
