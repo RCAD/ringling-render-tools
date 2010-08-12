@@ -24,8 +24,10 @@ Compute Node Installation Notes
 
 Python Installation
 -------------------
+**new in rc17** with the move to maya 2011, we're now using the matching python
+version: *2.6.4*
 
-1. Download and install Python 2.6.1 (x64) <http://www.python.org/ftp/python/2.6.1/python-2.6.1.amd64.msi>
+1. Download and install Python 2.6.4 (x64) <http://www.python.org/ftp/python/2.6.4/python-2.6.4.amd64.msi>
 1. Add the following directories to the `PATH`: `C:\Python26;C:\Ringling\Python26\Scripts;C:\Python26\Scripts` *(These need to be at the front of the list - - and absolutely need to be before the path to Maya's bin dir)*
 1. Add a new environment variable called `PYTHONPATH`: `C:\Ringling\Python26\Lib\site-packages`
 1. Verify these steps completed properly by starting a fresh cmd (so the env is updated)
@@ -37,7 +39,7 @@ Create the Ringling Python dirs by running at a cmd prompt:
 Verify the python installation:
 
     python --version
-    Python 2.6.1
+    Python 2.6.4
 
 To verify the `PYTHONPATH` was set correctly:
 
