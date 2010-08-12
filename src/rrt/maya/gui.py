@@ -87,8 +87,8 @@ class SubmitGui:
             range = get_frame_range()
             proj = ProjectPath(workspace.getPath()).unc
             scene = ProjectPath(sceneName()).unc
-            logs = ProjectPath(SPOOL_UNC,Env().user(),'logs','%CCP_JOBID%',self.job_title+'.*.txt').unc
-            output = ProjectPath(SPOOL_UNC, Env().user(),'output','%CCP_JOBID%').unc
+            logs = os.path.join('\\\\clogs\\clogs', Env().user(),'%CCP_JOBID%', self.job_title+'.*.txt')
+            output = os.path.join('\\\\couput\\coutput', Env().user(),'%CCP_JOBID%')
             data = {
                     'date': datetime.datetime.now(),
                     'version': rrt.get_version(),

@@ -88,8 +88,6 @@ class Spooler(object):
         
         user_dir = r"D:\hpc\%s" % getpass.getuser()
         self._conf["user_dir"] = user_dir
-        render_task.SetEnvironmentVariable("MAYA_APP_DIR", user_dir)
-        
 
         node_project = user_dir + r"\jobs\%CCP_JOBID%"
         render_task.SetEnvironmentVariable("INIT_WD", node_project)
@@ -139,6 +137,9 @@ class Spooler(object):
         job.AddTask(cleanup_task)
 
     def SetJobEnv(self,task):
+        task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["user_dir"])
+        task.SetEnvironmentVariable("TEMP", self._conf["user_dir"])
+        task.SetEnvironmentVariable("TMP", self._conf["user_dir"])        
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
         task.SetEnvironmentVariable("USER_DIR", self._conf["user_dir"])
         task.SetEnvironmentVariable("NODE_PROJECT", self._conf["node_project"])
