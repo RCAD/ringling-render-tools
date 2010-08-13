@@ -10,15 +10,13 @@ regular python interpreter.
 import clr, sys, os, getpass
 
 """
-The expected directory structure of this deployment is:
-.../bin (this script and the bat file that calls it)
-.../Lib (.Net assemblies for HPC)
+I've updated the .Net references to use clr.AddReference rather than 
+clr.AddReferenceToFile since it appears that the HpcClient redist pack has the 
+correct assemblies hidden away inside.
 """
 
-__ROOT__ = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0,os.path.abspath(os.path.join(__ROOT__,'..', 'Lib')))
-clr.AddReferenceToFile("Microsoft.Hpc.Scheduler.dll")
-clr.AddReferenceToFile("Microsoft.Hpc.Scheduler.Properties.dll")
+clr.AddReference("Microsoft.Hpc.Scheduler")
+clr.AddReference("Microsoft.Hpc.Scheduler.Properties")
 
 from Microsoft.Hpc.Scheduler import *
 from Microsoft.Hpc.Scheduler.Properties import *
