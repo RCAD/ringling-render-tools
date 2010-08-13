@@ -13,11 +13,11 @@ setup(
     keywords = "Maya 3DSmax WindowsHPC",
     package_dir = {'':'src'},
     packages = find_packages('src'),
+    include_package_data = True,
     extras_require = {'pymel': ['pymel>=1']},
-    tests_require = ['nose'],
     dependency_links = ['http://pymel.googlecode.com/files/pymel-1.0.2.zip'],
     test_suite = 'nose.collector',
-    include_package_data = True,
+    tests_require = ['nose'],
     entry_points = {
         'console_scripts': [
             'hpc-node-prep = rrt.hpc.scripts:prep_delegator',
