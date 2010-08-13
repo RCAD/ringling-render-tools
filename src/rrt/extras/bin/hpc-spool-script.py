@@ -7,7 +7,15 @@ the Microsoft Hpc .Net assemblies. It will not work if you run it using the
 regular python interpreter. 
 """
 
-import clr, sys, os, getpass
+import clr, sys, os, getpass, logging
+RRT_DEBUG = os.getenv('RRT_DEBUG',False)
+__LOG_LEVEL__ = logging.DEBUG if  RRT_DEBUG else logging.INFO
+LOG = logging.getLogger('hpc-spool')
+LOG.setLevel(__LOG_LEVEL__)
+handler = logging.StreamHandler()
+formatter = logging.Formatter("%(levelname)s: %(message)s")
+handler.setFormatter(formatter)
+LOG.addHandler(handler)
 
 """
 I've updated the .Net references to use clr.AddReference rather than 
@@ -30,9 +38,8 @@ class Spooler(object):
     def HeadNode(self):
         host = os.getenv("HEAD_NODE", None)
         if None == host: 
-            print >> sys.stderr, "\nError!"
-            print >> sys.stderr, "HEAD_NODE is null - please set HEAD_NODE."
-            print >> sys.stderr, "Exiting..."
+            LOG.error("HEAD_NODE is null - please set HEAD_NODE.")
+            LOG.info("Exiting...")
             sys.exit(1)
         return host.strip()
 
@@ -75,6 +82,9 @@ class Spooler(object):
                         self._conf[key] = val
         else: 
             raise RuntimeError("Unable to locate " + iniPath)
+        
+        for k,v in self._conf.items():
+            LOG.debug("%s = %s" % (k,v))
 
     def __init__(self, confFile):
         self._confFile = confFile
@@ -135,9 +145,12 @@ class Spooler(object):
         job.AddTask(cleanup_task)
 
     def SetJobEnv(self,task):
+        global RRT_DEBUG
+        if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
+        
         task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["user_dir"])
-        task.SetEnvironmentVariable("TEMP", self._conf["user_dir"])
-        task.SetEnvironmentVariable("TMP", self._conf["user_dir"])        
+        task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
+        task.SetEnvironmentVariable("TMP", self._conf["node_project"])        
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
         task.SetEnvironmentVariable("USER_DIR", self._conf["user_dir"])
         task.SetEnvironmentVariable("NODE_PROJECT", self._conf["node_project"])
@@ -152,29 +165,26 @@ class Spooler(object):
     def DoIt(self):
         scheduler = Scheduler()
         # make a connection to the cluster
-        print "Connecting to cluster at: %s" % self.HeadNode
+        LOG.info("Connecting to cluster at: %s" % self.HeadNode)
         try:
             scheduler.Connect(self.HeadNode)
-        except:
-            print >> sys.stderr, "\nError!"
-            print >> sys.stderr, "Unable to reach cluster head node: %s" % self.HeadNode
-            print >> sys.stderr, "Exiting..."
+        except Exception, e:
+            LOG.error("Unable to reach cluster head node: %s" % self.HeadNode)
+            LOG.error(e)
+            LOG.info("Exiting...")
             sys.exit(2)
 
         job = scheduler.CreateJob()
         
-        # job properties
+        # set job properties
         job.Name = self._conf["name"]
-        
         #job.NodeGroups.Add("ComputeNodes")
         job.IsExclusive = True
         
-        # attach tasks to job
-        self.BuildTaskList(job)
+        self.BuildTaskList(job) # attach tasks to job
         
-        # ship it out to the head node
-        scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD)
-        print "Submitted job %d to %s." % (job.Id, self.HeadNode)
+        scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # ship it out to the head node
+        LOG.info("Submitted job %d to %s." % (job.Id, self.HeadNode))
         sys.exit(0)
 
 
@@ -184,16 +194,15 @@ def main():
     try:
         conf_path = os.path.abspath(sys.argv[1])
     except IndexError:
-        print >> sys.stderr, "\nError!"
-        print >> sys.stderr, "Must specify an ini file."
-        print >> sys.stderr, "Exiting..."
+        LOG.error("Must specify an ini file.")
+        LOG.info("Exiting...")
         sys.exit(3)
-    print "Spooling job from %s" % conf_path
+    LOG.info("Spooling job from %s" % conf_path)
     try:
         spool = Spooler(conf_path)
         spool.DoIt()
     except Exception, e:
-        print >> sys.stderr, e
+        LOG.error(e)
         sys.exit(-1)
 
 if '__main__' == __name__:
