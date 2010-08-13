@@ -216,7 +216,7 @@ class SubmitGui:
                         with frameLayout() as subFrame:
                             submit_btn = button(label="Submit", width=200, height=40, align='center')
                             submit_btn.setCommand(self.submit_job)
-            
+                    
                     mainForm.attachForm(setFrame, 'top', 4)
                     mainForm.attachForm(setFrame, 'left', 4)
                     mainForm.attachForm(setFrame, 'right', 4)
