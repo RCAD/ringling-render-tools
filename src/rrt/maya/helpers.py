@@ -1,4 +1,4 @@
-import os
+import ntpath
 from rrt import SPOOL_UNC, SPOOL_LETTER, RinglingException
 
 class InvalidPathError(RinglingException):pass
@@ -11,11 +11,11 @@ class ProjectPath(object):
 
     def __init__(self, *path):
         
-        self._source = os.path.normpath(os.path.abspath(os.path.join(*path)))
+        self._source = ntpath.normpath(ntpath.abspath(ntpath.join(*path)))
         
-        path_parts = os.path.splitdrive(self._source)
+        path_parts = ntpath.splitdrive(self._source)
         if not path_parts[0]:
-            path_parts = os.path.splitunc(self._source)
+            path_parts = ntpath.splitunc(self._source)
         if path_parts[0].lower() not in [SPOOL_UNC.lower(), SPOOL_LETTER.lower()]:
             raise InvalidPathError, path_parts
         self._tail = path_parts[1] 
@@ -42,4 +42,4 @@ class ProjectPath(object):
     def punc(self): 
         return _to_posix(self._unc)
     @property
-    def name(self): return os.path.splitext(os.path.split(self.path)[-1])[0]
+    def name(self): return ntpath.splitext(os.path.split(self.path)[-1])[0]
