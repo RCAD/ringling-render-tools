@@ -24,5 +24,8 @@ def get_version():
 class RinglingException(Exception):pass
 
 # Blessed  file system locations
-SPOOL_UNC = "\\\\chome\\chome" # note the native \ style separators
 SPOOL_LETTER = "S:"
+SPOOL_UNC = "\\\\chome\\chome" # note the native \ style separators
+
+JOB_LOGS_UNC = "\\\\clogs\\clogs"
+JOB_OUTPUT_UNC = "\\\\coutput\\coutput"

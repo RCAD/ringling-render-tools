@@ -1,7 +1,7 @@
 import os, datetime, re, string
 
 import rrt
-from rrt import SPOOL_UNC, SPOOL_LETTER
+from rrt import SPOOL_UNC, SPOOL_LETTER, JOB_LOGS_UNC, JOB_OUTPUT_UNC
 from rrt.maya.helpers import ProjectPath, InvalidPathError
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
@@ -84,11 +84,12 @@ class SubmitGui:
             return int(self._controls['threads'].getValue())
     
         def build_ini_file(self):
+            job_uuid = re.sub('[%s]'% re.escape(' -.:'),'', str(datetime.datetime.now()))
             range = get_frame_range()
             proj = ProjectPath(workspace.getPath()).unc
             scene = ProjectPath(sceneName()).unc
-            logs = os.path.join('\\\\clogs\\clogs', Env().user(),'%CCP_JOBID%', self.job_title+'.*.txt')
-            output = os.path.join('\\\\couput\\coutput', Env().user(),'%CCP_JOBID%')
+            logs = os.path.join(JOB_LOGS_UNC, Env().user(), job_uuid, self.job_title+'.*.txt')
+            output = os.path.join(JOB_OUTPUT_UNC, Env().user(), job_uuid)
             data = {
                     'date': datetime.datetime.now(),
                     'version': rrt.get_version(),
