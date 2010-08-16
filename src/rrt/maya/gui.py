@@ -1,4 +1,4 @@
-import os, datetime, re, string
+import os, datetime, re, string, getpass
 
 import rrt
 from rrt import SPOOL_UNC, SPOOL_LETTER, JOB_LOGS_UNC, JOB_OUTPUT_UNC
@@ -6,10 +6,15 @@ from rrt.maya.helpers import ProjectPath, InvalidPathError
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 
 from pymel import versions
-from pymel.core import *
+from pymel.core.system import workspace, sceneName
+from pymel.core.general import Scene
+from pymel.core import frameLayout, button, menuItem, columnLayout,\
+    optionMenu, intField, textField, text, formLayout, uiTemplate, window,\
+    confirmBox
+from pymel.core.language import scriptJob
 
 LOG = rrt.get_log('hpcSubmit')
-JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', Env().user(), 'scripts')
+JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
 
 # abspath because we can't count on it being in the PATH
 HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' 
@@ -80,24 +85,36 @@ class SubmitGui:
         # references to key controls
         @property
         def job_title(self):
+            """
+            Read-only filtered version of the job title.
+            """
             return self.filter_text(self._controls['title'].getText())
+        
         @property
         def job_threads(self):
+            """
+            Number of threads to render with, as specified by the control in the 
+            submit window.
+            """
             return int(self._controls['threads'].getValue())
     
         def build_ini_file(self):
+            """
+            Generates the content for a job (ini) file.
+            """
             self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
+            SCENE = Scene()
             range = get_frame_range()
             proj = ProjectPath(workspace.getPath()).unc
             scene = ProjectPath(sceneName()).unc
-            logs = os.path.join(JOB_LOGS_UNC, Env().user(), self._job_uuid, self.job_title+'.*.txt')
-            output = os.path.join(JOB_OUTPUT_UNC, Env().user(), self._job_uuid)
+            logs = os.path.join(JOB_LOGS_UNC, getpass.getuser(), self._job_uuid, self.job_title+'.*.txt')
+            output = os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), self._job_uuid)
             data = {
                     'date': datetime.datetime.now(),
                     'version': rrt.get_version(),
                     'job_type': get_job_type(),
                     'job_name': self.job_title,
-                    'user': Env().user(),
+                    'user': getpass.getuser(),
                     'project_path': proj,
                     'output_path': output,
                     'scene_path': scene,
@@ -112,8 +129,10 @@ class SubmitGui:
         
         def write_ini_file(self, data):
             """
-            Creates a file with the HPC job defined inside then 
-            returns the path to the file.
+            Writes a job definition (ini) string to a file, using the last 
+            generated job_uuid (datetime) and scene name.  
+            The file's dir is specified in `rrt.maya.gui.JOB_SCRIPT_DIR`, and 
+            the creation of that dir is handled by this method (as needed).
             """
             if not os.path.isdir(JOB_SCRIPT_DIR):
                 os.makedirs(JOB_SCRIPT_DIR)
@@ -164,11 +183,19 @@ class SubmitGui:
         
         @property
         def window(self): return self._win
+        
         def create(self):
-            self._win = window(title=self.window_title, resizeToFitChildren=True)
+            """
+            Generates a new maya window object and binds it to the singleton 
+            instance.
+            """
+            SCENE = Scene()
+            self._win = window(title=self.window_title, 
+                               resizeToFitChildren=True)
             with self._win:
                 template = uiTemplate('HpcSubmitTemplate', force=True )
-                template.define(frameLayout, bs='etchedIn', mw=6, mh=6, labelVisible=False)
+                template.define(frameLayout, bs='etchedIn', mw=6, mh=6, 
+                                labelVisible=False)
                 template.define(columnLayout, adj=True, rs=4)
                 template.define(formLayout, nd=100)
                 # padding adjustment for pre-qt maya versions
@@ -226,4 +253,9 @@ class SubmitGui:
                     mainForm.attachForm(subFrame, 'bottom', 4)
                     mainForm.attachForm(subFrame, 'left', 4)
                     mainForm.attachForm(subFrame, 'right', 4)
-                    
+                    """
+                    We force the closure of an open submit window to ensure the 
+                    new scene's settings are reflected.
+                    """
+                    scriptJob(parent=self._win, runOnce=True, 
+                              event=('SceneOpened', SubmitGui.destroy))
