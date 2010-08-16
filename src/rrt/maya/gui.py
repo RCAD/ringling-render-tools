@@ -86,7 +86,7 @@ class SubmitGui:
             return int(self._controls['threads'].getValue())
     
         def build_ini_file(self):
-            self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', '.'.split(str(datetime.datetime.now())[0]))
+            self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
             range = get_frame_range()
             proj = ProjectPath(workspace.getPath()).unc
             scene = ProjectPath(sceneName()).unc
