@@ -72,6 +72,8 @@ class SubmitGui:
         _allowed_punctuation = r'/\._-'
         _illegal_path = re.sub('[%s]' % re.escape(_allowed_punctuation),'',string.punctuation)
         
+        _job_uuid = None
+        
         def filter_text(self, s):
             return self._filter_text_pattern.sub('', s).strip()
 
@@ -84,12 +86,12 @@ class SubmitGui:
             return int(self._controls['threads'].getValue())
     
         def build_ini_file(self):
-            job_uuid = re.sub('[%s]'% re.escape(' -.:'),'', str(datetime.datetime.now()))
+            self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', '.'.split(str(datetime.datetime.now())[0]))
             range = get_frame_range()
             proj = ProjectPath(workspace.getPath()).unc
             scene = ProjectPath(sceneName()).unc
-            logs = os.path.join(JOB_LOGS_UNC, Env().user(), job_uuid, self.job_title+'.*.txt')
-            output = os.path.join(JOB_OUTPUT_UNC, Env().user(), job_uuid)
+            logs = os.path.join(JOB_LOGS_UNC, Env().user(), self._job_uuid, self.job_title+'.*.txt')
+            output = os.path.join(JOB_OUTPUT_UNC, Env().user(), self._job_uuid)
             data = {
                     'date': datetime.datetime.now(),
                     'version': rrt.get_version(),
@@ -115,7 +117,7 @@ class SubmitGui:
             """
             if not os.path.isdir(JOB_SCRIPT_DIR):
                 os.makedirs(JOB_SCRIPT_DIR)
-            file_path = JOB_SCRIPT_DIR+'\\'+get_scene_name()+'_'+datetime.datetime.now().isoformat().split('.')[0].replace(':','')+'.ini'
+            file_path = JOB_SCRIPT_DIR+'\\'+self._job_uuid+'_'+get_scene_name()+'.ini'
             with open(file_path,'w+b') as fh:
                 fh.write(data)
             return file_path
