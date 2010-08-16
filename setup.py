@@ -17,7 +17,7 @@ setup(
     extras_require = {'pymel': ['pymel>=1']},
     dependency_links = ['http://pymel.googlecode.com/files/pymel-1.0.2.zip'],
     test_suite = 'nose.collector',
-    tests_require = ['nose'],
+    tests_require = ['nose','ludibrio','pymel'],
     entry_points = {
         'console_scripts': [
             'hpc-node-prep = rrt.hpc.scripts:prep_delegator',
