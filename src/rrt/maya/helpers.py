@@ -42,4 +42,4 @@ class ProjectPath(object):
     def punc(self): 
         return _to_posix(self._unc)
     @property
-    def name(self): return ntpath.splitext(os.path.split(self.path)[-1])[0]
+    def name(self): return ntpath.splitext(ntpath.split(self.path)[-1])[0]
