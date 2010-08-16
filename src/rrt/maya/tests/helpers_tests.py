@@ -1,9 +1,8 @@
-import unittest, os
+import unittest
 from rrt.maya.helpers import ProjectPath, InvalidPathError
 from rrt import SPOOL_LETTER, SPOOL_UNC
-class TestPathHelper(unittest.TestCase):
 
-    def setUp(self):pass
+class TestPathHelper(unittest.TestCase):
 
     def test_nt_unc_arg(self):
         src = SPOOL_UNC+"\\maya\\foo\\scenes\\bar.mb"
