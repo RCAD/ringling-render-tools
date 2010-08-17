@@ -3,8 +3,8 @@ These functions serve as script entry points.
 They identify the job style based on the environment, then pass the request off
 to application specific implementations.
 """
-
 import os, sys, shutil, platform, datetime
+from subprocess import call
 from pkg_resources import Requirement, resource_filename
 
 from rrt import RinglingException, get_log
@@ -14,6 +14,7 @@ LOG = get_log(platform.uname()[1], True)
 class MissingDelegateError(RinglingException):pass
 
 class Delegator(object):
+    _env = env()
     __delegates__ = {
                      'maya_render_sw': 'rrt.hpc.maya.sw',
                      'maya_render_rman': 'rrt.hpc.maya.rman', 
@@ -32,19 +33,35 @@ class Delegator(object):
         
     def prep(self):
         # Generic Prep
-        log_dir = os.path.dirname(os.path.expandvars(os.getenv('LOGS', None)))
-        output_dir = os.path.dirname(os.path.expandvars(os.getenv('OUTPUT', None)))
+        try: 
+            os.makedirs(self._env['NODE_PROJECT'])
+            LOG.info("Setting up node project directory: %s" % self._env['NODE_PROJECT'])
+        except Exception, e:
+            LOG.debug(e)
+            
+        log_dir = os.path.dirname(self._env['LOGS'])
+        output_dir = os.path.dirname(self._env['OUTPUT'])
+        
         for d in (log_dir, output_dir):
             try: 
                 os.makedirs(d)
                 LOG.info("Creating directory %s" % d)
-            except Exception: pass
+            except Exception, e:
+                LOG.debug(e)
                     
         # Delegate access to implementation
         return sys.modules[self._delegate].prep()
 
     def release(self):
-        """ Delegate access to implementation """
+        # Generic release
+        LOG.info("Cleaning up node project: %s" % self._env['NODE_PROJECT'])
+        LOG.info("\tCalculating size...")
+        LOG.info("\tThis could take a while...")
+        size = sum([os.path.getsize(os.path.join(root,f)) for root,dirs,files in os.walk(self._env['NODE_PROJECT']) for f in files])
+        LOG.info("\t%0.1f MB" % (size/(1024*1024.0)))
+        call('rmdir /S /Q %s' % self._env['NODE_PROJECT'], shell=True)
+        
+        # Delegate access to implementation
         return sys.modules[self._delegate].release()
 
 

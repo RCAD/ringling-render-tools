@@ -30,7 +30,9 @@ logs = $logs
 start = $start
 end = $end
 threads = $threads
-step = $step""")
+step = $step
+uuid = $uuid
+""")
 
 class SubmitGui:
     """ A python singleton """
@@ -123,6 +125,7 @@ class SubmitGui:
                     'end': max(range),
                     'threads': self.job_threads,
                     'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
+                    'uuid': self._job_uuid
             }
             return INI_TEMPLATE.substitute(data) 
 

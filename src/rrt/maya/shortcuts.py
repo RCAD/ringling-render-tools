@@ -5,7 +5,7 @@ from pymel.core.system import sceneName
 
 def scene_is_dirty():
     """Checks to see if the scene has unsaved changes"""
-    return bool(mel.eval('file -q -amf'))
+    return bool(mel.eval('file -q -mf'))
 
 def get_job_type():
     """Determine if we are using renderman or maya software"""

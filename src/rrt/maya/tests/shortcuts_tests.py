@@ -14,12 +14,12 @@ class TestShortcuts(unittest.TestCase):
     def test_scene_is_dirty(self):
         with Stub() as pymel.core.language:
             from pymel.core.language import mel
-            mel.eval('file -q -amf') >> 0
+            mel.eval('file -q -mf') >> 0
         self.assertFalse(scene_is_dirty())
         
         with Stub() as pymel.core.language:
             from pymel.core.language import mel
-            mel.eval('file -q -amf') >> 1
+            mel.eval('file -q -mf') >> 1
         self.assertTrue(scene_is_dirty())
     
     def test_get_job_type(self):

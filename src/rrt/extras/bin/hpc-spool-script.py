@@ -7,8 +7,11 @@ the Microsoft Hpc .Net assemblies. It will not work if you run it using the
 regular python interpreter. 
 """
 
-import clr, sys, os, getpass, logging
+import clr, sys, os, getpass, logging, re, datetime
+
 RRT_DEBUG = os.getenv('RRT_DEBUG',False)
+RRT_USE_DESMOND = os.getenv('RRT_USE_DESMOND', False)
+
 __LOG_LEVEL__ = logging.DEBUG if  RRT_DEBUG else logging.INFO
 LOG = logging.getLogger('hpc-spool')
 LOG.setLevel(__LOG_LEVEL__)
@@ -43,10 +46,10 @@ class Spooler(object):
             sys.exit(1)
         return host.strip()
 
-    #Looks like Render.exe doesn't like quotes around the remote paths...
+    # Looks like Render.exe doesn't like quotes around the remote paths...
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_MAYA_RENDER_RMAN = "Render.exe -n {threads} -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
-    CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workingFolder:{node_project} -workPath:{node_project} -o:{output} -showRFW:0 {scene}"
+    CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 {scene}"
     # NODE_PATH = r"C:\Ringling\HPC\bin;C:\Python26;C:\Ringling\Python26\Scripts;C:\Python26\Scripts;C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010"
     _renderers = {
         "max": CMD_3DSMAX_RENDER, 
@@ -67,7 +70,8 @@ class Spooler(object):
         "start": None,
         "end": None,
         "step": "1",
-        "threads": "4"
+        "threads": "4",
+        "uuid": None
     }
 
     def ParseConf(self, iniPath):
@@ -82,7 +86,8 @@ class Spooler(object):
                         self._conf[key] = val
         else: 
             raise RuntimeError("Unable to locate " + iniPath)
-        
+        if not self._conf['uuid']:
+            self._conf['uuid'] = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
         for k,v in self._conf.items():
             LOG.debug("%s = %s" % (k,v))
 
@@ -97,7 +102,7 @@ class Spooler(object):
         user_dir = r"D:\hpc\%s" % getpass.getuser()
         self._conf["user_dir"] = user_dir
 
-        node_project = user_dir + r"\jobs\%CCP_JOBID%"
+        node_project = os.path.join(user_dir, 'jobs', self._conf['uuid'])
         render_task.SetEnvironmentVariable("INIT_WD", node_project)
         self._conf["node_project"] = node_project
 
@@ -126,13 +131,13 @@ class Spooler(object):
         setup_task = job.CreateTask()
         setup_task.Type = TaskType.NodePrep
         setup_task.Name = "Setup"
-        setup_task.CommandLine = "cmd.exe /X /C hpc-node-prep"
+        setup_task.CommandLine = "hpc-node-prep"
 
         # TearDown Task
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
         cleanup_task.Name = "Cleanup"
-        cleanup_task.CommandLine = "cmd.exe /X /C hpc-node-release"
+        cleanup_task.CommandLine = "hpc-node-release"
 
         # Add Env Vars
         self.SetJobEnv(setup_task)
@@ -147,6 +152,8 @@ class Spooler(object):
     def SetJobEnv(self,task):
         global RRT_DEBUG
         if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
+        global RRT_USE_DESMOND
+        if RRT_USE_DESMOND: task.SetEnvironmentVariable("RRT_USE_DESMOND", RRT_USE_DESMOND)
         
         task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["user_dir"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
@@ -175,12 +182,10 @@ class Spooler(object):
             sys.exit(2)
 
         job = scheduler.CreateJob()
-        
-        # set job properties
+        # set the job properties
         job.Name = self._conf["name"]
         #job.NodeGroups.Add("ComputeNodes")
         job.IsExclusive = True
-        
         self.BuildTaskList(job) # attach tasks to job
         
         scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # ship it out to the head node
