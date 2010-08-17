@@ -5,6 +5,12 @@ from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, \
     get_frame_range
 
 class TestShortcuts(unittest.TestCase):
+    """
+    Perhaps not a great test of the whole system, but at least it's repeatable.
+    We're using a stub/mock package to force pymel to return canned responses.
+    These tests simply show rrt's responses to external stimuli. 
+    """
+    
     def test_scene_is_dirty(self):
         with Stub() as pymel.core.language:
             from pymel.core.language import mel
