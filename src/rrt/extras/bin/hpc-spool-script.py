@@ -20,12 +20,6 @@ formatter = logging.Formatter("%(levelname)s: %(message)s")
 handler.setFormatter(formatter)
 LOG.addHandler(handler)
 
-"""
-I've updated the .Net references to use clr.AddReference rather than 
-clr.AddReferenceToFile since it appears that the HpcClient redist pack has the 
-correct assemblies hidden away inside.
-"""
-
 clr.AddReference("Microsoft.Hpc.Scheduler")
 clr.AddReference("Microsoft.Hpc.Scheduler.Properties")
 
@@ -171,25 +165,31 @@ class Spooler(object):
 
     def DoIt(self):
         scheduler = Scheduler()
-        # make a connection to the cluster
-        LOG.info("Connecting to cluster at: %s" % self.HeadNode)
         try:
-            scheduler.Connect(self.HeadNode)
+            # make a connection to the cluster
+            LOG.info("Connecting to cluster at: %s" % self.HeadNode)
+            try:
+                scheduler.Connect(self.HeadNode)
+            except Exception, e:
+                LOG.error("Unable to reach cluster head node: %s" % self.HeadNode)
+                LOG.error(e)
+                LOG.info("Exiting...")
+                sys.exit(2)
+    
+            job = scheduler.CreateJob()
+            # set the job properties
+            job.Name = self._conf["name"]
+            #job.NodeGroups.Add("ComputeNodes")
+            job.IsExclusive = True
+            self.BuildTaskList(job) # attach tasks to job
+            
+            scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # ship it out to the head node
+            LOG.info("Submitted job %d to %s." % (job.Id, self.HeadNode))
+            scheduler.Close()
         except Exception, e:
-            LOG.error("Unable to reach cluster head node: %s" % self.HeadNode)
             LOG.error(e)
-            LOG.info("Exiting...")
-            sys.exit(2)
-
-        job = scheduler.CreateJob()
-        # set the job properties
-        job.Name = self._conf["name"]
-        #job.NodeGroups.Add("ComputeNodes")
-        job.IsExclusive = True
-        self.BuildTaskList(job) # attach tasks to job
-        
-        scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # ship it out to the head node
-        LOG.info("Submitted job %d to %s." % (job.Id, self.HeadNode))
+        finally:
+            scheduler.Dispose()
         sys.exit(0)
 
 
