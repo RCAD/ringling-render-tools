@@ -28,6 +28,7 @@ from Microsoft.Hpc.Scheduler.Properties import *
 
 
 class Spooler(object):
+    REQUIRED_SERVER_VERSION = (3, 0, 2369, 0)
     RUNAS_USER = None;
     RUNAS_PASSWORD = None;
     
@@ -175,7 +176,16 @@ class Spooler(object):
                 LOG.error(e)
                 LOG.info("Exiting...")
                 sys.exit(2)
-    
+            # check the cluster api version
+            server_version = scheduler.GetServerVersion()
+            serv = '.'.join([str(d) for d in (server_version.Major,
+                              server_version.Minor,
+                              server_version.Build,
+                              server_version.Revision)])
+            reqv = '.'.join([str(d) for d in self.REQUIRED_SERVER_VERSION])
+            if serv != reqv:
+                scheduler.Close()
+                raise RuntimeError('HPC API mismatch: got %s, but required %s' % (serv, reqv))
             job = scheduler.CreateJob()
             # set the job properties
             job.Name = self._conf["name"]
@@ -188,6 +198,8 @@ class Spooler(object):
             scheduler.Close()
         except Exception, e:
             LOG.error(e)
+            LOG.error("exiting...")
+            sys.exit(5)
         finally:
             scheduler.Dispose()
         sys.exit(0)
@@ -195,7 +207,7 @@ class Spooler(object):
 
 # Command Line Entry Point
 def main():
-    LOG.info('Starting hpc-spool (for MS HPC v3.0.2369.0)')
+    LOG.info('Starting hpc-spool for MS HPC v'+'.'.join([str(v) for v in Spooler.REQUIRED_SERVER_VERSION]))
     conf_path = None
     try:
         conf_path = os.path.abspath(sys.argv[1])
