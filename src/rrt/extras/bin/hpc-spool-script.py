@@ -195,6 +195,7 @@ class Spooler(object):
 
 # Command Line Entry Point
 def main():
+    LOG.info('Starting hpc-spool (for MS HPC v3.0.2369.0)')
     conf_path = None
     try:
         conf_path = os.path.abspath(sys.argv[1])

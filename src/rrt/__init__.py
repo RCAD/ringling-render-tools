@@ -13,8 +13,8 @@ def get_log(name=__name__, stream=False):
     return log
 
 
-__VERSION__ = (0,0,1)
-__POST_RELEASE_TAG__ = 'dev'
+__VERSION__ = (0,0,2)
+__POST_RELEASE_TAG__ = None
 __version__ = '.'.join([str(n) for n in __VERSION__])
 if __POST_RELEASE_TAG__: __version__ = '-'.join([__version__,__POST_RELEASE_TAG__])
 
