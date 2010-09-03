@@ -11,11 +11,13 @@ def get_log(name=__name__, stream=False):
         handler.setFormatter(formatter)
         log.addHandler(handler)
     return log
-    
+
 
 __VERSION__ = (0,0,1)
+__POST_RELEASE_TAG__ = 'dev'
+__version__ = '.'.join([str(n) for n in __VERSION__])
+if __POST_RELEASE_TAG__: __version__ = '-'.join([__version__,__POST_RELEASE_TAG__])
 
-__version__ = '.'.join([str(n) for n in __VERSION__]) 
 
 def get_version():
     version_string = 'Ringling Render Tools '+__version__
