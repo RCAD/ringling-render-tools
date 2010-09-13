@@ -12,4 +12,4 @@
 *.egg-info
 /*.egg
 /setup.cfg
-/RELEASE_VERSION
+RELEASE_VERSION

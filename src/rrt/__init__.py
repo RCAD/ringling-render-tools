@@ -1,7 +1,7 @@
 import logging, os
+from pkg_resources import resource_filename
 from subprocess import Popen, PIPE
 __VERSION_FILE__ = "RELEASE-VERSION"
-    
 __LOG_LEVEL__ = logging.DEBUG if os.getenv('RRT_DEBUG',False) else logging.INFO
 
 def get_log(name=__name__, stream=False):
@@ -26,7 +26,7 @@ def __call_git_describe(abbrev=4):
 
 def __read_release_version():
     try:
-        f = open(__VERSION_FILE__, "r")
+        f = open(resource_filename(__name__, __VERSION_FILE__), "r")
         try:
             version = f.readlines()[0]
             return version.strip()
@@ -37,7 +37,7 @@ def __read_release_version():
 
 
 def __write_release_version(version):
-    f = open(__VERSION_FILE__, "w")
+    f = open(os.path.join(os.path.abspath(os.path.dirname(__file__)),__VERSION_FILE__), "w")
     f.write("%s\n" % version)
     f.close()
 
