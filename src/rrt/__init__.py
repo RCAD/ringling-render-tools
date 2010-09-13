@@ -66,9 +66,8 @@ def get_git_version(abbrev=4):
     return version
 
 
-__POST_RELEASE_TAG__ = None
 __version__ = get_git_version()
-if __POST_RELEASE_TAG__: __version__ = '-'.join([__version__,__POST_RELEASE_TAG__])
+
 
 
 def get_version():
