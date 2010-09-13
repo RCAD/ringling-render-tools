@@ -1,10 +1,6 @@
 import logging, os
 from subprocess import Popen, PIPE
-from pkg_resources import Requirement, resource_filename, DistributionNotFound
-try:
-    __VERSION_FILE__ = resource_filename(Requirement.parse("ringling-render-tools"),"rrt/RELEASE-VERSION")
-except (KeyError, DistributionNotFound):
-    __VERSION_FILE__ = os.path.join(os.path.dirname(__file__),"RELEASE-VERSION")
+__VERSION_FILE__ = "RELEASE-VERSION"
     
 __LOG_LEVEL__ = logging.DEBUG if os.getenv('RRT_DEBUG',False) else logging.INFO
 
