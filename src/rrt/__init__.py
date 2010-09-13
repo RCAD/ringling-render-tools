@@ -1,5 +1,11 @@
 import logging, os
-
+from subprocess import Popen, PIPE
+from pkg_resources import Requirement, resource_filename, DistributionNotFound
+try:
+    __VERSION_FILE__ = resource_filename(Requirement.parse("ringling-render-tools"),"rrt/RELEASE-VERSION")
+except (KeyError, DistributionNotFound):
+    __VERSION_FILE__ = os.path.join(os.path.dirname(__file__),"RELEASE-VERSION")
+    
 __LOG_LEVEL__ = logging.DEBUG if os.getenv('RRT_DEBUG',False) else logging.INFO
 
 def get_log(name=__name__, stream=False):
@@ -12,10 +18,56 @@ def get_log(name=__name__, stream=False):
         log.addHandler(handler)
     return log
 
+def __call_git_describe(abbrev=4):
+    try:
+        p = Popen(['git', 'describe', '--abbrev=%d' % abbrev],
+                  stdout=PIPE, stderr=PIPE)
+        p.stderr.close()
+        line = p.stdout.readlines()[0]
+        return line.strip()
+    except:
+        return None
 
-__VERSION__ = (0,0,2)
+def __read_release_version():
+    try:
+        f = open(__VERSION_FILE__, "r")
+        try:
+            version = f.readlines()[0]
+            return version.strip()
+        finally:
+            f.close()
+    except:
+        return None
+
+
+def __write_release_version(version):
+    f = open(__VERSION_FILE__, "w")
+    f.write("%s\n" % version)
+    f.close()
+
+
+def get_git_version(abbrev=4):
+    # Read in the version that's currently in RELEASE-VERSION.
+    release_version = __read_release_version()
+    # First try to get the current version using git describe.
+    version = __call_git_describe(abbrev)
+    # If that doesn't work, fall back on the value that's in
+    # RELEASE-VERSION.
+    if version is None:
+        version = release_version
+    # If we still don't have anything, that's an error.
+    if version is None:
+        raise ValueError("Cannot find the version number!")
+    # If the current version is different from what's in the
+    # RELEASE-VERSION file, update the file to be current.
+    if version != release_version:
+        __write_release_version(version)
+    # Finally, return the current version.
+    return version
+
+
 __POST_RELEASE_TAG__ = None
-__version__ = '.'.join([str(n) for n in __VERSION__])
+__version__ = get_git_version()
 if __POST_RELEASE_TAG__: __version__ = '-'.join([__version__,__POST_RELEASE_TAG__])
 
 

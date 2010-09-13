@@ -12,3 +12,4 @@
 *.egg-info
 /*.egg
 /setup.cfg
+/src/rrt/RELEASE_VERSION
