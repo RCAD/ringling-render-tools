@@ -11,6 +11,7 @@ setup(
     license = "MIT",
     description = "Pipeline tools for Maya and 3DSmax rendering with Windows HPC",
     keywords = "Maya 3DSmax WindowsHPC",
+    platforms = ["windows"],
     package_dir = {'':'src'},
     packages = find_packages('src'),
     include_package_data = True,
