@@ -4,7 +4,7 @@ LOG = rrt.get_log()
 LOG.info("Starting %s" % rrt.get_version())
 
 from rrt.maya.helpers import ProjectPath
-from rrt import SPOOL_UNC
+from rrt.settings import SPOOL_UNC
 from rrt.hpc import env
 ENV = env()
 

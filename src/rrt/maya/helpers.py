@@ -1,5 +1,6 @@
 import ntpath
-from rrt import SPOOL_UNC, SPOOL_LETTER, RinglingException
+from rrt import RinglingException
+from rrt.settings import SPOOL_UNC, SPOOL_LETTER
 
 class InvalidPathError(RinglingException):pass
 

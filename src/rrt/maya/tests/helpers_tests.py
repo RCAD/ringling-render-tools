@@ -1,6 +1,6 @@
 import unittest
 from rrt.maya.helpers import ProjectPath, InvalidPathError
-from rrt import SPOOL_LETTER, SPOOL_UNC
+from rrt.settings import SPOOL_LETTER, SPOOL_UNC
 
 class TestPathHelper(unittest.TestCase):
 

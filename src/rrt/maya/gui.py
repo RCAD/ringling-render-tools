@@ -1,7 +1,7 @@
 import os, datetime, re, string, getpass
 
 import rrt
-from rrt import SPOOL_UNC, SPOOL_LETTER, JOB_LOGS_UNC, JOB_OUTPUT_UNC
+from rrt.settings import SPOOL_UNC, SPOOL_LETTER, JOB_LOGS_UNC, JOB_OUTPUT_UNC
 from rrt.maya.helpers import ProjectPath, InvalidPathError
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
 

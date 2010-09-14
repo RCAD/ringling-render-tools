@@ -35,7 +35,6 @@ def __read_release_version():
     except:
         return None
 
-
 def __write_release_version(version):
     f = open(os.path.join(os.path.abspath(os.path.dirname(__file__)),__VERSION_FILE__), "w")
     f.write("%s\n" % version)
@@ -64,31 +63,8 @@ def get_git_version(abbrev=4):
 
 __version__ = get_git_version()
 
-
-
 def get_version():
     version_string = 'Ringling Render Tools '+__version__
     return version_string
 
 class RinglingException(Exception):pass
-
-# Blessed  file system locations
-SPOOL_LETTER = "Z:"
-def __get_homeshare(letter):
-    try:
-        p = Popen(['net', 'use', letter], stdout=PIPE, stderr=PIPE)
-        p.stderr.close()
-        line = p.stdout.readlines()[1].split()[2]
-        return line.strip()
-    except Exception, e:
-        raise e
-
-SPOOL_UNC = __get_homeshare(SPOOL_LETTER)
-
-JOB_LOGS_UNC = "\\\\clogs\\clogs"
-JOB_OUTPUT_UNC = "\\\\coutput\\coutput"
-
-if os.getenv('RRT_USE_DESMOND', False):
-    SPOOL_UNC = "\\\\desmond\\spool" # note the native \ style separators
-    JOB_LOGS_UNC = "\\\\desmond\\spool\\logs"
-    JOB_OUTPUT_UNC = "\\\\desmond\\spool\\output"
