@@ -39,8 +39,6 @@ class TestPathHelper(unittest.TestCase):
     def test_invalid_path(self):
         self.assertRaises(InvalidPathError, ProjectPath, r"D:\my\path")
         self.assertRaises(InvalidPathError, ProjectPath, "D:/my/path")
-#        self.assertRaises(InvalidPathError, ProjectPath, r"Z:\my\path")
-#        self.assertRaises(InvalidPathError, ProjectPath, "Z:/my/path")
     
     def test_nt_letter_unc_substitution(self):
         tail = "\\maya\\foo\\scenes\\bar.mb"
