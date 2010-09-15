@@ -13,7 +13,6 @@ def get_share(path):
             raise RuntimeError("Can't find network share for drive %s" % drive_letter)
         unc = out.splitlines()[1].split()[2].strip().lower()
         # on the cluster side, our hosts have a 1 prepended to their names
-        re.sub("(hamming|minsky|perlis|shannon|wilkes|wilkinson)", '\g<1>1', unc, 1)
-        return unc
+        return re.sub("(hamming|minsky|perlis|shannon|wilkes|wilkinson)", '\g<1>1', unc, 1)
     except Exception, e:
         raise e 
