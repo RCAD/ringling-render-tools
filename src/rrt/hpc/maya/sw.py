@@ -5,16 +5,15 @@ import os
 from shutil import copyfile
 from rrt.hpc import env
 from rrt.hpc.scripts import LOG
-from rrt.maya.helpers import ProjectPath
 ENV = env()
 
 def _setup_node_project():
     LOG.info("Setting up node project directory: %s" % ENV['NODE_PROJECT'])
     if not os.path.isdir(ENV['NODE_PROJECT']):
         os.makedirs(ENV['NODE_PROJECT'])
-    src = ProjectPath(ENV['PROJECT']+r'\workspace.mel').unc
+    src = os.path.join(ENV['PROJECT'],'workspace.mel')
     dst = os.path.join(ENV['NODE_PROJECT'],'workspace.mel')
-    copyfile(src,dst)
+    copyfile(src, dst)
     LOG.debug("File copied: %s -> %s" % (src,dst))
     LOG.debug("node local workspace:")
     LOG.debug(open(dst).read())

@@ -1,9 +1,9 @@
 import os, datetime, re, string, getpass
 
 import rrt
-from rrt.settings import SPOOL_UNC, SPOOL_LETTER, JOB_LOGS_UNC, JOB_OUTPUT_UNC
-from rrt.maya.helpers import ProjectPath, InvalidPathError
-from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name, get_frame_range
+from rrt.settings import JOB_LOGS_UNC, JOB_OUTPUT_UNC
+from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name,\
+    get_frame_range
 
 from pymel import versions
 from pymel.core.system import workspace, sceneName
@@ -12,6 +12,7 @@ from pymel.core import frameLayout, button, menuItem, columnLayout,\
     optionMenu, intField, textField, text, formLayout, uiTemplate, window,\
     confirmBox
 from pymel.core.language import scriptJob
+from rrt.filesystem import get_share
 
 LOG = rrt.get_log('hpcSubmit')
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
@@ -32,6 +33,8 @@ end = $end
 threads = $threads
 step = $step
 uuid = $uuid
+net_drive = $net_drive
+net_share = $net_share
 """)
 
 class SubmitGui:
@@ -106,9 +109,10 @@ class SubmitGui:
             """
             self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
             SCENE = Scene()
+            
             range = get_frame_range()
-            proj = ProjectPath(workspace.getPath()).unc
-            scene = ProjectPath(sceneName()).unc
+            proj = workspace.getPath()
+            scene = sceneName()
             logs = os.path.join(JOB_LOGS_UNC, getpass.getuser(), self._job_uuid, self.job_title+'.*.txt')
             output = os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), self._job_uuid)
             data = {
@@ -125,11 +129,12 @@ class SubmitGui:
                     'end': max(range),
                     'threads': self.job_threads,
                     'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
-                    'uuid': self._job_uuid
+                    'uuid': self._job_uuid,
+                    'net_share': get_share(scene),
+                    'net_drive': os.path.splitdrive(scene)[0],
             }
             return INI_TEMPLATE.substitute(data) 
 
-        
         def write_ini_file(self, data):
             """
             Writes a job definition (ini) string to a file, using the last 
@@ -145,10 +150,10 @@ class SubmitGui:
             return file_path
         
         def _is_valid(self):
-            try: 
+            try:
                 self.build_ini_file()
-            except InvalidPathError:
-                LOG.error("Cannot submit from this location. Save this file in %s (aka %s) before submitting" % (SPOOL_LETTER, SPOOL_UNC))
+            except Exception, err:
+                LOG.error(err)
                 return False
             if not self.job_title:
                 LOG.error("Job title must not be blank.")
@@ -256,9 +261,11 @@ class SubmitGui:
                     mainForm.attachForm(subFrame, 'bottom', 4)
                     mainForm.attachForm(subFrame, 'left', 4)
                     mainForm.attachForm(subFrame, 'right', 4)
+                    
                     """
-                    We force the closure of an open submit window to ensure the 
-                    new scene's settings are reflected.
+                    We force the closure of an open submit window on scene open 
+                    to ensure the new scene's settings are reflected.
                     """
                     scriptJob(parent=self._win, runOnce=True, 
                               event=('SceneOpened', SubmitGui.destroy))
+                    

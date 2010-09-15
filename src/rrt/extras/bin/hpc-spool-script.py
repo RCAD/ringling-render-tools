@@ -66,7 +66,9 @@ class Spooler(object):
         "end": None,
         "step": "1",
         "threads": "4",
-        "uuid": None
+        "uuid": None,
+        "net_share": None,
+        "net_drive": None,
     }
 
     def ParseConf(self, iniPath):
@@ -126,13 +128,13 @@ class Spooler(object):
         setup_task = job.CreateTask()
         setup_task.Type = TaskType.NodePrep
         setup_task.Name = "Setup"
-        setup_task.CommandLine = "hpc-node-prep"
+        setup_task.CommandLine = "net use %s %s && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
 
         # TearDown Task
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
         cleanup_task.Name = "Cleanup"
-        cleanup_task.CommandLine = "hpc-node-release"
+        cleanup_task.CommandLine = "hpc-node-release & net use %s /delete /y" % self._conf['net_drive']
 
         # Add Env Vars
         self.SetJobEnv(setup_task)
@@ -163,6 +165,8 @@ class Spooler(object):
         task.SetEnvironmentVariable("RENDERER", self._conf["renderer"])
         task.SetEnvironmentVariable("LOGS", self._conf["logs"])
         task.SetEnvironmentVariable("OUTPUT", self._conf["output"])
+        task.SetEnvironmentVariable("NET_SHARE", self._conf["net_share"])
+        task.SetEnvironmentVariable("NET_DRIVE", self._conf["net_drive"])
 
     def DoIt(self):
         scheduler = Scheduler()

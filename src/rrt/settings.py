@@ -1,17 +1,8 @@
-import os
-from subprocess import Popen, PIPE
-# Blessed  file system locations
-def __get_homeshare(letter):
-    try:
-        p = Popen(['net', 'use', letter], stdout=PIPE, stderr=PIPE)
-        p.stderr.close()
-        line = p.stdout.readlines()[1].split()[2]
-        return line.strip()
-    except Exception, e:
-        raise e
+"""
+Blessed  file system locations
+"""
 
-SPOOL_LETTER = "Z:"
-SPOOL_UNC = __get_homeshare(SPOOL_LETTER)
+import os
 
 JOB_LOGS_UNC = "\\\\clogs\\clogs"
 JOB_OUTPUT_UNC = "\\\\coutput\\coutput"
