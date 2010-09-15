@@ -12,7 +12,12 @@ def get_share(path):
         if p.returncode != 0:
             raise RuntimeError("Can't find network share for drive %s" % drive_letter)
         unc = out.splitlines()[1].split()[2].strip().lower()
-        # on the cluster side, our hosts have a 1 prepended to their names
+        
+        """
+        TODO: decide if we want to hold off on these transformations until we're 
+        in hpc-spool-script...
+        """
+        # on the cluster side, our hosts have a 1 prepended to their names        
         return re.sub("(hamming|minsky|perlis|shannon|wilkes|wilkinson)", '\g<1>1', unc, 1)
     except Exception, e:
-        raise e 
+        raise e
