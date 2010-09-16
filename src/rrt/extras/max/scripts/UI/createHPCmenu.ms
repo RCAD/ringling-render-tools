@@ -1,6 +1,4 @@
---Creating the Ringling HPC menu
---THIS NEED TO BE IN THE .\plugins folder on max
- 
+--Creating the Ringling HPC menu 
 
 if menuMan.registerMenuContext 0xe077b1d then (
 
