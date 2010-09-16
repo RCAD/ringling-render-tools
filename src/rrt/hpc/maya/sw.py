@@ -2,7 +2,7 @@
 Node Prep/Release script entry points for jobs ran with `Render.exe -r sw ...`
 """
 import os
-from shutil import copyfile
+from shutil import copyfile, copytree
 from rrt.hpc import env
 from rrt.hpc.scripts import LOG
 ENV = env()
@@ -17,7 +17,14 @@ def _setup_node_project():
     LOG.debug("File copied: %s -> %s" % (src,dst))
     LOG.debug("node local workspace:")
     LOG.debug(open(dst).read())
-
+    
+    LOG.info("Copying any fur data...")
+    for name in os.listdir(ENV['PROJECT']):
+        src = os.path.join(ENV['PROJECT'], name)
+        if name.startswith('fur') and os.path.isdir(src):
+            dst = os.path.join(ENV['NODE_PROJECT'], name)
+            copytree(src, dst)
+            LOG.debug("File copied: %s -> %s" % (src,dst))
 
 def _create_startup_script():
     dst = os.path.join(ENV['NODE_PROJECT'],'scripts','userSetup.mel')
