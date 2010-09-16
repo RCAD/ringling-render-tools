@@ -223,18 +223,9 @@ class SubmitGui:
                                     text(label="Cores:")
                                 with columnLayout() as setCol2:
                                     self._controls['title'] = textField(text=get_scene_name())
-                                    
-                                    start_field = intField(editable=False, value=get_frame_range()[0])
-                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.startFrame, 
-                                        lambda: start_field.setValue(get_frame_range()[0])])
-                                                           
-                                    end_field = intField(editable=False, value=get_frame_range()[1])
-                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.endFrame, 
-                                        lambda: end_field.setValue(get_frame_range()[1])])
-                                    
-                                    step_field = intField(editable=False, value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
-                                    scriptJob(parent=self._win, attributeChange=[SCENE.defaultRenderGlobals.byFrameStep, 
-                                        lambda: step_field.setValue(int(SCENE.defaultRenderGlobals.byFrameStep.get()))])
+                                    start_field = intField(value=get_frame_range()[0])
+                                    end_field = intField(value=get_frame_range()[1])
+                                    step_field = intField(value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
                                     
                                     with columnLayout(adj=False):
                                         self._controls['threads'] = optionMenu(w=40)
@@ -268,4 +259,3 @@ class SubmitGui:
                     """
                     scriptJob(parent=self._win, runOnce=True, 
                               event=('SceneOpened', SubmitGui.destroy))
-                    
