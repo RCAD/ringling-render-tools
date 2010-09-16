@@ -1,7 +1,5 @@
 -- HPC submission tool for 3DS MAX
 
---THIS NEED TO BE IN THE stdplugs\stdscripts folder on max
-
 macroScript HPC
 	category:"Rendering"
 	toolTip:"HPC Rendering Tools"
