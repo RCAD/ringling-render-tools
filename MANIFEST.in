@@ -1,5 +1,5 @@
 include README.markdown
 include src/rrt/RELEASE-VERSION
 include LICENSE
-recursive-include src/rrt/extras *.py *.bat *.mel *.ms
+recursive-include src/rrt/extras *.py *.bat *.mel *.ms *.txt
 
