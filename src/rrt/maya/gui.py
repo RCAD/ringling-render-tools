@@ -102,15 +102,21 @@ class SubmitGui:
             submit window.
             """
             return int(self._controls['threads'].getValue())
-    
+        
+        @property
+        def job_start(self):
+            return min((int(self._controls['start'].getValue()),int(self._controls['end'].getValue())))
+        
+        @property
+        def job_end(self):
+            return max((int(self._controls['start'].getValue()),int(self._controls['end'].getValue())))
+        
         def build_ini_file(self):
             """
             Generates the content for a job (ini) file.
             """
             self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
             SCENE = Scene()
-            
-            range = get_frame_range()
             proj = workspace.getPath()
             scene = sceneName()
             logs = os.path.join(JOB_LOGS_UNC, getpass.getuser(), self._job_uuid, self.job_title+'.*.txt')
@@ -125,8 +131,8 @@ class SubmitGui:
                     'output_path': output,
                     'scene_path': scene,
                     'logs': logs,
-                    'start': min(range),
-                    'end': max(range),
+                    'start': self.job_start,
+                    'end': self.job_end,
                     'threads': self.job_threads,
                     'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
                     'uuid': self._job_uuid,
@@ -223,9 +229,9 @@ class SubmitGui:
                                     text(label="Cores:")
                                 with columnLayout() as setCol2:
                                     self._controls['title'] = textField(text=get_scene_name())
-                                    start_field = intField(value=get_frame_range()[0])
-                                    end_field = intField(value=get_frame_range()[1])
-                                    step_field = intField(value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
+                                    self._controls['start'] = intField(value=get_frame_range()[0])
+                                    self._controls['end'] = intField(value=get_frame_range()[1])
+                                    self._controls['step'] = intField(value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
                                     
                                     with columnLayout(adj=False):
                                         self._controls['threads'] = optionMenu(w=40)
