@@ -21,6 +21,7 @@ for name in os.listdir(ENV['PROJECT']):
     full = os.path.join(ENV['PROJECT'], name)
     if os.path.isdir(full):
         map_pairs.append(('//'+name, posix(full)))
+        map_pairs.append((node_proj+'/'+name, posix(full)))
         map_pairs.append((node_proj+'//'+name, posix(full)))
 
 LOG.debug("Dirmaps:")
