@@ -165,3 +165,19 @@ match **find me**.
 Client Configuration
 --------------------
 `hpc-spool` will not function if the environment variable `HEAD_NODE` has not been set to a **windows name**, **ip**, or **dns** name of a valid *Windows HPC cluster head node*.
+
+
+Autodesk 3ds Max Design plugin setup
+====================================
+
+This small modification will tell Max where to find the ini file containing the directory where Max
+will need to look for the aditional scripts files necessary the HPC plugin.
+
+1. navigate to: C:\Program Files\Autodesk\3ds Max Design 2011
+2. Open the filenamed plugin.ini
+3. At the end of the file add the following lines:
+
+[Include]
+HPC=C:\Ringling\HPC\max\hpc-plugin.ini
+
+4. Close File
