@@ -156,9 +156,11 @@ class SubmitGui:
             return file_path
         
         def _is_valid(self):
+            LOG.info("Validating submission:")
             try:
                 self.build_ini_file()
             except Exception, err:
+                LOG.warning('Could not build job file...')
                 LOG.error(err)
                 return False
             if not self.job_title:
