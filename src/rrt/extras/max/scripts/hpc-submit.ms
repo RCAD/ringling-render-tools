@@ -119,9 +119,9 @@ macroScript HPC
 		label lbl_end "End Frame:" pos:[23,87] width:57 height:17
 		label lbl_step "Frame Step:" pos:[20,113] width:60 height:16
 		edittext fld_title "" text:def_title pos:[82,37] width:189 height:17
-		edittext fld_start "" text:def_start pos:[82,63] width:189 height:17 readOnly:true
-		edittext fld_end "" text:def_end pos:[82,88] width:189 height:17 readOnly:true
-		edittext fld_step "" text:def_step pos:[82,113] width:189 height:17 readOnly:true
+		edittext fld_start "" text:def_start pos:[82,63] width:189 height:17
+		edittext fld_end "" text:def_end pos:[82,88] width:189 height:17
+		edittext fld_step "" text:def_step pos:[82,113] width:189 height:17
 		button btn_submit "SUBMIT" pos:[20,159] width:247 height:22		
 		
 		
@@ -130,13 +130,18 @@ macroScript HPC
 				messageBox "No scene file opened." title:"Scene Error"
 			) else if not pathIsNetworkPath (pathConfig.convertPathToUnc (maxfilepath+maxfilename)) then ( --checks for the scene to be on network
 				messageBox "Scene file is not on a network share." title:"Network Error"
-			) else if ((def_start[1] == "-") or (def_end[1] == "-") or (def_step[1] == "-")) then ( --checks for negatives
-				messageBox "One of more numeric parameters are negative." title:"Parameter Error"
+			) else if ((fld_start.text as integer <= 0) or (fld_end.text  as integer <= 0) or (fld_step.text  as integer <= 0)) then ( --checks for negatives
+				messageBox "One or more numeric parameters are less than 1." title:"Parameter Error"
 			) else (
+				if (fld_start.text as integer > fld_end.text as integer) then ( --checks for switched start/end
+					tmp = fld_start.text
+					fld_start.text = fld_end.text
+					fld_end.text = tmp
+				)
 				--GENERATE INI FILE
 				iniFilePath = GenerateIniFile fld_title fld_start fld_end fld_step
 				-- LAUNCH COMMAND
-				DOSCommand ("echo launchin "+HPC_SPOOL_BIN+" with ini "+iniFilePath+" & pause")
+				DOSCommand (HPC_SPOOL_BIN+"  "+iniFilePath+" & pause")
 				closeRolloutFloater HPC_Floater
 			)
 		)
