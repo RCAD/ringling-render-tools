@@ -67,47 +67,50 @@ macroScript HPC
 	
 	-- Generates the name of the ini file with the uuid and scene name
 	fn GenerateIniName = (
-		date = getLocalTime()
+		local date = getLocalTime()
 		uuid = (date[1] as string)+(date[2] as string)+(date[4] as string)+
 		(date[5] as string)+(date[6] as string)+(date[7] as string)
 		
-		maxFile = getfilenamefile maxfilename
+		local maxFile = getfilenamefile maxfilename
 		
-		filename = uuid+"_"+maxFile+".ini"
+		local filename = uuid+"_"+maxFile+".ini"
 	)
 	
 	-- Generates ini file calling needed functions
-	fn GenerateIniFile fld_title fld_start fld_end = (
-		unc_in = "\\\chome\\chome\\"
-		unc_out = "\\\chome\\coutput\\"
-		unc_log = "\\\clogs\\clogs\\"
-		uuid_path = "d:\\hpc\\"+sysinfo.username+"\\scripts\\"
+	fn GenerateIniFile fld_title fld_start fld_end fld_step = (
+		local unc_out = "\\\chome\\coutput\\"
+		local unc_log = "\\\clogs\\clogs\\"
+		local uuid_path = "d:\\hpc\\"+sysinfo.username+"\\scripts\\"
+		local path_arr = (filterstring (pathConfig.convertPathToUnc maxfilepath) "\\")
+		local net_share = "\\\\"+path_arr[1]+"1\\"+path_arr[2]
 		
-		uuid_name = GenerateIniName()
+		local uuid_name = GenerateIniName()
 		
 		if not doesfileexist uuid_path then (
 			makeDir uuid_path
 		) 
-		fullPath = uuid_path+uuid_name
-		fstream = createFile fullPath
-		title = cleanStr fld_title.text
-		ini = "# Created for "+sysinfo.username+" on "+uuid+"\n"+
+		local fullPath = uuid_path+uuid_name		
+		local title = cleanStr fld_title.text
+		local ini = "# Created for "+sysinfo.username+" on "+uuid+"\n"+
 				"renderer = max\n"+
 				"name = "+title+"\n"+
-				"project = "+unc_in+sysinfo.username+"\\max\\remote\n"+
+				"project = "+maxfilepath as string+"\n"+
 				"output = "+unc_out+sysinfo.username+"\\"+uuid+"\\"+title+".jpg\n"+
-				"scene = "+unc_in+sysinfo.username+"\\max\\remote\\"+maxfilename as string+"\n"+
+				"scene = "+(maxfilepath+maxfilename) as string+"\n"+
 				"logs = "+unc_log+sysinfo.username+"\\"+uuid+"\\"+title+".*.txt\n"+
 				"start = "+fld_start.text+"\n"+
-				"end = "+fld_end.text+"\n"
+				"end = "+fld_end.text+"\n"+
+				"step = "+fld_step.text+"\n"+
+				"net_share = "+net_share+"\n"+
+				"net_drive = "+((filterstring maxfilepath "\\")[1]) as string+"\n"
+		local fstream = createFile fullPath
 		format "%" ini to:fstream
 		close fstream
 		fullpath = fullpath
 	)
 	
 	-- Rollout Window
-	rollout HPC "Send to HPC Cluster" width:327 height:245
-	(
+	rollout HPC "Send to HPC Cluster" width:327 height:245	(
 		
 		GroupBox grb_main "HPC Submission Tool" pos:[2,3] width:283 height:146
 		GroupBox grb_sub "" pos:[3,148] width:279 height:39
@@ -120,16 +123,22 @@ macroScript HPC
 		edittext fld_end "" text:def_end pos:[82,88] width:189 height:17 readOnly:true
 		edittext fld_step "" text:def_step pos:[82,113] width:189 height:17 readOnly:true
 		button btn_submit "SUBMIT" pos:[20,159] width:247 height:22		
-			
 		
-		on btn_submit pressed do
-		(
-			
-			--GENERATE INI FILE
-			iniFilePath = GenerateIniFile fld_title fld_start fld_end
-			-- LAUNCH COMMAND
-			DOSCommand ("echo launchin "+HPC_SPOOL_BIN+" with ini "+iniFilePath+" & pause")
-			closeRolloutFloater HPC_Floater
+		
+		on btn_submit pressed do	(
+			if (getfilenamefile maxfilename as string) == "" then ( --checks for a scene to be oppened
+				messageBox "No scene file opened." title:"Scene Error"
+			) else if not pathIsNetworkPath (pathConfig.convertPathToUnc (maxfilepath+maxfilename)) then ( --checks for the scene to be on network
+				messageBox "Scene file is not on a network share." title:"Network Error"
+			) else if ((def_start[1] == "-") or (def_end[1] == "-") or (def_step[1] == "-")) then ( --checks for negatives
+				messageBox "One of more numeric parameters are negative." title:"Parameter Error"
+			) else (
+				--GENERATE INI FILE
+				iniFilePath = GenerateIniFile fld_title fld_start fld_end fld_step
+				-- LAUNCH COMMAND
+				DOSCommand ("echo launchin "+HPC_SPOOL_BIN+" with ini "+iniFilePath+" & pause")
+				closeRolloutFloater HPC_Floater
+			)
 		)
 	)
 	HPC_Floater = newrolloutfloater "HPC Submit" 300 225

@@ -178,3 +178,4 @@ This small modification will tell Max where to find the ini file containing the 
 
     [Include]
     HPC=C:\Ringling\HPC\max\hpc-plugin.ini
+    
