@@ -172,9 +172,9 @@ Autodesk 3ds Max Design plugin setup
 
 This small modification will tell Max where to find the ini file containing the directory where Max will need to look for the aditional scripts files necessary for the HPC plugin.
 
-1. Navigate to: C:\Program Files\Autodesk\3ds Max Design 2011
-1. Open the filenamed plugin.ini
-1. At the end of the file add the following lines:
+Edit `C:\Program Files\Autodesk\3ds Max Design 2011\plugin.ini`
+At the end of the file add the following lines:
+
 
     [Include]
     HPC=C:\Ringling\HPC\max\hpc-plugin.ini
