@@ -152,7 +152,7 @@ class Spooler(object):
         global RRT_USE_DESMOND
         if RRT_USE_DESMOND: task.SetEnvironmentVariable("RRT_USE_DESMOND", RRT_USE_DESMOND)
         
-        task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["user_dir"])
+        task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["node_project"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
         task.SetEnvironmentVariable("TMP", self._conf["node_project"])        
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
