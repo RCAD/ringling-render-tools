@@ -18,7 +18,10 @@ macroScript HPC
 		case rendTimeType of  (
 			1:(
 				--single frame
-				-- no changes to defaults
+				local _def = slidertime as string
+				_def = substring _def 1 (_def.count-1)
+				def_start = _def
+				def_end = _def
 			)
 			2:(
 				--active time segment NOT SURE IF WE WILL ALLOW THIS
