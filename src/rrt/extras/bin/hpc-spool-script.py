@@ -96,10 +96,10 @@ class Spooler(object):
         # this guy will need other methods to delegate to so we don't fork for each renderer available.
         render_task = job.CreateTask()
         
-        user_dir = r"D:\hpc\%s" % getpass.getuser()
-        self._conf["user_dir"] = user_dir
+        node_job_dir = r"D:\hpc"
+        self._conf["node_job_dir"] = node_job_dir
 
-        node_project = os.path.join(user_dir, 'jobs', self._conf['uuid'])
+        node_project = os.path.join(node_job_dir, self._conf['uuid'])
         render_task.SetEnvironmentVariable("INIT_WD", node_project)
         self._conf["node_project"] = node_project
 
@@ -152,11 +152,10 @@ class Spooler(object):
         global RRT_USE_DESMOND
         if RRT_USE_DESMOND: task.SetEnvironmentVariable("RRT_USE_DESMOND", RRT_USE_DESMOND)
         
-        task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["user_dir"])
+        task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["node_project"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
         task.SetEnvironmentVariable("TMP", self._conf["node_project"])        
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
-        task.SetEnvironmentVariable("USER_DIR", self._conf["user_dir"])
         task.SetEnvironmentVariable("NODE_PROJECT", self._conf["node_project"])
         # self override enables us to apply per-job dirmaps on maya jobs
         task.SetEnvironmentVariable("MAYA_SCRIPT_PATH", self._conf["node_project"]+ r"\scripts;"+os.getenv("MAYA_SCRIPT_PATH", ''))

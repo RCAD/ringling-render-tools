@@ -6,7 +6,6 @@ import os
 def env():
     """Returns a dict of relevant environment variables.""" 
     return {'OWNER': os.getenv('OWNER', None),
-            'USER_DIR': os.getenv('USER_DIR', None),
             'PROJECT': os.getenv('PROJECT', None),
             'SCENE': os.getenv('SCENE', None),
             'NODE_PROJECT': os.getenv('NODE_PROJECT', None),
