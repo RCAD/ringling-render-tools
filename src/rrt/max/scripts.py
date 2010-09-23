@@ -85,7 +85,7 @@ def submit_job():
         'version': rrt.get_version(),
         'job_type': "max",
         'job_name': sys.argv[2],
-        'project_path': _zipFilePath[0:_zipFilePath.rfind('\\')],
+        'project_path': _zipFilePath,
         'output_path': os.path.join(OUT_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.jpg'),
         'scene_path': __getScene(_zipFilePath)[0],
         'logs': os.path.join(JOB_LOGS_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.*.txt'),
