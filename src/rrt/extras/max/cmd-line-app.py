@@ -5,6 +5,7 @@ import re
 import string
 import sys
 import rrt
+import zipfile
 from rrt.settings import JOB_LOGS_UNC
 from rrt.filesystem import get_share
 
@@ -30,13 +31,15 @@ net_drive = $net_drive
 net_share = $net_share
 """)
 
+# creats a uuid
 def getUuid():
     now = datetime.datetime.now()
     date = []
     date.append(re.sub('[%s]'% re.escape(' -:'),'', str(now).split('.')[0]))
     date.append(str(now))
     return date
-    
+   
+# writes the ini file to disk 
 def writeIni(content, uuid, name):
     if not os.path.isdir(JOB_SCRIPT_DIR):
         os.makedirs(JOB_SCRIPT_DIR)
@@ -45,6 +48,17 @@ def writeIni(content, uuid, name):
         fh.write(content)
     return file_path
 
+# grabs the scene name from the zip file
+def getScene(path):
+    if not zipfile.is_zipfile(path):
+        raise RuntimeError("Given file is not a .zip archive")
+    maxFiles = []
+    zf = zipfile.ZipFile(path)
+    for filename in zf.namelist():
+        if str(filename).lower().endswith(".max"):
+            maxFiles.append(filename)
+    return maxFiles
+
 
 """
 Main now, will probably change it once integration of 
@@ -52,7 +66,7 @@ the rest of the app starts to come up
 """
 def main():
     # checks for command line arguments.
-    # sys.argv[] = {python call, .zip, title, frame start, frame end, step}
+    # sys.argv[] = {default python call "python", .zip, title, frame start, frame end, step}
     if len(sys.argv) != 6:
         sys.exit(2)
     
@@ -68,7 +82,7 @@ def main():
         'job_name':sys.argv[2],
         'project_path':_zipFilePath[0:_zipFilePath.rfind('\\')],
         'output_path':os.path.join(OUT_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.jpg'),
-        'scene_path':_zipFilePath, #looking into the zipfile?
+        'scene_path':getScene(_zipFilePath)[0],
         'logs':os.path.join(JOB_LOGS_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.*.txt'),
         'start':sys.argv[3],
         'end':sys.argv[4],
