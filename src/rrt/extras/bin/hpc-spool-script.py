@@ -44,7 +44,7 @@ class Spooler(object):
     # Looks like Render.exe doesn't like quotes around the remote paths...
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_MAYA_RENDER_RMAN = "Render.exe -n {threads} -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
-    CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 {scene}"
+    CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 {node_project}\{scene}"
     # NODE_PATH = r"C:\Ringling\HPC\bin;C:\Python26;C:\Ringling\Python26\Scripts;C:\Python26\Scripts;C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010"
     _renderers = {
         "max": CMD_3DSMAX_RENDER, 
@@ -157,7 +157,7 @@ class Spooler(object):
         task.SetEnvironmentVariable("TMP", self._conf["node_project"])        
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
         task.SetEnvironmentVariable("NODE_PROJECT", self._conf["node_project"])
-        # self override enables us to apply per-job dirmaps on maya jobs
+        # script path override enables us to apply per-job dirmaps on maya jobs
         task.SetEnvironmentVariable("MAYA_SCRIPT_PATH", self._conf["node_project"]+ r"\scripts;"+os.getenv("MAYA_SCRIPT_PATH", ''))
         task.SetEnvironmentVariable("PROJECT", self._conf["project"])
         task.SetEnvironmentVariable("SCENE", self._conf["scene"])
