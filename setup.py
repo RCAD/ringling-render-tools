@@ -24,7 +24,8 @@ setup(
         'console_scripts': [
             'hpc-node-prep = rrt.hpc.scripts:prep_delegator',
             'hpc-node-release = rrt.hpc.scripts:release_delegator',
-            'hpc-deploy-extras = rrt.hpc.scripts:deploy_extras'
+            'hpc-deploy-extras = rrt.hpc.scripts:deploy_extras',
+            'hpc-submit-max = rrt.max.scripts:submit_job'
         ],
         'gui_scripts': []
     }
