@@ -103,7 +103,7 @@ def main():
     
     iniFile = writeIni(INI_TEMPLATE.substitute(vars), _uuid, sys.argv[2])
     
-    
+    submitJob(iniFile)
     
     
 
