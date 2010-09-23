@@ -113,9 +113,14 @@ class Spooler(object):
         render_task.EndValue = int(self._conf["end"])
         render_task.IncrementValue = int(self._conf["step"])
 
-        # thread limits
-        render_task.MinimumNumberOfCores = int(self._conf["threads"])
-        render_task.MaximumNumberOfCores = int(self._conf["threads"])
+        # thread/node limits
+        if self._conf["renderer"] == "max":
+            render_task.AutoCalculateMax = false
+            render_task.MinimumNumberOfNodes = 1    
+            render_task.MaximumNumberOfNodes = 1
+        else:        
+            render_task.MinimumNumberOfCores = int(self._conf["threads"])
+            render_task.MaximumNumberOfCores = int(self._conf["threads"])
 
         # log redirection
         render_task.StdErrFilePath = self._conf["logs"]
