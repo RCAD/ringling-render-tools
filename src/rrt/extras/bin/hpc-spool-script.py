@@ -45,7 +45,7 @@ class Spooler(object):
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_MAYA_RENDER_RMAN = "Render.exe -n {threads} -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 {node_project}\{scene}"
-    # NODE_PATH = r"C:\Ringling\HPC\bin;C:\Python26;C:\Ringling\Python26\Scripts;C:\Python26\Scripts;C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010"
+    
     _renderers = {
         "max": CMD_3DSMAX_RENDER, 
         "maya_render_rman": CMD_MAYA_RENDER_RMAN,
