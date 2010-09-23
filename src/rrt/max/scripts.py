@@ -1,13 +1,11 @@
 import os, sys, datetime, getpass, re, string, zipfile, rrt
-from rrt.settings import JOB_LOGS_UNC
+from rrt.settings import JOB_LOGS_UNC, JOB_OUTPUT_UNC
 from rrt.filesystem import get_share
 
 # path to python _submit bat
 HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' 
 
 JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
-
-OUT_UNC = r'\\chome\coutput'
 
 LOG = rrt.get_log('hpcSubmit', True)
 
@@ -86,7 +84,7 @@ def submit_job():
         'job_type': "max",
         'job_name': sys.argv[2],
         'project_path': _zipFilePath,
-        'output_path': os.path.join(OUT_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.jpg'),
+        'output_path': os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.jpg'),
         'scene_path': __getScene(_zipFilePath)[0],
         'logs': os.path.join(JOB_LOGS_UNC, getpass.getuser(), _uuid, sys.argv[2]+'.*.txt'),
         'start': sys.argv[3],
