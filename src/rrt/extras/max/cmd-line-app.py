@@ -16,6 +16,8 @@ JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
 
 OUT_UNC = r'\\chome\coutput'
 
+LOG = rrt.get_log('hpcSubmit')
+
 INI_TEMPLATE = string.Template("""# Created for $user on $date by $version
 renderer = $job_type
 name = $job_name
@@ -59,7 +61,14 @@ def getScene(path):
             maxFiles.append(filename)
     return maxFiles
 
-
+def submitJob(fp):
+    cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
+    LOG.debug("job script:")
+    LOG.debug(open(fp).read())
+    LOG.debug(cmd)
+    os.system(cmd)    
+    
+    
 """
 Main now, will probably change it once integration of 
 the rest of the app starts to come up
@@ -93,6 +102,8 @@ def main():
     }
     
     iniFile = writeIni(INI_TEMPLATE.substitute(vars), _uuid, sys.argv[2])
+    
+    
     
     
 
