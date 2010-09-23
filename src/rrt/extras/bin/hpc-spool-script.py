@@ -114,13 +114,9 @@ class Spooler(object):
         render_task.IncrementValue = int(self._conf["step"])
 
         # thread/node limits
-        if self._conf["renderer"] == "max":
-            render_task.AutoCalculateMax = false
-            render_task.MinimumNumberOfNodes = 1    
-            render_task.MaximumNumberOfNodes = 1
-        else:        
+        if not self._conf["renderer"] == "max":
             render_task.MinimumNumberOfCores = int(self._conf["threads"])
-            render_task.MaximumNumberOfCores = int(self._conf["threads"])
+            render_task.MaximumNumberOfCores = int(self._conf["threads"])            
 
         # log redirection
         render_task.StdErrFilePath = self._conf["logs"]
@@ -197,6 +193,8 @@ class Spooler(object):
             job = scheduler.CreateJob()
             # set the job properties
             job.Name = self._conf["name"]
+            if self._conf["renderer"] == "max": 
+                job.set_UnitType(JobUnitType.Node)
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
             self.BuildTaskList(job) # attach tasks to job
