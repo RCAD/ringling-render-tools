@@ -1,0 +1,1 @@
+This is just a little demo.  The actual gui will be built in the main src dir.
