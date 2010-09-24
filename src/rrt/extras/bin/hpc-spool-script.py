@@ -193,8 +193,9 @@ class Spooler(object):
             job = scheduler.CreateJob()
             # set the job properties
             job.Name = self._conf["name"]
+            # task by node granularity setting for 3ds Max
             if self._conf["renderer"] == "max": 
-                job.set_UnitType(JobUnitType.Node)
+                job.UnitType = JobUnitType.Node
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
             self.BuildTaskList(job) # attach tasks to job
