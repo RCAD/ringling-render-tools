@@ -13,5 +13,5 @@
 /*.egg
 /setup.cfg
 /src/rrt/RELEASE-VERSION
-ui/*.py
-!ui/__init__.py
+/src/rrt/max/ui/*.py
+!/src/rrt/max/ui/__init__.py
