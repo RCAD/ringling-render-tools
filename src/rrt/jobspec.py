@@ -72,7 +72,7 @@ class JobSpec(object):
         """
         Writes a job definition (ini) string to a file, using the last 
         generated job_uuid (datetime) and scene name.  
-        The file's dir is specified in `rrt.maya.gui.JOB_SCRIPT_DIR`, and 
+        The file's dir is specified in `rrt.settings.JOBSPEC_DIR`, and 
         the creation of that dir is handled by this method (as needed).
         """
         if not os.path.isdir(JOBSPEC_DIR):
