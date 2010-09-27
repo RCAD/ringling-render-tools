@@ -44,7 +44,7 @@
       <number>10</number>
      </property>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="title_label">
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -57,7 +57,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="project_label">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -78,7 +78,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="project_field">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -100,7 +100,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="browse_button">
          <property name="minimumSize">
           <size>
            <width>85</width>
@@ -115,31 +115,31 @@
       </layout>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="scene_label">
        <property name="text">
         <string>Scene</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="QComboBox" name="scene_field"/>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="start_label">
        <property name="text">
         <string>Start Frame</string>
        </property>
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="end_label">
        <property name="text">
         <string>End Frame</string>
        </property>
       </widget>
      </item>
      <item row="6" column="0">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="step_label">
        <property name="text">
         <string>Frame Step</string>
        </property>
@@ -151,14 +151,14 @@
         <number>24</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="cancel_button">
          <property name="text">
           <string>Cancel</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="submit_button">
          <property name="text">
           <string>Submit Job</string>
          </property>
@@ -167,7 +167,7 @@
       </layout>
      </item>
      <item row="4" column="1">
-      <widget class="QSpinBox" name="spinBox">
+      <widget class="QSpinBox" name="start_field">
        <property name="minimum">
         <number>1</number>
        </property>
@@ -177,7 +177,7 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QSpinBox" name="spinBox_2">
+      <widget class="QSpinBox" name="end_field">
        <property name="minimum">
         <number>1</number>
        </property>
@@ -187,7 +187,7 @@
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QSpinBox" name="spinBox_3">
+      <widget class="QSpinBox" name="step_field">
        <property name="minimum">
         <number>1</number>
        </property>
@@ -197,7 +197,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="title_field"/>
      </item>
     </layout>
    </item>
@@ -207,24 +207,57 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>browse_button</sender>
    <signal>clicked()</signal>
    <receiver>SubmitMainWindow</receiver>
    <slot>browse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>256</x>
-     <y>94</y>
+     <x>388</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
-     <x>349</x>
-     <y>84</y>
+     <x>399</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancel_button</sender>
+   <signal>clicked()</signal>
+   <receiver>SubmitMainWindow</receiver>
+   <slot>quit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>submit_button</sender>
+   <signal>clicked()</signal>
+   <receiver>SubmitMainWindow</receiver>
+   <slot>submit_job()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>346</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>343</x>
+     <y>249</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <signal>got_file(QString)</signal>
   <slot>browse()</slot>
+  <slot>quit()</slot>
+  <slot>submit_job()</slot>
  </slots>
 </ui>

@@ -10,7 +10,10 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def browse(self):
         filename = QtGui.QFileDialog.getOpenFileName()
         if filename:
-            self.lineEdit.setText(filename)
+            self.project_field.setText(filename)
+    
+    def submit_job(self): pass
+    def quit(self): pass
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
