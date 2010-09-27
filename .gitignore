@@ -13,3 +13,5 @@
 /*.egg
 /setup.cfg
 /src/rrt/RELEASE-VERSION
+ui/*.py
+!ui/__init__.py
