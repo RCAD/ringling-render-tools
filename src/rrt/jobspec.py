@@ -29,6 +29,9 @@ class JobSpec(object):
     
     _job_data = {}
     
+    def is_valid(self):
+        raise NotImplementedError
+    
     def _get_data(self):
         return self._job_data
         
@@ -52,10 +55,9 @@ class JobSpec(object):
      
     data = property(_get_data, _set_data)
     
-    def __init__(self, data):
+    def __init__(self, data, validator):
         self.data = data
-    
-    
+        self.is_valid = validator
     
     def filter_text(self, s):
         return self._filter_text_pattern.sub('', s).strip()
@@ -79,8 +81,6 @@ class JobSpec(object):
         with open(file_path,'w+b') as fh:
             fh.write(data)
         return file_path
-
-    def is_valid(self):pass
     
     def submit_job(self, *args, **kwargs):
         if self.is_valid(): 
