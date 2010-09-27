@@ -5,7 +5,6 @@ from rrt.filesystem import get_share
 LOG = rrt.get_log('hpcSubmit')
 
 class JobSpec(object):
-    
     INI_TEMPLATE = string.Template("""
     # Created for $user on $date by $version
     renderer = $job_type
@@ -45,7 +44,7 @@ class JobSpec(object):
         self._job_data['date'] = datetime.datetime.now()
         self._job_data['version'] = rrt.get_version()
         self._job_data['user'] = getpass.getuser()
-        if 'logs' not in data:
+        if 'logs' not in data or not data['logs']:
             self._job_data['logs'] = os.path.join(JOB_LOGS_UNC, 
                                                   getpass.getuser(), 
                                                   self._job_uuid, 
@@ -56,7 +55,7 @@ class JobSpec(object):
     data = property(_get_data, _set_data)
     
     def __init__(self, data, validator):
-        self.data = data
+        self._set_data(data)
         self.is_valid = validator
     
     def filter_text(self, s):
