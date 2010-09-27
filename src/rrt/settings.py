@@ -2,7 +2,7 @@
 Blessed  file system locations
 """
 
-import os
+import os, getpass
 # location to dump jobspec files
 JOBSPEC_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
 
