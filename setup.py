@@ -27,6 +27,8 @@ setup(
             'hpc-deploy-extras = rrt.hpc.scripts:deploy_extras',
             'hpc-submit-max = rrt.max.scripts:submit_job'
         ],
-        'gui_scripts': []
+        'gui_scripts': [
+            'hpc-submit-max = rrt.max.gui:submit_gui',
+        ]
     }
 )

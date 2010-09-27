@@ -1,0 +1,1 @@
+Run pyuic4.bat submit.ui > submit.py before releasing/running
