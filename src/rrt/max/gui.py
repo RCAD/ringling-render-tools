@@ -16,6 +16,9 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             self.scene_field.addItems([f for f in zf.namelist() if f.lower().endswith('.max')])
     
     def submit_job(self): 
+        # TODO: validate
+        # TODO: generate ini
+        # TODO: os.system(hpc-spool....)
         self.quit()
     
     def quit(self): 
