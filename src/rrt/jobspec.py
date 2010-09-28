@@ -15,11 +15,11 @@ class JobSpec(object):
     
     INI_TEMPLATE = string.Template("""
     # Created for $user on $date by $version
-    renderer = $job_type
-    name = $job_name
-    project = $project_path
-    output = $output_path
-    scene = $scene_path
+    renderer = $renderer
+    name = $title
+    project = $project
+    output = $output
+    scene = $scene
     logs = $logs
     start = $start
     end = $end
@@ -50,6 +50,10 @@ class JobSpec(object):
                                                   getpass.getuser(), 
                                                   self._job_data['uuid'], 
                                                   self._job_data['title']+'.*.txt')
+        
+        for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:
+            if not self._job_data.get(k, False):
+                raise JobSpecError("%s cannot be blank." % k)
         try:
             self._job_data['net_share'] = get_share(self._job_data['project'])
         except Exception:
@@ -71,13 +75,13 @@ class JobSpec(object):
         return self._filter_text_pattern.sub('', s).strip()
     
     @property
-    def ini_data(self, data):
+    def ini_data(self):
         """
         Generates the content for a job (ini) file.
         """
-        return self.INI_TEMPLATE.substitute(data) 
+        return self.INI_TEMPLATE.substitute(self._job_data) 
 
-    def write_ini_file(self):
+    def _write_ini_file(self):
         """
         Writes a job definition (ini) string to a file, using the last 
         generated job_uuid (datetime) and scene name.  
@@ -91,7 +95,9 @@ class JobSpec(object):
             fh.write(self.ini_data)
         return file_path
     
-    def submit_job(self):
-        fp = self.write_ini_file(self.build_ini_file())
-        cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
+    def submit_job(self, pause=False):
+        fp = self._write_ini_file()
+        cmd = '%s "%s"' % (HPC_SPOOL_BIN, fp)
+        if pause:
+            cmd += " & pause"
         os.system(cmd)

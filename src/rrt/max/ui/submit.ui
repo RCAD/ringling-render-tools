@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
+    <width>473</width>
     <height>280</height>
    </rect>
   </property>
@@ -120,7 +120,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="scene_label">
        <property name="text">
-        <string>Scene</string>
+        <string>Max Scene File</string>
        </property>
       </widget>
      </item>
@@ -181,7 +181,7 @@
      <item row="7" column="0">
       <widget class="QLabel" name="output_lable">
        <property name="text">
-        <string>Image Filename</string>
+        <string>Output Filename</string>
        </property>
       </widget>
      </item>

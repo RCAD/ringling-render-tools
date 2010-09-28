@@ -3,7 +3,7 @@ These functions serve as script entry points.
 They identify the job style based on the environment, then pass the request off
 to application specific implementations.
 """
-import os, sys, shutil, platform, datetime
+import os, sys, shutil, platform, datetime, rrt
 from subprocess import call
 from pkg_resources import Requirement, resource_filename
 
@@ -23,6 +23,7 @@ class Delegator(object):
     _delegate = None
     
     def __init__(self):
+        LOG.info("Starting " + rrt.get_version())
         LOG.debug("Params: %r" % env())
         jobtype = os.getenv('RENDERER', None)
         if jobtype not in self.__delegates__:

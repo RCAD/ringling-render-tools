@@ -31,7 +31,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def job_data(self):
         job_uuid = JobSpec.new_uuid()
         return {
-                'title'     : str(self.title_field.text()) or 'untitled', 
+                'renderer'  : 'max',
+                'title'     : str(self.title_field.text()), 
                 'uuid'      : job_uuid,
                 'project'   : os.path.normpath(str(self.project_field.text())),
                 'scene'     : str(self.scene_field.currentText()),
@@ -41,12 +42,16 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'start'     : str(self.start_field.value()),
                 'end'       : str(self.end_field.value()),
                 'step'      : str(self.step_field.value()),
+                'threads'   : 0
                 }
     
     def submit_job(self):
         try:
             spec = JobSpec(**self.job_data)
-            # TODO: os.system(hpc-spool....)
+            # TODO: find a better place to do this.
+            if not str(self.output_field.text()):
+                raise RuntimeError("Output cannot be blank.")
+            spec.submit_job()
             self.quit()
         except Exception, e:
             alert = QtGui.QMessageBox(self)
