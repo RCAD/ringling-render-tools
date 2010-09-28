@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>250</height>
+    <width>420</width>
+    <height>280</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,8 +21,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>250</height>
+    <width>420</width>
+    <height>280</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,10 +38,10 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="horizontalSpacing">
-      <number>4</number>
+      <number>6</number>
      </property>
      <property name="verticalSpacing">
-      <number>10</number>
+      <number>8</number>
      </property>
      <item row="1" column="0">
       <widget class="QLabel" name="title_label">
@@ -56,6 +56,9 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="title_field"/>
+     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="project_label">
        <property name="minimumSize">
@@ -65,7 +68,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Project Zip</string>
+        <string>Project Archive</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -131,41 +134,6 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="end_label">
-       <property name="text">
-        <string>End Frame</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="step_label">
-       <property name="text">
-        <string>Frame Step</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="spacing">
-        <number>24</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="cancel_button">
-         <property name="text">
-          <string>Cancel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="submit_button">
-         <property name="text">
-          <string>Submit Job</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
      <item row="4" column="1">
       <widget class="QSpinBox" name="start_field">
        <property name="minimum">
@@ -173,6 +141,13 @@
        </property>
        <property name="maximum">
         <number>999999999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="end_label">
+       <property name="text">
+        <string>End Frame</string>
        </property>
       </widget>
      </item>
@@ -186,6 +161,13 @@
        </property>
       </widget>
      </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="step_label">
+       <property name="text">
+        <string>Frame Step</string>
+       </property>
+      </widget>
+     </item>
      <item row="6" column="1">
       <widget class="QSpinBox" name="step_field">
        <property name="minimum">
@@ -196,8 +178,57 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="title_field"/>
+     <item row="7" column="0">
+      <widget class="QLabel" name="output_lable">
+       <property name="text">
+        <string>Image Filename</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="output_field">
+       <property name="toolTip">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="spacing">
+        <number>24</number>
+       </property>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="submit_button">
+       <property name="text">
+        <string>Submit Job</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancel_button">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

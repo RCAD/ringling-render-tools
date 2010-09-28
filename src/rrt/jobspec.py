@@ -2,7 +2,6 @@ import os, string, getpass, re, datetime
 import rrt
 from rrt.settings import HPC_SPOOL_BIN, JOBSPEC_DIR, JOB_LOGS_UNC
 from rrt.filesystem import get_share
-LOG = rrt.get_log('hpcSubmit')
 
 class JobSpec(object):
     INI_TEMPLATE = string.Template("""
@@ -85,7 +84,4 @@ class JobSpec(object):
         if self.is_valid(): 
             fp = self.write_ini_file(self.build_ini_file())
             cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
-            LOG.debug("job script:")
-            LOG.debug(open(fp).read())
-            LOG.debug(cmd)
             os.system(cmd)

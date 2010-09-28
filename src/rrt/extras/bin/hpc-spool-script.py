@@ -196,6 +196,8 @@ class Spooler(object):
             # task by node granularity setting for 3ds Max
             if self._conf["renderer"] == "max": 
                 job.UnitType = JobUnitType.Node
+            else:
+                job.UnitType = JobUnitType.Core
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
             self.BuildTaskList(job) # attach tasks to job

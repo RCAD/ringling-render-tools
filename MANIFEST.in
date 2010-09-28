@@ -2,5 +2,6 @@ include README.markdown
 include src/rrt/RELEASE-VERSION
 include LICENSE
 recursive-include src/rrt/extras *.py *.bat *.mel *.ms *.txt *.ini
+recursive-include src/rrt/extras/icons *.png *.ico
 recursive-include src/rrt/max/ui *.ui
 
