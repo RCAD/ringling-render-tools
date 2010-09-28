@@ -1,5 +1,6 @@
 import ntpath, re
 from subprocess import Popen, PIPE
+from rrt import RinglingException
 def get_share(path):
     """
     Maps windows drive letters to unc paths.
@@ -10,7 +11,7 @@ def get_share(path):
                   stderr=PIPE, shell=True)
         out = p.communicate()[0]
         if p.returncode != 0:
-            raise RuntimeError("Can't find network share for drive %s" % drive_letter)
+            raise RinglingException("Can't find network share for drive %s" % drive_letter)
         unc = out.splitlines()[1].split()[2].strip().lower()
         
         """
