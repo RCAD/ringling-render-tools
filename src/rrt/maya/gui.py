@@ -1,4 +1,4 @@
-import os, datetime, re, string, getpass
+import os, re, string, getpass
 
 import rrt
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name,\
