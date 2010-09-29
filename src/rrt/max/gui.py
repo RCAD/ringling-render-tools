@@ -1,4 +1,4 @@
-import sys, os, zipfile, getpass
+import sys, os, zipfile, getpass, re, textwrap
 from PyQt4 import QtGui, QtCore
 from rrt.max.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
@@ -53,12 +53,23 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             # TODO: find a better place to do this.
             if not str(self.output_field.text()):
                 raise RuntimeError("Output cannot be blank.")
+            valid_out_extensions = [
+                                'avi', 'bmp', 'cin', 'eps', 'ps','exr','fxr', 
+                                'hdr', 'pic', 'jpg', 'jpe', 'jpeg', 'png', 
+                                'rgb', 'rgba','sgi','int', 'inta', 'bw', 'rla', 
+                                'rpf', 'tga', 'vda', 'icb', 'vst', 'tif', 'dds'
+                                    ]
+            if None == re.match('^.+\.(%s)$' % '|'.join(valid_out_extensions), 
+                                str(self.output_field.text()).lower()):
+                msg = 'Output must have a supported format.\n\nUse one of:\n'
+                msg += '\n'.join(textwrap.wrap(' '.join(valid_out_extensions)))
+                raise RuntimeError(msg)
             spec.submit_job()
             self.quit()
         except Exception, e:
             alert = QtGui.QMessageBox(self)
             alert.setWindowTitle('Error')
-            alert.setIcon(QtGui.QMessageBox.Critical)
+            alert.setIcon(QtGui.QMessageBox.Warning)
             alert.setText(str(e))
             alert.exec_()
     
