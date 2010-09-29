@@ -69,7 +69,6 @@ class JobSpec(object):
         data = dict(title=title, project=project, scene=scene, start=start, end=end, step=step)
         data.update(kwargs)
         self._set_data(data)
-        print self.data
     
     def filter_text(self, s):
         return self._filter_text_pattern.sub('', s).strip()
