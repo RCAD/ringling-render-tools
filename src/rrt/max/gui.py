@@ -30,6 +30,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     @property
     def job_data(self):
         job_uuid = JobSpec.new_uuid()
+        start_frame = min((int(self.start_field.value()), int(self.end_field.value())))
+        end_frame = max((int(self.start_field.value()), int(self.end_field.value())))
         return {
                 'renderer'  : 'max',
                 'title'     : str(self.title_field.text()), 
@@ -39,8 +41,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
                                            job_uuid, 
                                            str(self.output_field.text())),
-                'start'     : str(self.start_field.value()),
-                'end'       : str(self.end_field.value()),
+                'start'     : start_frame,
+                'end'       : end_frame,
                 'step'      : str(self.step_field.value()),
                 'threads'   : 0
                 }

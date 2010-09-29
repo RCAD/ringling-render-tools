@@ -1,7 +1,6 @@
 import os, datetime, re, string, getpass
 
 import rrt
-from rrt.settings import JOB_LOGS_UNC, JOB_OUTPUT_UNC
 from rrt.maya.shortcuts import scene_is_dirty, get_job_type, get_scene_name,\
     get_frame_range
 
@@ -12,30 +11,10 @@ from pymel.core import frameLayout, button, menuItem, columnLayout,\
     optionMenu, intField, textField, text, formLayout, uiTemplate, window,\
     confirmBox
 from pymel.core.language import scriptJob
-from rrt.filesystem import get_share
+from rrt.jobspec import JobSpec
+from rrt.settings import JOB_OUTPUT_UNC
 
 LOG = rrt.get_log('hpcSubmit')
-JOB_SCRIPT_DIR = os.path.join('D:\\', 'hpc', getpass.getuser(), 'scripts')
-
-# abspath because we can't count on it being in the PATH
-HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat' 
-
-INI_TEMPLATE = string.Template("""
-# Created for $user on $date by $version
-renderer = $job_type
-name = $job_name
-project = $project_path
-output = $output_path
-scene = $scene_path
-logs = $logs
-start = $start
-end = $end
-threads = $threads
-step = $step
-uuid = $uuid
-net_drive = $net_drive
-net_share = $net_share
-""")
 
 class SubmitGui:
     """ A python singleton """
@@ -82,8 +61,6 @@ class SubmitGui:
         _allowed_punctuation = r'/\._-'
         _illegal_path = re.sub('[%s]' % re.escape(_allowed_punctuation),'',string.punctuation)
         
-        _job_uuid = None
-        
         def filter_text(self, s):
             return self._filter_text_pattern.sub('', s).strip()
 
@@ -111,54 +88,26 @@ class SubmitGui:
         def job_end(self):
             return max((int(self._controls['start'].getValue()),int(self._controls['end'].getValue())))
         
-        def build_ini_file(self):
-            """
-            Generates the content for a job (ini) file.
-            """
-            self._job_uuid = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
-            SCENE = Scene()
-            proj = workspace.getPath()
-            scene = sceneName()
-            logs = os.path.join(JOB_LOGS_UNC, getpass.getuser(), self._job_uuid, self.job_title+'.*.txt')
-            output = os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), self._job_uuid)
-            data = {
-                    'date': datetime.datetime.now(),
-                    'version': rrt.get_version(),
+        @property
+        def job_data(self):
+            job_uuid = JobSpec.new_uuid()
+            return {
                     'job_type': get_job_type(),
-                    'job_name': self.job_title,
-                    'user': getpass.getuser(),
-                    'project_path': os.path.normpath(proj),
-                    'output_path': output,
-                    'scene_path': os.path.normpath(scene),
-                    'logs': logs,
+                    'title': self.job_title,
+                    'project': os.path.normpath(workspace.getPath()),
+                    'output': os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), job_uuid),
+                    'scene': os.path.normpath(sceneName()),
                     'start': self.job_start,
                     'end': self.job_end,
                     'threads': self.job_threads,
-                    'step': int(SCENE.defaultRenderGlobals.byFrameStep.get()),
-                    'uuid': self._job_uuid,
-                    'net_share': get_share(scene),
-                    'net_drive': os.path.splitdrive(scene)[0],
+                    'step': int(Scene().defaultRenderGlobals.byFrameStep.get()),
+                    'uuid': job_uuid,
             }
-            return INI_TEMPLATE.substitute(data) 
-
-        def write_ini_file(self, data):
-            """
-            Writes a job definition (ini) string to a file, using the last 
-            generated job_uuid (datetime) and scene name.  
-            The file's dir is specified in `rrt.maya.gui.JOB_SCRIPT_DIR`, and 
-            the creation of that dir is handled by this method (as needed).
-            """
-            if not os.path.isdir(JOB_SCRIPT_DIR):
-                os.makedirs(JOB_SCRIPT_DIR)
-            file_path = JOB_SCRIPT_DIR+'\\'+self._job_uuid+'_'+get_scene_name()+'.ini'
-            with open(file_path,'w+b') as fh:
-                fh.write(data)
-            return file_path
         
         def _is_valid(self):
             LOG.info("Validating submission:")
             try:
-                self.build_ini_file()
+                JobSpec(**self.job_data)
             except Exception, err:
                 LOG.warning('Could not build job file...')
                 LOG.error(err)
@@ -179,13 +128,13 @@ class SubmitGui:
             return True
         
         def submit_job(self, *args, **kwargs):
-            if self._is_valid(): 
-                fp = self.write_ini_file(self.build_ini_file())
-                cmd = '%s "%s" & pause' % (HPC_SPOOL_BIN, fp)
-                LOG.debug("job script:")
-                LOG.debug(open(fp).read())
-                LOG.debug(cmd)
-                os.system(cmd)
+            if self._is_valid():
+                spec = JobSpec(**self.job_data)
+                LOG.debug(spec.ini_data) 
+                try:
+                    spec.submit_job()
+                except Exception, e:
+                    LOG.error(e)
         
         def destroy(self):
             if self._win:
