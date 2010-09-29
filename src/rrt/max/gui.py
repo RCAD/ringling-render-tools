@@ -61,10 +61,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             alert.setIcon(QtGui.QMessageBox.Critical)
             alert.setText(str(e))
             alert.exec_()
-        
     
     def quit(self): 
-        print self.job_data
         self.done(0)
 
 def submit_gui():
