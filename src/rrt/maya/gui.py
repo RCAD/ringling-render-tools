@@ -189,9 +189,7 @@ class SubmitGui:
                                         with self._controls['threads']:
                                             menuItem(label=1)
                                             menuItem(label=2)
-                                            menuItem(label=4)
-                                            menuItem(label=8)
-                                        self._controls['threads'].setSelect(4)
+                                        self._controls['threads'].setSelect(1)
                             
                             setForm.attachForm(setCol1, 'left', 4)
                             setForm.attachControl(setCol1, 'right', 2, setCol2)
