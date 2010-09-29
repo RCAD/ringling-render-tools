@@ -92,7 +92,7 @@ class SubmitGui:
         def job_data(self):
             job_uuid = JobSpec.new_uuid()
             return {
-                    'job_type': get_job_type(),
+                    'renderer': get_job_type(),
                     'title': self.job_title,
                     'project': os.path.normpath(workspace.getPath()),
                     'output': os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), job_uuid),
