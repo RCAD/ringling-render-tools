@@ -10,6 +10,7 @@ def get_share(path):
     try:
         p = Popen(['net use', drive_letter], stdin=PIPE, stdout=PIPE, 
                   stderr=PIPE, shell=True)
+        p.stdin.close()
         (out, err) = p.communicate()
         if p.returncode != 0:
             LOG.error(err)
