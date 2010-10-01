@@ -8,6 +8,7 @@ def get_share(path):
     """
     drive_letter = ntpath.splitdrive(path)[0]
     try:
+        # See http://bugs.python.org/issue3905 for why we pipe stdin and close it right away
         p = Popen(['net use', drive_letter], stdin=PIPE, stdout=PIPE, 
                   stderr=PIPE, shell=True)
         p.stdin.close()
