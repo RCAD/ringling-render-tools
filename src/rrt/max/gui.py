@@ -4,13 +4,31 @@ from rrt.max.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
 from rrt.settings import JOB_OUTPUT_UNC
 
-
+IMAGE_EXT = [
+#    '.avi', 
+    '.bmp', 
+    '.cin', 
+    '.eps', '.ps', 
+    '.exr', '.fxr', '.hdr', 
+    '.pic', 
+    '.jpg', '.jpe', '.jpeg', 
+    '.png', 
+    '.rgb', '.rgba', 
+    '.sgi', '.int', '.inta', '.bw', 
+    '.rla', 
+    '.rpf', 
+    '.tga', '.vda', '.icb', 
+    '.vst', 
+    '.tif', 
+    '.dds'
+]
 class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def __init__(self, parent=None):
         super(SubmitGui, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle('hpc-submit-max')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
+        self.output_ext_field.addItems(sorted(IMAGE_EXT))
         self._setup_validators()
 
     def _setup_validators(self):
@@ -18,7 +36,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         Regex validators for title/output
         """
         self.title_field.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('^[A-Za-z0-9_\-\s]+$'), self))
-        self.output_field.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('^[A-Za-z0-9_\-\.]+\.[A-Za-z0-9]{1,4}$'), self))
+        self.output_base_field.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('^[A-Za-z0-9_\-\.]+$'), self))
         
     def browse(self):
         filename = QtGui.QFileDialog.getOpenFileName(directory='Z:\\', filter="*.zip")
@@ -27,11 +45,13 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             self.project_field.setText(filename)
             zf = zipfile.ZipFile(open(filename,'rb'))
             self.scene_field.addItems([f for f in zf.namelist() if f.lower().endswith('.max')])
+    
     @property
     def job_data(self):
         job_uuid = JobSpec.new_uuid()
         start_frame = min((int(self.start_field.value()), int(self.end_field.value())))
         end_frame = max((int(self.start_field.value()), int(self.end_field.value())))
+        image_filename = str(self.output_base_field.text()) + str(self.output_ext_field.currentText())
         return {
                 'renderer'  : 'max',
                 'title'     : str(self.title_field.text()), 
@@ -40,7 +60,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'scene'     : str(self.scene_field.currentText()),
                 'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
                                            job_uuid, 
-                                           str(self.output_field.text())),
+                                           image_filename),
                 'start'     : start_frame,
                 'end'       : end_frame,
                 'step'      : str(self.step_field.value()),
@@ -51,19 +71,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         try:
             spec = JobSpec(**self.job_data)
             # TODO: find a better place to do this.
-            if not str(self.output_field.text()):
+            if not str(self.output_base_field.text()):
                 raise RuntimeError("Output cannot be blank.")
-            valid_out_extensions = [
-                                'avi', 'bmp', 'cin', 'eps', 'ps','exr','fxr', 
-                                'hdr', 'pic', 'jpg', 'jpe', 'jpeg', 'png', 
-                                'rgb', 'rgba','sgi','int', 'inta', 'bw', 'rla', 
-                                'rpf', 'tga', 'vda', 'icb', 'vst', 'tif', 'dds'
-                                    ]
-            if None == re.match('^.+\.(%s)$' % '|'.join(valid_out_extensions), 
-                                str(self.output_field.text()).lower()):
-                msg = 'Output must have a supported format.\n\nUse one of:\n'
-                msg += '\n'.join(textwrap.wrap(' '.join(valid_out_extensions)))
-                raise RuntimeError(msg)
             spec.submit_job()
             self.quit()
         except Exception, e:
@@ -81,3 +90,5 @@ def submit_gui():
     gui = SubmitGui()
     gui.show()
     sys.exit(app.exec_())
+    
+if __name__ == '__main__': submit_gui()
