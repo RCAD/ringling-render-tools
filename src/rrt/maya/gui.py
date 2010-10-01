@@ -122,7 +122,7 @@ class SubmitGui:
                 LOG.error("Scene name or project path contains illegal characters: e.g. %s -- Rename/Save As... before submitting." % self._illegal_path)
                 return False
             if scene_is_dirty():
-                LOG.error("File has unsaved changes.  Save before submitting.")
+                LOG.warning("File has unsaved changes.  Save before submitting.")
                 if not confirmBox('Unsaved changes?', 'Scene may have unsaved changes.', 'Submit Anyway', 'Cancel'):
                     return False
             return True
