@@ -119,6 +119,9 @@ If it finished cleanly, the following should work:
 Submit Client Installation Notes
 ================================
 
+General Notes
+-------------
+
 The client will follow the same procedure as the compute node, but with one 
 addition: the **"extras"**.
 
@@ -127,7 +130,6 @@ The extras include:
 * the hpc-spool script(s)
 * the hpc-submit maya plugin
 * a *Ringling* maya shelf with a button to load/launch the plugin
-* a **stub** for a 3dsmax version of the maya plugin
 
 All of this stuff should *just work* once deployed, so long as the environment 
 variables mentioned in the steps above have all been set correctly.
@@ -153,30 +155,38 @@ Verify the installation by opening a cmd prompt and typing the following:
 Output should look like:
 
     Error!
-    
     Must specify an ini file.
-    
     Exiting...
+
+If you get an error saying `file not found`, or something like that, it probably
+means you don't have IronPython installed.  The batch file passes arguments 
+directly to our scripts, called with the IronPython interpreter - if the 
+interpreter not there, you'll see an error like that.
 
 If instead, you get an error about dot net, a reboot might be required. 
 Reboot the machine and run the command again. If your output still doesn't 
 match **find me**.
 
+3dsmax Notes
+-------------
+
+The submission tool for 3dsmax is built with `PyQt4` (which needs to be installed).
+I built the UI for the tool with `PyQt 4.7.7` (built against `Qt 4.6.2`).  
+
+Since this package needs to be built from source, I've prepared a binary 
+installer for win x64 (to make our lives easier).  The installer has been 
+modified (I think it was made for the 32bit version of the package), so it's a 
+little buggy.  Press on with the installation and ignore it when it says 
+it can't find python 2.6 installed on the system.  Also make sure you install it
+using the default paths - we want PyQt installed with the `C:\Python26` prefix 
+**not** the `C:\Ringling\Python26` prefix we use for most of our custom scripts.
+
+To confirm the install worked correctly, run `hpc-submit-max.exe` to launch the 
+tool (requires the `rrt` package to be installed already). 
+
 Client Configuration
 --------------------
-`hpc-spool` will not function if the environment variable `HEAD_NODE` has not been set to a **windows name**, **ip**, or **dns** name of a valid *Windows HPC cluster head node*.
+`hpc-spool` will not function if the environment variable `HEAD_NODE` has not 
+been set to a **windows name**, **ip**, or **dns** name of a valid *Windows HPC 
+cluster head node*.
 
-
-Autodesk 3ds Max Design plugin setup
-====================================
-
-This small modification will tell Max where to find the ini file containing the directory where Max will need to look for the aditional scripts files necessary for the HPC plugin.
-
-Edit `C:\Program Files\Autodesk\3ds Max Design 2011\plugin.ini`
-
-At the end of the file add the following lines:
-
-
-    [Include]
-    HPC=C:\Ringling\HPC\max\hpc-plugin.ini
-    
