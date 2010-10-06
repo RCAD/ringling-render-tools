@@ -89,6 +89,10 @@ class SubmitGui:
             return max((int(self._controls['start'].getValue()),int(self._controls['end'].getValue())))
         
         @property
+        def job_step(self):
+            return int(self._controls['step'].getValue())
+        
+        @property
         def job_data(self):
             job_uuid = JobSpec.new_uuid()
             return {
@@ -100,7 +104,7 @@ class SubmitGui:
                     'start': self.job_start,
                     'end': self.job_end,
                     'threads': self.job_threads,
-                    'step': int(Scene().defaultRenderGlobals.byFrameStep.get()),
+                    'step': self.job_step,
                     'uuid': job_uuid,
             }
         
