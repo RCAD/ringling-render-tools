@@ -26,6 +26,8 @@ clr.AddReference("Microsoft.Hpc.Scheduler.Properties")
 from Microsoft.Hpc.Scheduler import *
 from Microsoft.Hpc.Scheduler.Properties import *
 
+MAYA_TIMEOUT = 60*60
+MAX_TIMEOUT = MAYA_TIMEOUT * 3
 
 class Spooler(object):
     REQUIRED_SERVER_VERSION = (3, 0, 2369, 0)
@@ -107,6 +109,8 @@ class Spooler(object):
         # basic info
         render_task.Name = "Render *"
         render_task.Type = TaskType.ParametricSweep
+        
+        render_task.Runtime = MAX_TIMEOUT if self._conf['renderer'] == 'max' else MAYA_TIMEOUT
 
         #task iteration
         render_task.StartValue = int(self._conf["start"])
