@@ -57,7 +57,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'title'     : str(self.title_field.text()), 
                 'uuid'      : job_uuid,
                 'project'   : os.path.normpath(str(self.project_field.text())),
-                'scene'     : str(self.scene_field.currentText()),
+                'scene'     : os.path.basename(str(self.scene_field.currentText())),
                 'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
                                            job_uuid, 
                                            image_filename),
