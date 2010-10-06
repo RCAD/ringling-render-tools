@@ -5,7 +5,7 @@ to application specific implementations.
 """
 import os, sys, shutil, platform, datetime, rrt
 from subprocess import call
-from pkg_resources import Requirement, resource_filename
+from pkg_resources import Requirement, resource_filename #@UnresolvedImport
 
 from rrt import RinglingException, get_log
 from rrt.hpc import env

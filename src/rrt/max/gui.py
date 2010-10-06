@@ -1,4 +1,4 @@
-import sys, os, zipfile, getpass, re, textwrap
+import sys, os, zipfile, getpass
 from PyQt4 import QtGui, QtCore
 from rrt.max.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec

@@ -1,5 +1,5 @@
 import logging, os
-from pkg_resources import resource_filename
+from pkg_resources import resource_filename #@UnresolvedImport
 from subprocess import Popen, PIPE
 __VERSION_FILE__ = "RELEASE-VERSION"
 __LOG_LEVEL__ = logging.DEBUG if os.getenv('RRT_DEBUG',False) else logging.INFO
