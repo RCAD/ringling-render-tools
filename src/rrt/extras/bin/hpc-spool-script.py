@@ -109,7 +109,7 @@ class Spooler(object):
         render_task.Name = "Render *"
         render_task.Type = TaskType.ParametricSweep
         
-        render_task.Runtime = MAX_TIMEOUT if self._conf['renderer'] == 'max' else MAYA_TIMEOUT
+        #render_task.Runtime = MAX_TIMEOUT if self._conf['renderer'] == 'max' else MAYA_TIMEOUT
 
         #task iteration
         render_task.StartValue = int(self._conf["start"])
