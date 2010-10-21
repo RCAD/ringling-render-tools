@@ -6,7 +6,7 @@ from rrt.settings import JOB_OUTPUT_UNC
 
 HEAD_NODES = ['masternode', 'sgimasternode']
 
-IMAGE_EXT = [
+IMAGE_EXT = sorted([
 #    '.avi', 
     '.bmp', 
     '.cin', 
@@ -23,7 +23,8 @@ IMAGE_EXT = [
     '.vst', 
     '.tif', 
     '.dds'
-]
+])
+
 class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def __init__(self, parent=None):
         super(SubmitGui, self).__init__(parent)
@@ -31,7 +32,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         self.setWindowTitle('hpc-submit-max')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
         self.head_node_field.addItems(HEAD_NODES)
-        self.output_ext_field.addItems(sorted(IMAGE_EXT))
+        self.output_ext_field.addItems(IMAGE_EXT)
+        self.output_ext_field.setCurrentIndex(IMAGE_EXT.index('.tga'))
         self._setup_validators()
 
     def _setup_validators(self):
