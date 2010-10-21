@@ -4,6 +4,8 @@ from rrt.max.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
 from rrt.settings import JOB_OUTPUT_UNC
 
+HEAD_NODES = ['masternode', 'sgimasternode']
+
 IMAGE_EXT = [
 #    '.avi', 
     '.bmp', 
@@ -28,6 +30,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         self.setupUi(self)
         self.setWindowTitle('hpc-submit-max')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
+        self.head_node_field.addItems(HEAD_NODES)
         self.output_ext_field.addItems(sorted(IMAGE_EXT))
         self._setup_validators()
 
@@ -73,7 +76,11 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             # TODO: find a better place to do this.
             if not str(self.output_base_field.text()):
                 raise RuntimeError("Output cannot be blank.")
-            spec.submit_job()
+            # Key env vars that influence submission
+            os.environ['HEAD_NODE'] = self.head_node_field.currentText()
+            os.environ['RRT_DEBUG'] = '1' if self.debug_field.isChecked() else None
+            
+            spec.submit_job(pause=self.pause_field.isChecked())
             self.quit()
         except Exception, e:
             alert = QtGui.QMessageBox(self)
