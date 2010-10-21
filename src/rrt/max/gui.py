@@ -76,9 +76,10 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             # TODO: find a better place to do this.
             if not str(self.output_base_field.text()):
                 raise RuntimeError("Output cannot be blank.")
+            
             # Key env vars that influence submission
-            os.environ['HEAD_NODE'] = self.head_node_field.currentText()
-            os.environ['RRT_DEBUG'] = '1' if self.debug_field.isChecked() else None
+            os.environ['HEAD_NODE'] = str(self.head_node_field.currentText())
+            os.environ['RRT_DEBUG'] = '1' if self.debug_field.isChecked() else ''
             
             spec.submit_job(pause=self.pause_field.isChecked())
             self.quit()
