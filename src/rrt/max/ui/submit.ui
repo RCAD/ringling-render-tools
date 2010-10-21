@@ -210,7 +210,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>160</width>
+           <width>165</width>
            <height>20</height>
           </size>
          </property>
@@ -264,13 +264,19 @@
      </item>
      <item>
       <widget class="QCheckBox" name="pause_field">
+       <property name="toolTip">
+        <string>cmd will wait for keypress before exiting</string>
+       </property>
        <property name="text">
-        <string>Pause on exit</string>
+        <string>Pause before exit</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QCheckBox" name="debug_field">
+       <property name="toolTip">
+        <string>cmd, node prep/release tasks will print extra info</string>
+       </property>
        <property name="text">
         <string>Show debug messages</string>
        </property>
