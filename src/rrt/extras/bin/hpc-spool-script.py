@@ -10,7 +10,6 @@ regular python interpreter.
 import clr, sys, os, getpass, logging, re, datetime
 
 RRT_DEBUG = os.getenv('RRT_DEBUG',False)
-RRT_USE_DESMOND = os.getenv('RRT_USE_DESMOND', False)
 
 __LOG_LEVEL__ = logging.DEBUG if  RRT_DEBUG else logging.INFO
 LOG = logging.getLogger('hpc-spool')
@@ -98,7 +97,7 @@ class Spooler(object):
         # this guy will need other methods to delegate to so we don't fork for each renderer available.
         render_task = job.CreateTask()
         
-        node_job_dir = r"D:\hpc"
+        node_job_dir = r"D:\hpc\%s" % getpass.getuser()
         self._conf["node_job_dir"] = node_job_dir
 
         node_project = os.path.join(node_job_dir, self._conf['uuid'])
@@ -141,21 +140,14 @@ class Spooler(object):
         cleanup_task.Name = "Cleanup"
         cleanup_task.CommandLine = "hpc-node-release & net use %s /delete /y" % self._conf['net_drive']
 
-        # Add Env Vars
-        self.SetJobEnv(setup_task)
-        self.SetJobEnv(render_task)
-        self.SetJobEnv(cleanup_task)
-
-        # Task Assignment
-        job.AddTask(setup_task)
-        job.AddTask(render_task)
-        job.AddTask(cleanup_task)
-
-    def SetJobEnv(self,task):
+        for task in [setup_task, render_task, cleanup_task]:
+            self.SetJobEnv(task)
+            job.AddTask(task)
+        
+        
+    def SetJobEnv(self, task):
         global RRT_DEBUG
         if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
-        global RRT_USE_DESMOND
-        if RRT_USE_DESMOND: task.SetEnvironmentVariable("RRT_USE_DESMOND", RRT_USE_DESMOND)
         
         task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["node_project"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
