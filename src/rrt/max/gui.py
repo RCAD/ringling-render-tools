@@ -2,9 +2,7 @@ import sys, os, zipfile, getpass
 from PyQt4 import QtGui, QtCore
 from rrt.max.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
-from rrt.settings import JOB_OUTPUT_UNC
-
-HEAD_NODES = ['masternode', 'sgimasternode']
+from rrt.settings import JOB_OUTPUT_UNC, HEAD_NODES
 
 IMAGE_EXT = sorted([
 #    '.avi', 

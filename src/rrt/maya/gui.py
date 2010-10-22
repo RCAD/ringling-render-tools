@@ -9,10 +9,10 @@ from pymel.core.system import workspace, sceneName
 from pymel.core.general import Scene
 from pymel.core import frameLayout, button, menuItem, columnLayout,\
     optionMenu, intField, textField, text, formLayout, uiTemplate, window,\
-    confirmBox
-from pymel.core.language import scriptJob
+    confirmBox, checkBox
+from pymel.core.language import scriptJob #@UnresolvedImport
 from rrt.jobspec import JobSpec
-from rrt.settings import JOB_OUTPUT_UNC
+from rrt.settings import JOB_OUTPUT_UNC, HEAD_NODES
 
 LOG = rrt.get_log('hpcSubmit')
 
@@ -136,7 +136,9 @@ class SubmitGui:
                 spec = JobSpec(**self.job_data)
                 LOG.debug(spec.ini_data) 
                 try:
-                    spec.submit_job()
+                    os.environ['HEAD_NODE'] = self._controls['head_node'].getValue()
+                    os.environ['RRT_DEBUG'] = '1' if self._controls['debug'].getValue() else ''
+                    spec.submit_job(pause=self._controls['pause'].getValue())
                 except Exception, e:
                     LOG.error(e)
         
@@ -177,12 +179,17 @@ class SubmitGui:
                         with frameLayout() as setFrame:
                             with formLayout() as setForm:
                                 with columnLayout() as setCol1:
+                                    text(label="Head Node:")
                                     text(label="Title:")
                                     text(label="Start Frame:")
                                     text(label="End Frame:")
                                     text(label="Frame Step:")
                                     text(label="Cores:")
                                 with columnLayout() as setCol2:
+                                    self._controls['head_node'] = optionMenu()
+                                    with self._controls['head_node']:
+                                        for host in HEAD_NODES: 
+                                            menuItem(label=host)
                                     self._controls['title'] = textField(text=get_scene_name())
                                     self._controls['start'] = intField(value=get_frame_range()[0])
                                     self._controls['end'] = intField(value=get_frame_range()[1])
@@ -194,6 +201,8 @@ class SubmitGui:
                                             menuItem(label=1)
                                             menuItem(label=2)
                                         self._controls['threads'].setSelect(1)
+                                    self._controls['pause'] = checkBox(label="Pause before exit")
+                                    self._controls['debug'] = checkBox(label="Show debug messages")
                             
                             setForm.attachForm(setCol1, 'left', 4)
                             setForm.attachControl(setCol1, 'right', 2, setCol2)
