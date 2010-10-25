@@ -40,7 +40,7 @@ class JobSpec(object):
         self._job_data['user'] = getpass.getuser()
         self._job_data['logs'] = os.path.join(JOB_LOGS_UNC, 
                                                   getpass.getuser(), 
-                                                  '$job_id', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
+                                                  '{job_id}', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
                                                   self._job_data['title']+'.*.txt')
         
         for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:

@@ -60,7 +60,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'project'   : os.path.normpath(str(self.project_field.text())),
                 'scene'     : os.path.basename(str(self.scene_field.currentText())),
                 'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
-                                           '$job_id', # job_id is injected by hpc-spool at the last minute 
+                                           '{job_id}', # job_id is injected by hpc-spool at the last minute 
                                            image_filename),
                 'start'     : start_frame,
                 'end'       : end_frame,

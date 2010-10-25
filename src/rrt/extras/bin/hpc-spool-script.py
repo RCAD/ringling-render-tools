@@ -158,11 +158,6 @@ class Spooler(object):
     def DoIt(self):
         scheduler = Scheduler()
         
-        node_job_dir = r"D:\hpc" 
-        self._conf["node_job_dir"] = node_job_dir
-        node_project = os.path.join(node_job_dir, '$job_id')
-        self._conf["node_project"] = node_project
-        
         try:
             # make a connection to the cluster
             LOG.info("Connecting to cluster at: %s" % self.HeadNode)
@@ -184,10 +179,14 @@ class Spooler(object):
                 scheduler.Close()
                 raise RuntimeError('HPC API mismatch: got %s, but required %s' % (serv, reqv))
             job = scheduler.CreateJob()
-            
             scheduler.AddJob(job) # creates the job on the HEAD_NODE, but in a configuring state.
             # since we have more than one cluster, we user HEAD_NODE to ensure the job id's don't overlap
             self._conf['job_id'] = "%d.%s" % (job.Id, self.HeadNode)
+            
+            node_job_dir = r"D:\hpc" 
+            self._conf["node_job_dir"] = node_job_dir
+            node_project = os.path.join(node_job_dir, '{job_id}')
+            self._conf["node_project"] = node_project
             
             for i in ['output', 'logs', 'node_project']:
                 # inject job_id into logs/output/node_project
