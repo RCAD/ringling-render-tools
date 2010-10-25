@@ -94,18 +94,16 @@ class SubmitGui:
         
         @property
         def job_data(self):
-            job_uuid = JobSpec.new_uuid()
             return {
                     'renderer': get_job_type(),
                     'title': self.job_title,
                     'project': os.path.normpath(workspace.getPath()),
-                    'output': os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), job_uuid),
+                    'output': os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), '$job_id'), # job_id is injected by hpc-spool when the submission happens
                     'scene': os.path.normpath(sceneName()),
                     'start': self.job_start,
                     'end': self.job_end,
                     'threads': self.job_threads,
                     'step': self.job_step,
-                    'uuid': job_uuid,
             }
         
         def _is_valid(self):

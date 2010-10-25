@@ -1,4 +1,4 @@
-import os, string, getpass, re, datetime
+import os, string, getpass, datetime, uuid
 import rrt
 from rrt.settings import HPC_SPOOL_BIN, JOBSPEC_DIR, JOB_LOGS_UNC
 from rrt.filesystem import get_share
@@ -7,11 +7,6 @@ from rrt import RinglingException
 class JobSpecError(RinglingException): pass
 
 class JobSpec(object):
-    @staticmethod
-    def new_uuid(): 
-        return re.sub('[%s]'% re.escape(' -:'),
-                  '', 
-                  str(datetime.datetime.now()).split('.')[0])
     
     INI_TEMPLATE = string.Template("""
     # Created for $user on $date by $version
@@ -25,7 +20,6 @@ class JobSpec(object):
     end = $end
     threads = $threads
     step = $step
-    uuid = $uuid
     net_drive = $net_drive
     net_share = $net_share
     """)
@@ -41,14 +35,12 @@ class JobSpec(object):
         """
         now = str(datetime.datetime.now())
         self._job_data = data
-        if not data.get('uuid', False):
-            self._job_data['uuid'] = JobSpec.new_uuid()
         self._job_data['date'] = now
         self._job_data['version'] = rrt.get_version()
         self._job_data['user'] = getpass.getuser()
         self._job_data['logs'] = os.path.join(JOB_LOGS_UNC, 
                                                   getpass.getuser(), 
-                                                  self._job_data['uuid'], 
+                                                  '$job_id', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
                                                   self._job_data['title']+'.*.txt')
         
         for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:
@@ -82,14 +74,13 @@ class JobSpec(object):
 
     def _write_ini_file(self):
         """
-        Writes a job definition (ini) string to a file, using the last 
-        generated job_uuid (datetime) and scene name.  
+        Writes a job definition (ini) string to a temp file.  
         The file's dir is specified in `rrt.settings.JOBSPEC_DIR`, and 
         the creation of that dir is handled by this method (as needed).
         """
         if not os.path.isdir(JOBSPEC_DIR):
             os.makedirs(JOBSPEC_DIR)
-        file_path = os.path.join(JOBSPEC_DIR,self._job_data['uuid']+'.ini')
+        file_path = os.path.join(JOBSPEC_DIR, str(uuid.uuid4())+'.ini')
         with open(file_path,'w+b') as fh:
             fh.write(self.ini_data)
         return file_path

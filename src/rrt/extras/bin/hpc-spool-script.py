@@ -67,7 +67,6 @@ class Spooler(object):
         "end": None,
         "step": "1",
         "threads": "4",
-        "uuid": None,
         "net_share": None,
         "net_drive": None,
     }
@@ -84,8 +83,6 @@ class Spooler(object):
                         self._conf[key] = val
         else: 
             raise RuntimeError("Unable to locate " + iniPath)
-        if not self._conf['uuid']:
-            self._conf['uuid'] = re.sub('[%s]'% re.escape(' -:'),'', str(datetime.datetime.now()).split('.')[0])
         for k,v in self._conf.items():
             LOG.debug("%s = %s" % (k,v))
 
@@ -96,13 +93,7 @@ class Spooler(object):
     def BuildTaskList(self, job):
         # this guy will need other methods to delegate to so we don't fork for each renderer available.
         render_task = job.CreateTask()
-        
-        node_job_dir = r"D:\hpc\%s" % getpass.getuser()
-        self._conf["node_job_dir"] = node_job_dir
-
-        node_project = os.path.join(node_job_dir, self._conf['uuid'])
-        render_task.SetEnvironmentVariable("INIT_WD", node_project)
-        self._conf["node_project"] = node_project
+        render_task.SetEnvironmentVariable("INIT_WD", self._conf['node_project'])
 
         #Main Render Task
         # basic info
@@ -122,8 +113,8 @@ class Spooler(object):
             render_task.MaximumNumberOfCores = int(self._conf["threads"])            
 
         # log redirection
-        render_task.StdErrFilePath = self._conf["logs"]
-        render_task.StdOutFilePath = self._conf["logs"]
+        render_task.StdErrFilePath = self._conf["logs"].format(job_id=self._conf['job_id'])
+        render_task.StdOutFilePath = self._conf["logs"].format(job_id=self._conf['job_id'])
 
         # run the render command
         render_task.CommandLine = self._renderers[self._conf["renderer"]].format(**self._conf)
@@ -166,6 +157,12 @@ class Spooler(object):
 
     def DoIt(self):
         scheduler = Scheduler()
+        
+        node_job_dir = r"D:\hpc" 
+        self._conf["node_job_dir"] = node_job_dir
+        node_project = os.path.join(node_job_dir, '$job_id')
+        self._conf["node_project"] = node_project
+        
         try:
             # make a connection to the cluster
             LOG.info("Connecting to cluster at: %s" % self.HeadNode)
@@ -173,7 +170,7 @@ class Spooler(object):
                 scheduler.Connect(self.HeadNode)
             except Exception, e:
                 LOG.error("Unable to reach cluster head node: %s" % self.HeadNode)
-                LOG.error(e)
+                LOG.exception(e)
                 LOG.info("Exiting...")
                 sys.exit(2)
             # check the cluster api version
@@ -187,6 +184,15 @@ class Spooler(object):
                 scheduler.Close()
                 raise RuntimeError('HPC API mismatch: got %s, but required %s' % (serv, reqv))
             job = scheduler.CreateJob()
+            
+            scheduler.AddJob(job) # creates the job on the HEAD_NODE, but in a configuring state.
+            # since we have more than one cluster, we user HEAD_NODE to ensure the job id's don't overlap
+            self._conf['job_id'] = "%d.%s" % (job.Id, self.HeadNode)
+            
+            for i in ['output', 'logs', 'node_project']:
+                # inject job_id into logs/output/node_project
+                self._conf[i] = self._conf[i].format(job_id=self._conf['job_id'])
+            
             # set the job properties
             job.Name = self._conf["name"]
             # task by node granularity setting for 3ds Max
@@ -197,12 +203,16 @@ class Spooler(object):
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
             self.BuildTaskList(job) # attach tasks to job
-            
-            scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # ship it out to the head node
+            job.Commit() # sync job data back to the HEAD_NODE (still configuring).
+            scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # submit the job to get it queued.
             LOG.info("Submitted job %d to %s." % (job.Id, self.HeadNode))
             scheduler.Close()
         except Exception, e:
-            LOG.error(e)
+            try:
+                scheduler.CancelJob(job, "Job canceled because of submission error.")
+            except: 
+                pass
+            LOG.exception(e)
             LOG.error("exiting...")
             sys.exit(5)
         finally:

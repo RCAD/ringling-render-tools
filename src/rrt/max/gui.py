@@ -51,18 +51,16 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     
     @property
     def job_data(self):
-        job_uuid = JobSpec.new_uuid()
         start_frame = min((int(self.start_field.value()), int(self.end_field.value())))
         end_frame = max((int(self.start_field.value()), int(self.end_field.value())))
         image_filename = str(self.output_base_field.text()) + str(self.output_ext_field.currentText())
         return {
                 'renderer'  : 'max',
                 'title'     : str(self.title_field.text()), 
-                'uuid'      : job_uuid,
                 'project'   : os.path.normpath(str(self.project_field.text())),
                 'scene'     : os.path.basename(str(self.scene_field.currentText())),
                 'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
-                                           job_uuid, 
+                                           '$job_id', # job_id is injected by hpc-spool at the last minute 
                                            image_filename),
                 'start'     : start_frame,
                 'end'       : end_frame,
