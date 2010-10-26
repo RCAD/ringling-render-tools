@@ -23,6 +23,6 @@ def get_share(path):
         in hpc-spool-script...
         """
         # on the cluster vlan, our file-server hosts have a 1 appended to their names        
-        return re.sub("(hamming|minsky|perlis|shannon|wilkes|wilkinson)", '\g<1>1', unc, 1)
+        return re.sub("\\\\(w+)\\w+", '\g<1>1', unc, 1)
     except Exception, e:
         raise e
