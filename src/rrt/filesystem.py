@@ -2,6 +2,7 @@ import ntpath, re
 from subprocess import Popen, PIPE
 from rrt import RinglingException, get_log
 LOG = get_log()
+
 def get_share(path):
     """
     Maps windows drive letters to unc paths.
@@ -23,6 +24,6 @@ def get_share(path):
         in hpc-spool-script...
         """
         # on the cluster vlan, our file-server hosts have a 1 appended to their names        
-        return re.sub("\\\\(w+)\\w+", '\g<1>1', unc, 1)
+        return re.sub("^\\\\\\\\(.+)\\\\(.+)$", '\\\\\\\\\g<1>1\\\\\g<2>', unc, 1)
     except Exception, e:
         raise e
