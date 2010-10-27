@@ -1,0 +1,12 @@
+<project name="ringling-render-tools" basedir="." default="build">
+    <target name="build">
+        <exec executable="C:\Python26\Lib\site-packages\PyQt4\bin\pyuic4.bat" dir="${basedir}">
+        	<arg value="${basedir}\src\rrt\max\ui\submit.ui"/>
+        	<arg value="--output=${basedir}\src\rrt\max\ui\submit.py"/>
+        </exec>
+        <exec executable="python" dir="${basedir}">
+            <arg value="setup.py"/>
+            <arg value="sdist"/>
+        </exec>
+    </target>
+</project>

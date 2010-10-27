@@ -15,3 +15,4 @@
 /src/rrt/RELEASE-VERSION
 /src/rrt/max/ui/*.py
 !/src/rrt/max/ui/__init__.py
+/.externalToolBuilders
