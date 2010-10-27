@@ -190,3 +190,8 @@ Client Configuration
 been set to a **windows name**, **ip**, or **dns** name of a valid *Windows HPC 
 cluster head node*.
 
+> **New in 0.0.5**
+>
+> `HEAD_NODE` is now set by the submission app before it passes the jobspec file 
+> to `hpc-spool`, and no longer needs to be set system wide.
+> It will need to be set manually if you plan to call `hpc-spool` directly. 
