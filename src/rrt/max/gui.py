@@ -77,10 +77,9 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             
             # Key env vars that influence submission
             os.environ['HEAD_NODE'] = str(self.head_node_field.currentText())
-            os.environ['RRT_DEBUG'] = '1' if self.debug_field.isChecked() else ''
-            
-            spec.submit_job(pause=self.pause_field.isChecked())
+            spec.submit_job(pause=True if os.environ['RRT_DEBUG'] else False)
             self.quit()
+            
         except Exception, e:
             alert = QtGui.QMessageBox(self)
             alert.setWindowTitle('Error')

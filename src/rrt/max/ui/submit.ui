@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>445</width>
-    <height>280</height>
+    <height>283</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,7 +22,7 @@
   <property name="minimumSize">
    <size>
     <width>445</width>
-    <height>280</height>
+    <height>283</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -238,7 +238,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line_2">
+    <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -261,33 +261,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="pause_field">
-       <property name="toolTip">
-        <string>cmd will wait for keypress before exiting</string>
-       </property>
-       <property name="text">
-        <string>Pause before exit</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="debug_field">
-       <property name="toolTip">
-        <string>cmd, node prep/release tasks will print extra info</string>
-       </property>
-       <property name="text">
-        <string>Show debug messages</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="submit_button">
@@ -317,8 +290,8 @@
    <slot>browse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>388</x>
-     <y>77</y>
+     <x>433</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
@@ -333,8 +306,8 @@
    <slot>quit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>220</y>
+     <x>300</x>
+     <y>309</y>
     </hint>
     <hint type="destinationlabel">
      <x>141</x>
@@ -349,8 +322,8 @@
    <slot>submit_job()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>225</y>
+     <x>84</x>
+     <y>309</y>
     </hint>
     <hint type="destinationlabel">
      <x>343</x>
