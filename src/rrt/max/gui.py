@@ -77,7 +77,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             
             # Key env vars that influence submission
             os.environ['HEAD_NODE'] = str(self.head_node_field.currentText())
-            spec.submit_job(pause=True if os.environ['RRT_DEBUG'] else False)
+            spec.submit_job(pause=True if os.getenv('RRT_DEBUG', False) else False)
             self.quit()
             
         except Exception, e:
