@@ -17,11 +17,11 @@ class Delegator(object):
     _env = env()
     __delegates__ = {
                      'maya_render_sw': 'rrt.hpc.maya.sw',
-                     'maya_render_rman': 'rrt.hpc.maya.rman', 
+                     'maya_render_rman': 'rrt.hpc.maya.rman',
                      'max': 'rrt.hpc.max'
                      }
     _delegate = None
-    
+
     def __init__(self):
         LOG.info("Starting " + rrt.get_version())
         LOG.debug("Params: %r" % env())
@@ -31,25 +31,29 @@ class Delegator(object):
         self._delegate = self.__delegates__[jobtype]
         LOG.debug("Got delegate: %s" % self._delegate)
         __import__(self._delegate, globals(), locals())
-        
+
     def prep(self):
         # Generic Prep
-        try: 
+        try:
             os.makedirs(self._env['NODE_PROJECT'])
             LOG.info("Setting up node project directory: %s" % self._env['NODE_PROJECT'])
         except Exception, e:
             LOG.debug(e)
-            
+
         log_dir = os.path.dirname(self._env['LOGS'])
         output_dir = os.path.dirname(self._env['OUTPUT'])
-        
+
         for d in (log_dir, output_dir):
-            try: 
+            try:
                 os.makedirs(d)
                 LOG.info("Creating directory %s" % d)
-            except Exception, e:
-                LOG.debug(e)
-                    
+            except OSError, e:
+                if e.errno == 17:
+                    # errno 17 is file already exists... which is good
+                    LOG.debug(e)
+                else:
+                    LOG.exception(e)
+
         # Delegate access to implementation
         return sys.modules[self._delegate].prep()
 
@@ -58,10 +62,10 @@ class Delegator(object):
         LOG.info("Cleaning up node project: %s" % self._env['NODE_PROJECT'])
         LOG.info("\tCalculating size...")
         LOG.info("\tThis could take a while...")
-        size = sum([os.path.getsize(os.path.join(root,f)) for root,dirs,files in os.walk(self._env['NODE_PROJECT']) for f in files])
-        LOG.info("\t%0.1f MB" % (size/(1024*1024.0)))
+        size = sum([os.path.getsize(os.path.join(root, f)) for root, dirs, files in os.walk(self._env['NODE_PROJECT']) for f in files])
+        LOG.info("\t%0.1f MB" % (size / (1024 * 1024.0)))
         call('rmdir /S /Q %s' % self._env['NODE_PROJECT'], shell=True)
-        
+
         # Delegate access to implementation
         return sys.modules[self._delegate].release()
 
@@ -83,11 +87,11 @@ def release_delegator():
     LOG.info("Elapsed time: %s" % str(end - start))
     LOG.info("Done.")
     sys.exit(0)
-    
+
 def deploy_extras():
     DEPLOY_LOCATION = r'C:\Ringling\HPC'
-    extras = resource_filename(Requirement.parse("ringling-render-tools"),"rrt/extras")
+    extras = resource_filename(Requirement.parse("ringling-render-tools"), "rrt/extras")
     if os.path.exists(DEPLOY_LOCATION): shutil.rmtree(DEPLOY_LOCATION)
-    shutil.copytree(extras,DEPLOY_LOCATION)
+    shutil.copytree(extras, DEPLOY_LOCATION)
     print "Done."
     sys.exit(0)
