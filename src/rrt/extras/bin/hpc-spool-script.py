@@ -44,6 +44,8 @@ class Spooler(object):
 
     # Looks like Render.exe doesn't like quotes around the remote paths...
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
+    # Note: -jpf is job phase filter, we do phase 1 during node prep, phase 2 during parametric sweep, and skip the 3rd (cleanup)
+    # since we will blow away the entire directory during node release
     CMD_MAYA_RENDER_RMAN = "Render.exe -n {threads} -jpf 2 -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 -continueOnError:1 {node_project}\{scene}"
 
