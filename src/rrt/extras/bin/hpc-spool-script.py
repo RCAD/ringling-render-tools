@@ -9,7 +9,7 @@ regular python interpreter.
 
 import clr, sys, os, getpass, logging, re, datetime
 
-RRT_DEBUG = os.getenv('RRT_DEBUG',False)
+RRT_DEBUG = os.getenv('RRT_DEBUG', False)
 
 __LOG_LEVEL__ = logging.DEBUG if  RRT_DEBUG else logging.INFO
 LOG = logging.getLogger('hpc-spool')
@@ -25,18 +25,18 @@ clr.AddReference("Microsoft.Hpc.Scheduler.Properties")
 from Microsoft.Hpc.Scheduler import *
 from Microsoft.Hpc.Scheduler.Properties import *
 
-MAYA_TIMEOUT = 60*60
+MAYA_TIMEOUT = 60 * 60
 MAX_TIMEOUT = MAYA_TIMEOUT * 3
 
 class Spooler(object):
     REQUIRED_SERVER_VERSION = (3, 0, 2369, 0)
     RUNAS_USER = None;
     RUNAS_PASSWORD = None;
-    
+
     @property
     def HeadNode(self):
         host = os.getenv("HEAD_NODE", None)
-        if None == host: 
+        if None == host:
             LOG.error("HEAD_NODE is null - please set HEAD_NODE.")
             LOG.info("Exiting...")
             sys.exit(1)
@@ -46,15 +46,15 @@ class Spooler(object):
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_MAYA_RENDER_RMAN = "Render.exe -n {threads} -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 -continueOnError:1 {node_project}\{scene}"
-    
+
     _renderers = {
-        "max": CMD_3DSMAX_RENDER, 
+        "max": CMD_3DSMAX_RENDER,
         "maya_render_rman": CMD_MAYA_RENDER_RMAN,
         "maya_render_sw": CMD_MAYA_RENDER_SW
     }
-    
+
     _confFile = None
-    
+
     _conf = {
         "renderer": None,
         "name": None,
@@ -72,7 +72,7 @@ class Spooler(object):
     }
 
     def ParseConf(self, iniPath):
-        if os.path.isfile(iniPath): 
+        if os.path.isfile(iniPath):
             with open(iniPath, "rb") as iniFile:
                 for strLine in iniFile.readlines():
                     strLine = strLine.strip().split('#')[0]
@@ -81,15 +81,15 @@ class Spooler(object):
                         key = parts[0].strip()
                         val = parts[1].strip()
                         self._conf[key] = val
-        else: 
+        else:
             raise RuntimeError("Unable to locate " + iniPath)
-        for k,v in self._conf.items():
-            LOG.debug("%s = %s" % (k,v))
+        for k, v in self._conf.items():
+            LOG.debug("%s = %s" % (k, v))
 
     def __init__(self, confFile):
         self._confFile = confFile
         self.ParseConf(self._confFile)
-    
+
     def BuildTaskList(self, job):
         # this guy will need other methods to delegate to so we don't fork for each renderer available.
         render_task = job.CreateTask()
@@ -99,7 +99,7 @@ class Spooler(object):
         # basic info
         render_task.Name = "Render *"
         render_task.Type = TaskType.ParametricSweep
-        
+
         #render_task.Runtime = MAX_TIMEOUT if self._conf['renderer'] == 'max' else MAYA_TIMEOUT
 
         #task iteration
@@ -110,7 +110,7 @@ class Spooler(object):
         # thread/node limits
         if not self._conf["renderer"] == "max":
             render_task.MinimumNumberOfCores = int(self._conf["threads"])
-            render_task.MaximumNumberOfCores = int(self._conf["threads"])            
+            render_task.MaximumNumberOfCores = int(self._conf["threads"])
 
         # log redirection
         render_task.StdErrFilePath = self._conf["logs"].format(job_id=self._conf['job_id'])
@@ -125,6 +125,10 @@ class Spooler(object):
         setup_task.Name = "Setup"
         setup_task.CommandLine = "net use %s %s && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
 
+        # we will do a preflight phase render to generate tex files, etc
+        if self._conf["renderer"] == "maya_render_rman":
+            setup_task.CommandLine += " & Render.exe -n {threads} -r rman -jpf 1 -proj {node_project} {scene}".format(**self._conf)
+
         # TearDown Task
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
@@ -134,19 +138,19 @@ class Spooler(object):
         for task in [setup_task, render_task, cleanup_task]:
             self.SetJobEnv(task)
             job.AddTask(task)
-        
-        
+
+
     def SetJobEnv(self, task):
         global RRT_DEBUG
         if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
-        
+
         task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["node_project"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
-        task.SetEnvironmentVariable("TMP", self._conf["node_project"])        
+        task.SetEnvironmentVariable("TMP", self._conf["node_project"])
         task.SetEnvironmentVariable("OWNER", getpass.getuser())
         task.SetEnvironmentVariable("NODE_PROJECT", self._conf["node_project"])
         # script path override enables us to apply per-job dirmaps on maya jobs
-        task.SetEnvironmentVariable("MAYA_SCRIPT_PATH", self._conf["node_project"]+ r"\scripts;"+os.getenv("MAYA_SCRIPT_PATH", ''))
+        task.SetEnvironmentVariable("MAYA_SCRIPT_PATH", self._conf["node_project"] + r"\scripts;" + os.getenv("MAYA_SCRIPT_PATH", ''))
         task.SetEnvironmentVariable("PROJECT", self._conf["project"])
         task.SetEnvironmentVariable("SCENE", self._conf["scene"])
         task.SetEnvironmentVariable("RENDERER", self._conf["renderer"])
@@ -157,7 +161,7 @@ class Spooler(object):
 
     def DoIt(self):
         scheduler = Scheduler()
-        
+
         try:
             # make a connection to the cluster
             LOG.info("Connecting to cluster at: %s" % self.HeadNode)
@@ -182,20 +186,20 @@ class Spooler(object):
             scheduler.AddJob(job) # creates the job on the HEAD_NODE, but in a configuring state.
             # since we have more than one cluster, we user HEAD_NODE to ensure the job id's don't overlap
             self._conf['job_id'] = "%d.%s" % (job.Id, self.HeadNode)
-            
-            node_job_dir = r"D:\hpc" 
+
+            node_job_dir = r"D:\hpc"
             self._conf["node_job_dir"] = node_job_dir
             node_project = os.path.join(node_job_dir, '{job_id}')
             self._conf["node_project"] = node_project
-            
+
             for i in ['output', 'logs', 'node_project']:
                 # inject job_id into logs/output/node_project
                 self._conf[i] = self._conf[i].format(job_id=self._conf['job_id'])
-            
+
             # set the job properties
             job.Name = self._conf["name"]
             # task by node granularity setting for 3ds Max
-            if self._conf["renderer"] == "max": 
+            if self._conf["renderer"] == "max":
                 job.UnitType = JobUnitType.Node
             else:
                 job.UnitType = JobUnitType.Core
@@ -209,7 +213,7 @@ class Spooler(object):
         except Exception, e:
             try:
                 scheduler.CancelJob(job, "Job canceled because of submission error.")
-            except: 
+            except:
                 pass
             LOG.exception(e)
             LOG.error("exiting...")
@@ -221,7 +225,7 @@ class Spooler(object):
 
 # Command Line Entry Point
 def main():
-    LOG.info('Starting hpc-spool for MS HPC v'+'.'.join([str(v) for v in Spooler.REQUIRED_SERVER_VERSION]))
+    LOG.info('Starting hpc-spool for MS HPC v' + '.'.join([str(v) for v in Spooler.REQUIRED_SERVER_VERSION]))
     conf_path = None
     try:
         conf_path = os.path.abspath(sys.argv[1])
