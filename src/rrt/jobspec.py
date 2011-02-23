@@ -41,13 +41,14 @@ class JobSpec(object):
         self._job_data['logs'] = os.path.join(JOB_LOGS_UNC, 
                                                   getpass.getuser(), 
                                                   '{job_id}', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
+												  'logs',
                                                   self._job_data['title']+'.*.txt')
         
         for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:
             if not self._job_data.get(k, False):
                 raise JobSpecError("%s cannot be blank." % k)
         try:
-            self._job_data['net_share'] = get_share(self._job_data['project'])+"hpc"
+            self._job_data['net_share'] = get_share(self._job_data['project'])+'hpc'
         except Exception:
             raise JobSpecError("Can't find network share for project '%s'." % self._job_data['project'])
         try:

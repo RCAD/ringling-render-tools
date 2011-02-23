@@ -12,5 +12,5 @@ HPC_SPOOL_BIN = r'C:\Ringling\HPC\bin\hpc-spool.bat'
 HEAD_NODES = ['masternode', 'sgimasternode']
 
 # TODO: replace these "constants" with functions that generate a prefix based on HEAD_NODE
-JOB_LOGS_UNC = "\\\\clogs\\clogs"
-JOB_OUTPUT_UNC = "\\\\coutput\\coutput"
+JOB_LOGS_UNC = "\\\\hpc\\results"
+JOB_OUTPUT_UNC = "\\\\hpc\\results"
