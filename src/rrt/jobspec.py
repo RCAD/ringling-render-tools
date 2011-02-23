@@ -47,7 +47,7 @@ class JobSpec(object):
             if not self._job_data.get(k, False):
                 raise JobSpecError("%s cannot be blank." % k)
         try:
-            self._job_data['net_share'] = get_share(self._job_data['project'])
+            self._job_data['net_share'] = get_share(self._job_data['project'])+"hpc"
         except Exception:
             raise JobSpecError("Can't find network share for project '%s'." % self._job_data['project'])
         try:
