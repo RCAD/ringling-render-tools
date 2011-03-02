@@ -135,7 +135,6 @@ class Spooler(object):
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
         cleanup_task.Name = "Cleanup"
-		cleanup_task.set_Runtime (600)
         cleanup_task.CommandLine = "hpc-node-release & net use %s /delete /y" % self._conf['net_drive']
 
         for task in [setup_task, render_task, cleanup_task]:
