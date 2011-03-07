@@ -125,7 +125,7 @@ class Spooler(object):
         setup_task = job.CreateTask()
         setup_task.Type = TaskType.NodePrep
         setup_task.Name = "Setup"
-        setup_task.CommandLine = "net use %s %s && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
+        setup_task.CommandLine = "net use %s %s /y && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
 
         # we will do a preflight phase render to generate tex files, etc
         if self._conf["renderer"] == "maya_render_rman":
