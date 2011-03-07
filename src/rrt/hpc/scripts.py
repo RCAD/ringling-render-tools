@@ -60,10 +60,10 @@ class Delegator(object):
     def release(self):
         # Generic release
         LOG.info("Cleaning up node project: %s" % self._env['NODE_PROJECT'])
-        LOG.info("\tCalculating size...")
-        LOG.info("\tThis could take a while...")
-        size = sum([os.path.getsize(os.path.join(root, f)) for root, dirs, files in os.walk(self._env['NODE_PROJECT']) for f in files])
-        LOG.info("\t%0.1f MB" % (size / (1024 * 1024.0)))
+        # LOG.info("\tCalculating size...")
+        # LOG.info("\tThis could take a while...")
+        # size = sum([os.path.getsize(os.path.join(root, f)) for root, dirs, files in os.walk(self._env['NODE_PROJECT']) for f in files])
+        # LOG.info("\t%0.1f MB" % (size / (1024 * 1024.0)))
         call('rmdir /S /Q %s' % self._env['NODE_PROJECT'], shell=True)
 
         # Delegate access to implementation
