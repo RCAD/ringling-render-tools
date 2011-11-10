@@ -29,7 +29,7 @@ MAYA_TIMEOUT = 60 * 60
 MAX_TIMEOUT = MAYA_TIMEOUT * 3
 
 class Spooler(object):
-    REQUIRED_SERVER_VERSION = (3, 0, 2369, 0)
+    REQUIRED_SERVER_VERSION = (3, 2, 3716, 0)
     RUNAS_USER = None;
     RUNAS_PASSWORD = None;
 
@@ -125,7 +125,7 @@ class Spooler(object):
         setup_task = job.CreateTask()
         setup_task.Type = TaskType.NodePrep
         setup_task.Name = "Setup"
-        setup_task.CommandLine = "net use %s %s /y && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
+        setup_task.CommandLine = "net use %s %s && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
 
         # we will do a preflight phase render to generate tex files, etc
         if self._conf["renderer"] == "maya_render_rman":
