@@ -41,7 +41,7 @@ class Delegator(object):
             LOG.debug(e)
 
         log_dir = os.path.dirname(self._env['LOGS'])
-        output_dir = os.path.dirname(self._env['OUTPUT'])
+        output_dir = os.path.dirname(self._env['OUTPUT'])	
 
         for d in (log_dir, output_dir):
             try:
@@ -54,7 +54,7 @@ class Delegator(object):
                 else:
                     LOG.exception(e)
 
-        # Delegate access to implementation
+			# Delegate access to implementation
         return sys.modules[self._delegate].prep()
 
     def release(self):

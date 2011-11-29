@@ -11,4 +11,5 @@ def env():
             'NODE_PROJECT': os.getenv('NODE_PROJECT', None),
             'RENDERER': os.getenv('RENDERER', None),
             'LOGS': os.getenv('LOGS', None),
+            'STATS': os.getenv('STATS', None),
             'OUTPUT': os.getenv('OUTPUT', None)}

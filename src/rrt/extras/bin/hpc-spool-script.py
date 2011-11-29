@@ -46,7 +46,7 @@ class Spooler(object):
     CMD_MAYA_RENDER_SW = "Render.exe -n {threads} -r sw -s * -e * -proj {node_project} -rd {output} {scene}"
     # Note: -jpf is job phase filter, we do phase 1 during node prep, phase 2 during parametric sweep, and skip the 3rd (cleanup)
     # since we will blow away the entire directory during node release
-    CMD_MAYA_RENDER_RMAN = "Render.exe -jpf 2 -r rman -s * -e * -proj {node_project} -rd {output} {scene}"
+    CMD_MAYA_RENDER_RMAN = "Render.exe -jpf 2 -r rman -setAttr rman__riopt__statistics_endofframe 1 -setAttr rman__riopt__statistics_xmlfilename {stats} -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 -continueOnError:1 {node_project}\{scene}"
 
     _renderers = {
@@ -64,6 +64,7 @@ class Spooler(object):
         "node_project": None,
         "output": None,
         "logs": None,
+        "stats": None,
         "scene": None,
         "start": None,
         "end": None,
@@ -158,6 +159,7 @@ class Spooler(object):
         task.SetEnvironmentVariable("RENDERER", self._conf["renderer"])
         task.SetEnvironmentVariable("LOGS", self._conf["logs"])
         task.SetEnvironmentVariable("OUTPUT", self._conf["output"])
+        task.SetEnvironmentVariable("STATS", self._conf["stats"])
         task.SetEnvironmentVariable("NET_SHARE", self._conf["net_share"])
         task.SetEnvironmentVariable("NET_DRIVE", self._conf["net_drive"])
 
@@ -194,8 +196,8 @@ class Spooler(object):
             node_project = os.path.join(node_job_dir, '{job_id}')
             self._conf["node_project"] = node_project
 
-            for i in ['output', 'logs', 'node_project']:
-                # inject job_id into logs/output/node_project
+            for i in ['output', 'logs', 'node_project', 'stats']:
+                # inject job_id into logs/output/node_project/stats
                 self._conf[i] = self._conf[i].format(job_id=self._conf['job_id'])
 
             # set the job properties

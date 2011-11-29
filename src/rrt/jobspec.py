@@ -1,6 +1,6 @@
 import os, string, getpass, datetime, uuid
 import rrt
-from rrt.settings import HPC_SPOOL_BIN, JOBSPEC_DIR, JOB_LOGS_UNC
+from rrt.settings import HPC_SPOOL_BIN, JOBSPEC_DIR, JOB_LOGS_UNC, JOB_STATS_UNC
 from rrt.filesystem import get_share
 from rrt import RinglingException
 
@@ -16,6 +16,7 @@ class JobSpec(object):
     output = $output
     scene = $scene
     logs = $logs
+    stats = $stats
     start = $start
     end = $end
     threads = $threads
@@ -43,6 +44,11 @@ class JobSpec(object):
                                                   '{job_id}', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
 												  'logs',
                                                   self._job_data['title']+'.*.txt')
+        self._job_data['stats'] = os.path.join(JOB_STATS_UNC, 
+                                                  getpass.getuser(), 
+                                                  '{job_id}', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
+												  'stats',
+                                                  self._job_data['title']+'.*.xml')
         
         for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:
             if not self._job_data.get(k, False):
