@@ -1,11 +1,11 @@
 Metadata-Version: 1.0
 Name: ringling_render_tools
 Version: 0.0.5b-5-g4540
-Summary: Pipeline tools for Maya and 3DSmax rendering with Windows HPC
+Summary: Pipeline tools for Maya, 3DSmax, and C4D rendering with Windows HPC
 Home-page: UNKNOWN
-Author: Owen Nelson
-Author-email: onelson@ringling.edu
+Author: Owen Nelson, Stephe Garcia
+Author-email: onelson@ringling.edu, sgmorale@ringling.edu
 License: MIT
 Description: UNKNOWN
-Keywords: Maya 3DSmax WindowsHPC
+Keywords: Maya 3DSmax C4D WindowsHPC
 Platform: windows
