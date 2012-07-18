@@ -196,8 +196,8 @@ class SubmitGui:
                                     with columnLayout(adj=False):
                                         self._controls['threads'] = optionMenu(w=40)
                                         with self._controls['threads']:
-                                            menuItem(label=1)
                                             menuItem(label=2)
+                                            menuItem(label=4)
                                         self._controls['threads'].setSelect(1)
                                     self._controls['pause'] = checkBox(label="Pause before exit")
                                     self._controls['debug'] = checkBox(label="Show debug messages")

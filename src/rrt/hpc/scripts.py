@@ -18,14 +18,15 @@ class Delegator(object):
     __delegates__ = {
                      'maya_render_sw': 'rrt.hpc.maya.sw',
                      'maya_render_rman': 'rrt.hpc.maya.rman',
-                     'max': 'rrt.hpc.max'
+                     'max': 'rrt.hpc.max',
+                     'md': 'rrt.hpc.md'
                      }
     _delegate = None
 
     def __init__(self):
         LOG.info("Starting " + rrt.get_version())
-        LOG.debug("Params: %r" % env())
-        jobtype = os.getenv('RENDERER', None)
+        LOG.debug("Params: %r" % self._env) #LOG.debug("Params: %r" % env())
+        jobtype = self._env['RENDERER'] #jobtype = os.getenv('RENDERER', None)
         if jobtype not in self.__delegates__:
             raise MissingDelegateError
         self._delegate = self.__delegates__[jobtype]

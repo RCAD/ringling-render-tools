@@ -48,7 +48,7 @@ class JobSpec(object):
                                                   getpass.getuser(), 
                                                   '{job_id}', # we're going to let hpc-spool inject the job id into the path right before the job is submitted 
 												  'stats',
-                                                  self._job_data['title']+'.*.xml')
+                                                  self._job_data['title'].replace(' ', '')+'.*.xml')
         
         for k in ['renderer', 'title', 'project', 'scene', 'start', 'end', 'step', 'output']:
             if not self._job_data.get(k, False):

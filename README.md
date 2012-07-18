@@ -63,12 +63,12 @@ Setup Render command line tools
 -------------------------------
 
 Ensure that the Maya bin and 3dsmax directories are in the PATH (probably place 
-these at the back): `C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2012`
+these at the back): `C:\Program Files\Autodesk\Maya2010\bin;C:\Program Files\Autodesk\3ds Max Design 2010`
 
 To confirm:
 
     mayabatch -v
-    Maya 2012 Hotfix 4 x64, Cut Number 001200000000
+    Maya 2010 x64, Cut Number 200907280308
 
 and...
 

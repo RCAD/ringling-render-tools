@@ -1,6 +1,6 @@
 import sys, os, zipfile, getpass
 from PyQt4 import QtGui, QtCore
-from rrt.max.ui.submit import Ui_SubmitMainWindow
+from rrt.md.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
 from rrt.settings2 import JOB_OUTPUT_UNC, HEAD_NODES
 
@@ -27,7 +27,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def __init__(self, parent=None):
         super(SubmitGui, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('3DSMax Submission Tool')
+        self.setWindowTitle('C4D Submission Tool')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
         self.head_node_field.addItems(HEAD_NODES)
         self.output_ext_field.addItems(IMAGE_EXT)
@@ -47,7 +47,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             self.scene_field.clear()
             self.project_field.setText(filename)
             zf = zipfile.ZipFile(open(filename,'rb'))
-            self.scene_field.addItems([f for f in zf.namelist() if f.lower().endswith('.max')])
+            self.scene_field.addItems([f for f in zf.namelist() if f.lower().endswith('.c4d')])
     
     @property
     def job_data(self):
@@ -55,7 +55,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         end_frame = max((int(self.start_field.value()), int(self.end_field.value())))
         image_filename = str(self.output_base_field.text()) + str(self.output_ext_field.currentText())
         return {
-                'renderer'  : 'max',
+                'renderer'  : 'md',
                 'title'     : str(self.title_field.text()), 
                 'project'   : os.path.normpath(str(self.project_field.text())),
                 'scene'     : os.path.basename(str(self.scene_field.currentText())),

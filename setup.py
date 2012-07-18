@@ -28,6 +28,8 @@ setup(
         ],
         'gui_scripts': [
             'hpc-submit-max = rrt.max.gui:submit_gui',
+            'hpc-submit-md = rrt.md.gui:submit_gui',
+            'hpc-submit-maya = rrt.maya.outsideGui:submit_gui',
         ]
     }
 )

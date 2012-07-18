@@ -48,11 +48,13 @@ class Spooler(object):
     # since we will blow away the entire directory during node release
     CMD_MAYA_RENDER_RMAN = "Render.exe -jpf 2 -r rman -setAttr rman__riopt__statistics_endofframe 1 -setAttr rman__riopt__statistics_xmlfilename {stats} -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 -continueOnError:1 {node_project}\{scene}"
+    CMD_C4D_RENDER = "set & echo *" #TODO: actual command
 
     _renderers = {
         "max": CMD_3DSMAX_RENDER,
         "maya_render_rman": CMD_MAYA_RENDER_RMAN,
-        "maya_render_sw": CMD_MAYA_RENDER_SW
+        "maya_render_sw": CMD_MAYA_RENDER_SW,
+        "md": CMD_C4D_RENDER
     }
 
     _confFile = None
@@ -93,7 +95,7 @@ class Spooler(object):
         self._confFile = confFile
         self.ParseConf(self._confFile)
 
-    def BuildTaskList(self, job):
+    def BuildTaskList(self, job, scheduler):
         # this guy will need other methods to delegate to so we don't fork for each renderer available.
         render_task = job.CreateTask()
         render_task.SetEnvironmentVariable("INIT_WD", self._conf['node_project'])
@@ -111,7 +113,7 @@ class Spooler(object):
         render_task.IncrementValue = int(self._conf["step"])
 
         # thread/node limits
-        if not self._conf["renderer"] == "max":
+        if not (self._conf["renderer"] == "max" or self._conf["renderer"] == "md"):
             render_task.MinimumNumberOfCores = int(self._conf["threads"])
             render_task.MaximumNumberOfCores = int(self._conf["threads"])
 
@@ -129,8 +131,20 @@ class Spooler(object):
         setup_task.CommandLine = "net use %s %s && hpc-node-prep" % (self._conf['net_drive'], self._conf['net_share'])
 
         # we will do a preflight phase render to generate tex files, etc
-        if self._conf["renderer"] == "maya_render_rman":
-            setup_task.CommandLine += " & Render.exe -n {threads} -r rman -jpf 1 -proj {node_project} {scene}".format(**self._conf)
+        if self._conf["renderer"] == "maya_render_rman":            
+            prepStr = r"{logs}".format(**self._conf).rsplit('\\',1)[0]
+            setup_task.CommandLine += " & Render.exe -r rman -jpf 1 -proj {node_project} {scene} >> ".format(**self._conf)+prepStr+"\\nodeprep.%computername%.log 2>&1"
+            #Stats Task
+            stats_task = job.CreateTask()
+            stats_task.Type = TaskType.Basic
+            stats_task.Name = "Stats Gathering"
+            stats_task.Runtime = 600
+            dependent = scheduler.CreateStringCollection()
+            dependent.Add(render_task.Name)
+            stats_task.DependsOn = dependent
+            stats_dir = r"{stats}".format(**self._conf).rsplit('\\',1)[0]
+            jID = r"{job_id}".format(**self._conf).rsplit('.',1)[0]
+            stats_task.CommandLine = "powershell.exe -command \"add-pssnapin microsoft.hpc; (get-hpctask -scheduler "+self.HeadNode+" -jobid "+jID+" | select Name, type, ElapsedTime, MaxCores | convertto-xml -notypeinformation).Save('"+stats_dir+"\\tasklist.xml')\""+r" & python \\hpc\statsbin\stats_grapher_hpc.py "+stats_dir
 
         # TearDown Task
         cleanup_task = job.CreateTask()
@@ -142,7 +156,10 @@ class Spooler(object):
             self.SetJobEnv(task)
             job.AddTask(task)
 
-
+        if self._conf["renderer"] == "maya_render_rman":
+            self.SetJobEnv(stats_task)
+            job.AddTask(stats_task)
+            
     def SetJobEnv(self, task):
         global RRT_DEBUG
         if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
@@ -205,11 +222,13 @@ class Spooler(object):
             # task by node granularity setting for 3ds Max
             if self._conf["renderer"] == "max":
                 job.UnitType = JobUnitType.Node
+            elif self._conf["renderer"] == "md":
+                job.UnitType = JobUnitType.Socket
             else:
                 job.UnitType = JobUnitType.Core
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
-            self.BuildTaskList(job) # attach tasks to job
+            self.BuildTaskList(job, scheduler) # attach tasks to job
             job.Commit() # sync job data back to the HEAD_NODE (still configuring).
             scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # submit the job to get it queued.
             LOG.info("Submitted job %d to %s." % (job.Id, self.HeadNode))
