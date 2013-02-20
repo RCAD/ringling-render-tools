@@ -24,6 +24,6 @@ def get_share(path):
         in hpc-spool-script...
         """
         # on the cluster vlan, our file-server hosts have a 1 appended to their names        
-        return re.sub("^\\\\\\\\(.+)\\\\(.+)$", '\\\\\\\\\g<1>1\\\\\g<2>', unc, 1)
+        return re.sub("^\\\\\\\\(.+)\\\\(.+)$", '\\\\\\\\\g<1>1\\\\\g<2>', unc, 1).replace('.ringling.edu','',1)
     except Exception, e:
         raise e

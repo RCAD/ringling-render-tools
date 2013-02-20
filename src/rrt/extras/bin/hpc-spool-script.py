@@ -9,7 +9,7 @@ regular python interpreter.
 
 import clr, sys, os, getpass, logging, re, datetime
 
-RRT_DEBUG = os.getenv('RRT_DEBUG', False)
+RRT_DEBUG = (os.getenv('RRT_DEBUG', False) == '1')
 
 __LOG_LEVEL__ = logging.DEBUG if  RRT_DEBUG else logging.INFO
 LOG = logging.getLogger('hpc-spool')
@@ -48,13 +48,20 @@ class Spooler(object):
     # since we will blow away the entire directory during node release
     CMD_MAYA_RENDER_RMAN = "Render.exe -jpf 2 -r rman -setAttr rman__riopt__statistics_endofframe 1 -setAttr rman__riopt__statistics_xmlfilename {stats} -s * -e * -proj {node_project} -rd {output} {scene}"
     CMD_3DSMAX_RENDER = "3dsmaxcmd.exe -frames=*-* -workPath:{node_project} -o:{output} -showRFW:0 -continueOnError:1 {node_project}\{scene}"
-    CMD_C4D_RENDER = "set & echo *" #TODO: actual command
+    CMD_C4D_RENDER = '"C:\\Program Files\\MAXON\\CINEMA 4D R13\\CINEMA 4D 64 Bit.exe" -nogui -render "{node_project}\{scene}" -frame * * -oimage "{output}" '
 
     _renderers = {
         "max": CMD_3DSMAX_RENDER,
         "maya_render_rman": CMD_MAYA_RENDER_RMAN,
         "maya_render_sw": CMD_MAYA_RENDER_SW,
         "md": CMD_C4D_RENDER
+    }
+    
+    _jobTemplate = {
+        "max": "IDTemplate",
+        "maya_render_rman": "CATemplate",
+        "maya_render_sw": "CATemplate",
+        "md": "C4DTemplate"
     }
 
     _confFile = None
@@ -74,6 +81,7 @@ class Spooler(object):
         "threads": "4",
         "net_share": None,
         "net_drive": None,
+        "ext": None,
     }
 
     def ParseConf(self, iniPath):
@@ -114,14 +122,19 @@ class Spooler(object):
 
         # thread/node limits
         if not (self._conf["renderer"] == "max" or self._conf["renderer"] == "md"):
-            render_task.MinimumNumberOfCores = int(self._conf["threads"])
-            render_task.MaximumNumberOfCores = int(self._conf["threads"])
+            render_task.MinimumNumberOfCores = 4 #int(self._conf["threads"])
+            render_task.MaximumNumberOfCores = 4 #int(self._conf["threads"])
 
         # log redirection
         render_task.StdErrFilePath = self._conf["logs"].format(job_id=self._conf['job_id'])
         render_task.StdOutFilePath = self._conf["logs"].format(job_id=self._conf['job_id'])
 
         # run the render command
+        if self._conf["renderer"] == "md":
+            if os.getenv("MULTIPASS", None) == "True":
+                self._renderers["md"] += '-omultipass "{output}" '
+            if not self._conf["ext"] == "-Other":
+                self._renderers["md"] += '-oformat {ext}'                
         render_task.CommandLine = self._renderers[self._conf["renderer"]].format(**self._conf)
 
         # Setup Task
@@ -133,36 +146,44 @@ class Spooler(object):
         # we will do a preflight phase render to generate tex files, etc
         if self._conf["renderer"] == "maya_render_rman":            
             prepStr = r"{logs}".format(**self._conf).rsplit('\\',1)[0]
-            setup_task.CommandLine += " & Render.exe -r rman -jpf 1 -proj {node_project} {scene} >> ".format(**self._conf)+prepStr+"\\nodeprep.%computername%.log 2>&1"
-            #Stats Task
-            stats_task = job.CreateTask()
-            stats_task.Type = TaskType.Basic
-            stats_task.Name = "Stats Gathering"
-            stats_task.Runtime = 600
-            dependent = scheduler.CreateStringCollection()
-            dependent.Add(render_task.Name)
-            stats_task.DependsOn = dependent
-            stats_dir = r"{stats}".format(**self._conf).rsplit('\\',1)[0]
-            jID = r"{job_id}".format(**self._conf).rsplit('.',1)[0]
-            stats_task.CommandLine = "powershell.exe -command \"add-pssnapin microsoft.hpc; (get-hpctask -scheduler "+self.HeadNode+" -jobid "+jID+" | select Name, type, ElapsedTime, MaxCores | convertto-xml -notypeinformation).Save('"+stats_dir+"\\tasklist.xml')\""+r" & python \\hpc\statsbin\stats_grapher_hpc.py "+stats_dir
+            setup_task.CommandLine += " & Render.exe -n {threads} -r rman -jpf 1 -proj {node_project} {scene} >> ".format(**self._conf)+prepStr+"\\nodeprep.%computername%.log 2>&1"
+        
+        #Stats Task: creates the task for all task stats and renderman stats if renderer is renderman
+        stats_task = job.CreateTask()
+        stats_task.Type = TaskType.Basic
+        stats_task.Name = "Stats Gathering"
+        stats_task.Runtime = 600
+        dependent = scheduler.CreateStringCollection()
+        dependent.Add(render_task.Name)
+        stats_task.DependsOn = dependent
+        stats_dir = r"{stats}".format(**self._conf).rsplit('\\',1)[0]
+        jID = r"{job_id}".format(**self._conf).rsplit('.',1)[0]
+        stats_task.CommandLine = 'powershell.exe -command "add-pssnapin microsoft.hpc; (get-hpctask -scheduler '+self.HeadNode+' -jobid '+jID+' | select Name, type, state, elapsedtime, maxcores, allocatednodes, stderr, exitcode, errormessage, subtaskid | convertto-xml -notypeinformation).Save(\''+stats_dir+'\\raw.xml\');" & python \\\\hpc\statsbin\cleanXML.py '+stats_dir
+
+        if self._conf["renderer"] == "maya_render_rman":
+            stats_task.CommandLine +=r" & python \\hpc\statsbin\stats_grapher_hpc1.py "+stats_dir+r" & python \\hpc\statsbin\stats_tasks_hpc.py "+stats_dir
+            stats_task.MinimumNumberOfCores = 4
+            stats_task.MaximumNumberOfCores = 4
+        else:
+            stats_task.CommandLine +=r" & python \\hpc\statsbin\stats_tasks_hpc.py "+stats_dir
+            if self._conf["renderer"] == "maya_render_sw":
+                stats_task.MinimumNumberOfCores = 4
+                stats_task.MaximumNumberOfCores = 4
 
         # TearDown Task
         cleanup_task = job.CreateTask()
         cleanup_task.Type = TaskType.NodeRelease
         cleanup_task.Name = "Cleanup"
+        #cleanup_task.CommandLine = "net use %s /delete /y" % self._conf['net_drive']
         cleanup_task.CommandLine = "hpc-node-release & net use %s /delete /y" % self._conf['net_drive']
 
-        for task in [setup_task, render_task, cleanup_task]:
+        for task in [setup_task, render_task, cleanup_task, stats_task]:
             self.SetJobEnv(task)
             job.AddTask(task)
-
-        if self._conf["renderer"] == "maya_render_rman":
-            self.SetJobEnv(stats_task)
-            job.AddTask(stats_task)
-            
+        
     def SetJobEnv(self, task):
         global RRT_DEBUG
-        if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", RRT_DEBUG)
+        if RRT_DEBUG: task.SetEnvironmentVariable("RRT_DEBUG", str(RRT_DEBUG))
 
         task.SetEnvironmentVariable("MAYA_APP_DIR", self._conf["node_project"])
         task.SetEnvironmentVariable("TEMP", self._conf["node_project"])
@@ -179,6 +200,9 @@ class Spooler(object):
         task.SetEnvironmentVariable("STATS", self._conf["stats"])
         task.SetEnvironmentVariable("NET_SHARE", self._conf["net_share"])
         task.SetEnvironmentVariable("NET_DRIVE", self._conf["net_drive"])
+        if self._conf["renderer"] == "md": #not really needed but for debugging
+            task.SetEnvironmentVariable("MULTIPASS", os.getenv("MULTIPASS", None))
+        task.SetEnvironmentVariable("EXT", self._conf["ext"])
 
     def DoIt(self):
         scheduler = Scheduler()
@@ -228,6 +252,7 @@ class Spooler(object):
                 job.UnitType = JobUnitType.Core
             #job.NodeGroups.Add("ComputeNodes")
             job.IsExclusive = True
+            job.SetJobTemplate(self._jobTemplate[self._conf["renderer"]])
             self.BuildTaskList(job, scheduler) # attach tasks to job
             job.Commit() # sync job data back to the HEAD_NODE (still configuring).
             scheduler.SubmitJob(job, self.RUNAS_USER, self.RUNAS_PASSWORD) # submit the job to get it queued.
@@ -235,7 +260,7 @@ class Spooler(object):
             scheduler.Close()
         except Exception, e:
             try:
-                scheduler.CancelJob(job, "Job canceled because of submission error.")
+                scheduler.CancelJob(job.Id, "Job canceled because of submission error.")
             except:
                 pass
             LOG.exception(e)
@@ -248,7 +273,7 @@ class Spooler(object):
 
 # Command Line Entry Point
 def main():
-    LOG.info('Starting hpc-spool for MS HPC v' + '.'.join([str(v) for v in Spooler.REQUIRED_SERVER_VERSION]))
+    LOG.info('Starting local-spool for MS HPC v' + '.'.join([str(v) for v in Spooler.REQUIRED_SERVER_VERSION]))
     conf_path = None
     try:
         conf_path = os.path.abspath(sys.argv[1])

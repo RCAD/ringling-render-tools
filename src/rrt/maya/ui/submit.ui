@@ -247,29 +247,6 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="render_label">
-         <property name="text">
-          <string>Renderer</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>10</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QComboBox" name="render_field"/>
-       </item>
-       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -283,14 +260,30 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="core_label">
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>50</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="render_label">
          <property name="text">
-          <string>Cores</string>
+          <string>Renderer</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="render_field"/>
        </item>
        <item>
         <spacer name="horizontalSpacer_3">
@@ -304,9 +297,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <widget class="QComboBox" name="core_field"/>
        </item>
       </layout>
      </item>

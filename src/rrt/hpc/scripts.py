@@ -43,8 +43,9 @@ class Delegator(object):
 
         log_dir = os.path.dirname(self._env['LOGS'])
         output_dir = os.path.dirname(self._env['OUTPUT'])	
+        stats_dir = os.path.dirname(self._env['STATS'])
 
-        for d in (log_dir, output_dir):
+        for d in (log_dir, output_dir, stats_dir):
             try:
                 os.makedirs(d)
                 LOG.info("Creating directory %s" % d)

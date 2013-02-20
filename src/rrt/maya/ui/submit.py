@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\src\rrt\maya\ui\submit.ui'
 #
-# Created: Wed Jul 18 12:12:39 2012
+# Created: Wed Oct 24 16:19:16 2012
 #      by: PyQt4 UI code generator 4.7.7
 #
 # WARNING! All changes made in this file will be lost!
@@ -119,25 +119,18 @@ class Ui_SubmitMainWindow(object):
         self.horizontalLayout_11.addWidget(self.step_field)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.horizontalLayout_11.addItem(spacerItem)
+        spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.horizontalLayout_11.addItem(spacerItem1)
+        spacerItem2 = QtGui.QSpacerItem(50, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.horizontalLayout_11.addItem(spacerItem2)
         self.render_label = QtGui.QLabel(SubmitMainWindow)
         self.render_label.setObjectName(_fromUtf8("render_label"))
         self.horizontalLayout_11.addWidget(self.render_label)
-        spacerItem1 = QtGui.QSpacerItem(10, 10, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.horizontalLayout_11.addItem(spacerItem1)
         self.render_field = QtGui.QComboBox(SubmitMainWindow)
         self.render_field.setObjectName(_fromUtf8("render_field"))
         self.horizontalLayout_11.addWidget(self.render_field)
-        spacerItem2 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.horizontalLayout_11.addItem(spacerItem2)
-        self.core_label = QtGui.QLabel(SubmitMainWindow)
-        self.core_label.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.core_label.setObjectName(_fromUtf8("core_label"))
-        self.horizontalLayout_11.addWidget(self.core_label)
         spacerItem3 = QtGui.QSpacerItem(10, 10, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.horizontalLayout_11.addItem(spacerItem3)
-        self.core_field = QtGui.QComboBox(SubmitMainWindow)
-        self.core_field.setObjectName(_fromUtf8("core_field"))
-        self.horizontalLayout_11.addWidget(self.core_field)
         self.formLayout.setLayout(6, QtGui.QFormLayout.FieldRole, self.horizontalLayout_11)
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
@@ -195,7 +188,6 @@ class Ui_SubmitMainWindow(object):
         self.end_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "End Frame", None, QtGui.QApplication.UnicodeUTF8))
         self.step_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "Frame Step", None, QtGui.QApplication.UnicodeUTF8))
         self.render_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "Renderer", None, QtGui.QApplication.UnicodeUTF8))
-        self.core_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "Cores", None, QtGui.QApplication.UnicodeUTF8))
         self.rrt_debug.setText(QtGui.QApplication.translate("SubmitMainWindow", "Show Debug Messages", None, QtGui.QApplication.UnicodeUTF8))
         self.pause.setText(QtGui.QApplication.translate("SubmitMainWindow", "Pause before exit", None, QtGui.QApplication.UnicodeUTF8))
         self.submit_button.setText(QtGui.QApplication.translate("SubmitMainWindow", "Submit Job", None, QtGui.QApplication.UnicodeUTF8))

@@ -9,10 +9,12 @@ from pymel.core.system import workspace, sceneName
 from pymel.core.general import Scene
 from pymel.core import frameLayout, button, menuItem, columnLayout,\
     optionMenu, intField, textField, text, formLayout, uiTemplate, window,\
-    confirmBox, checkBox
+    confirmBox
+from pymel.core.windows import checkBox
 from pymel.core.language import scriptJob #@UnresolvedImport
 from rrt.jobspec import JobSpec
 from rrt.settings import JOB_OUTPUT_UNC, HEAD_NODES
+from random import randint
 
 LOG = rrt.get_log('hpcSubmit')
 
@@ -72,13 +74,14 @@ class SubmitGui:
             """
             return self.filter_text(self._controls['title'].getText())
         
-        @property
-        def job_threads(self):
-            """
-            Number of threads to render with, as specified by the control in the 
-            submit window.
-            """
-            return int(self._controls['threads'].getValue())
+#        @property
+#deprecated
+#        def job_threads(self):
+#            """
+#            Number of threads to render with, as specified by the control in the 
+#            submit window.
+#            """
+#            return int(self._controls['threads'].getValue())
         
         @property
         def job_start(self):
@@ -102,8 +105,9 @@ class SubmitGui:
                     'scene': os.path.normpath(sceneName()),
                     'start': self.job_start,
                     'end': self.job_end,
-                    'threads': self.job_threads,
+                    'threads': 4, #self.job_threads,
                     'step': self.job_step,
+                    'ext' : None
             }
         
         def _is_valid(self):
@@ -135,7 +139,8 @@ class SubmitGui:
                 LOG.debug(spec.ini_data) 
                 try:
                     os.environ['HEAD_NODE'] = self._controls['head_node'].getValue()
-                    os.environ['RRT_DEBUG'] = '1' if self._controls['debug'].getValue() else ''
+#                    os.environ['RRT_DEBUG'] = self._controls['debug'].getValue()
+                    os.environ['RRT_DEBUG'] = '1' if self._controls['debug'].getValue() else '0'
                     spec.submit_job(pause=self._controls['pause'].getValue())
                 except Exception, e:
                     LOG.error(e)
@@ -182,23 +187,24 @@ class SubmitGui:
                                     text(label="Start Frame:")
                                     text(label="End Frame:")
                                     text(label="Frame Step:")
-                                    text(label="Cores:")
+#                                    text(label="Cores:")
                                 with columnLayout() as setCol2:
                                     self._controls['head_node'] = optionMenu()
                                     with self._controls['head_node']:
                                         for host in HEAD_NODES: 
                                             menuItem(label=host)
+                                        self._controls['head_node'].setSelect(randint(1,len(HEAD_NODES)))
                                     self._controls['title'] = textField(text=get_scene_name())
                                     self._controls['start'] = intField(value=get_frame_range()[0])
                                     self._controls['end'] = intField(value=get_frame_range()[1])
                                     self._controls['step'] = intField(value=int(SCENE.defaultRenderGlobals.byFrameStep.get()))
                                     
-                                    with columnLayout(adj=False):
-                                        self._controls['threads'] = optionMenu(w=40)
-                                        with self._controls['threads']:
-                                            menuItem(label=2)
-                                            menuItem(label=4)
-                                        self._controls['threads'].setSelect(1)
+#                                    with columnLayout(adj=False):
+#                                        self._controls['threads'] = optionMenu(w=40)
+#                                        with self._controls['threads']:
+#                                            menuItem(label=2)
+#                                            menuItem(label=4)
+#                                        self._controls['threads'].setSelect(1)
                                     self._controls['pause'] = checkBox(label="Pause before exit")
                                     self._controls['debug'] = checkBox(label="Show debug messages")
                             

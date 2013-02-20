@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\src\rrt\md\ui\submit.ui'
 #
-# Created: Mon Jul 16 12:01:19 2012
+# Created: Fri Nov 02 14:04:45 2012
 #      by: PyQt4 UI code generator 4.7.7
 #
 # WARNING! All changes made in this file will be lost!
@@ -109,8 +109,13 @@ class Ui_SubmitMainWindow(object):
         self.output_ext_field = QtGui.QComboBox(SubmitMainWindow)
         self.output_ext_field.setObjectName(_fromUtf8("output_ext_field"))
         self.horizontalLayout_5.addWidget(self.output_ext_field)
-        spacerItem = QtGui.QSpacerItem(165, 20, QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Minimum)
+        spacerItem = QtGui.QSpacerItem(80, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem)
+        self.multipass = QtGui.QCheckBox(SubmitMainWindow)
+        self.multipass.setObjectName(_fromUtf8("multipass"))
+        self.horizontalLayout_5.addWidget(self.multipass)
+        spacerItem1 = QtGui.QSpacerItem(50, 20, QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem1)
         self.formLayout.setLayout(7, QtGui.QFormLayout.FieldRole, self.horizontalLayout_5)
         self.head_node_field = QtGui.QComboBox(SubmitMainWindow)
         self.head_node_field.setObjectName(_fromUtf8("head_node_field"))
@@ -127,8 +132,8 @@ class Ui_SubmitMainWindow(object):
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setSpacing(6)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem1)
+        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem2)
         self.submit_button = QtGui.QPushButton(SubmitMainWindow)
         self.submit_button.setObjectName(_fromUtf8("submit_button"))
         self.horizontalLayout_2.addWidget(self.submit_button)
@@ -152,6 +157,7 @@ class Ui_SubmitMainWindow(object):
         self.end_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "End Frame", None, QtGui.QApplication.UnicodeUTF8))
         self.step_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "Frame Step", None, QtGui.QApplication.UnicodeUTF8))
         self.output_lable.setText(QtGui.QApplication.translate("SubmitMainWindow", "Output Filename", None, QtGui.QApplication.UnicodeUTF8))
+        self.multipass.setText(QtGui.QApplication.translate("SubmitMainWindow", "Multipass", None, QtGui.QApplication.UnicodeUTF8))
         self.head_node_field.setToolTip(QtGui.QApplication.translate("SubmitMainWindow", "Which cluster to submit to", None, QtGui.QApplication.UnicodeUTF8))
         self.head_node_label.setToolTip(QtGui.QApplication.translate("SubmitMainWindow", "which cluster to use", None, QtGui.QApplication.UnicodeUTF8))
         self.head_node_label.setText(QtGui.QApplication.translate("SubmitMainWindow", "Head Node", None, QtGui.QApplication.UnicodeUTF8))

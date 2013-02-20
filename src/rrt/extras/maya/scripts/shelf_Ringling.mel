@@ -28,5 +28,30 @@ global proc shelf_Ringling () {
         -actionIsSubstitute 0
         -commandRepeatable 1
     ;
+    
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 34
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "localSubmit;" 
+        -align "center" 
+        -label "Local Submit" 
+        -labelOffset 0
+        -font "tinyBoldLabelFont" 
+        -imageOverlayLabel "Local" 
+        -image "commandButton.xpm" 
+        -image1 "commandButton.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "if(!`pluginInfo -q -l \"local-submit\"`){loadPlugin \"local-submit.py\";} localSubmit;" 
+        -sourceType "mel" 
+        -actionIsSubstitute 0
+        -commandRepeatable 1
+    ;
 
 } 

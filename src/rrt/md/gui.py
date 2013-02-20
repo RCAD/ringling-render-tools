@@ -2,25 +2,21 @@ import sys, os, zipfile, getpass
 from PyQt4 import QtGui, QtCore
 from rrt.md.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
-from rrt.settings2 import JOB_OUTPUT_UNC, HEAD_NODES
+from rrt.settings import JOB_OUTPUT_UNC, HEAD_NODES
+from random import randint
 
 IMAGE_EXT = sorted([
-#    '.avi', 
-    '.bmp', 
-    '.cin', 
-    '.eps', '.ps', 
-    '.exr', '.fxr', '.hdr', 
-    '.pic', 
-    '.jpg', '.jpe', '.jpeg', 
-    '.png', 
-    '.rgb', '.rgba', 
-    '.sgi', '.int', '.inta', '.bw', 
-    '.rla', 
-    '.rpf', 
-    '.tga', '.vda', '.icb', 
-    '.vst', 
-    '.tif', 
-    '.dds'
+    '.-Other',
+    '.tiff',
+    '.tga',
+    '.bmp',
+    '.iff',
+    '.jpg',
+    '.pict',
+    '.psd',
+    '.rla',
+    '.rpf',
+    '.b3d'
 ])
 
 class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
@@ -30,6 +26,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         self.setWindowTitle('C4D Submission Tool')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
         self.head_node_field.addItems(HEAD_NODES)
+        self.head_node_field.setCurrentIndex(randint(0,len(HEAD_NODES)-1))
         self.output_ext_field.addItems(IMAGE_EXT)
         self.output_ext_field.setCurrentIndex(IMAGE_EXT.index('.tga'))
         self._setup_validators()
@@ -53,19 +50,18 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
     def job_data(self):
         start_frame = min((int(self.start_field.value()), int(self.end_field.value())))
         end_frame = max((int(self.start_field.value()), int(self.end_field.value())))
-        image_filename = str(self.output_base_field.text()) + str(self.output_ext_field.currentText())
+        image_filename = str(self.output_base_field.text())
         return {
                 'renderer'  : 'md',
                 'title'     : str(self.title_field.text()), 
                 'project'   : os.path.normpath(str(self.project_field.text())),
                 'scene'     : os.path.basename(str(self.scene_field.currentText())),
-                'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), 
-                                           '{job_id}', # job_id is injected by hpc-spool at the last minute 
-                                           image_filename),
+                'output'    : os.path.join(JOB_OUTPUT_UNC, getpass.getuser(), '{job_id}', 'output', image_filename), # job_id is injected by hpc-spool at the last minute 
                 'start'     : start_frame,
                 'end'       : end_frame,
                 'step'      : str(self.step_field.value()),
-                'threads'   : 0
+                'threads'   : 0,
+                'ext'       : str(self.output_ext_field.currentText())[1:]
                 }
     
     def submit_job(self):
@@ -77,6 +73,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             
             # Key env vars that influence submission
             os.environ['HEAD_NODE'] = str(self.head_node_field.currentText())
+            os.environ['MULTIPASS'] = str(self.multipass.isChecked())
             spec.submit_job(pause=True if os.getenv('RRT_DEBUG', False) else False)
             self.quit()
             

@@ -23,6 +23,7 @@ class JobSpec(object):
     step = $step
     net_drive = $net_drive
     net_share = $net_share
+    ext = $ext
     """)
 
     _job_data = {}
@@ -64,8 +65,8 @@ class JobSpec(object):
      
     data = property(_get_data, _set_data)
     
-    def __init__(self, title, project, scene, start, end, step=1, **kwargs):
-        data = dict(title=title, project=project, scene=scene, start=start, end=end, step=step)
+    def __init__(self, title, project, scene, start, end, ext, step=1, **kwargs):
+        data = dict(title=title, project=project, scene=scene, start=start, end=end, step=step, ext=ext)
         data.update(kwargs)
         self._set_data(data)
     

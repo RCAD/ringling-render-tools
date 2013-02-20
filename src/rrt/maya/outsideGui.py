@@ -2,7 +2,8 @@ import sys, os, zipfile, getpass
 from PyQt4 import QtGui, QtCore
 from rrt.maya.ui.submit import Ui_SubmitMainWindow
 from rrt.jobspec import JobSpec
-from rrt.settings2 import JOB_OUTPUT_UNC, HEAD_NODES
+from rrt.settings import JOB_OUTPUT_UNC, HEAD_NODES
+from random import randint
 
 IMAGE_EXT = sorted([
 #    '.avi', 
@@ -30,10 +31,11 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         self.setWindowTitle('Maya Submission Tool')
         self.setWindowIcon(QtGui.QIcon("C:/Ringling/hpc/icons/hpcicon3-01.png"))
         self.head_node_field.addItems(HEAD_NODES)
+        self.head_node_field.setCurrentIndex(randint(0,len(HEAD_NODES)-1))
         #self.output_ext_field.addItems(IMAGE_EXT)
         #self.output_ext_field.setCurrentIndex(IMAGE_EXT.index('.tga'))
-        self.core_field.addItems(['2','4'])
-        self.core_field.setCurrentIndex(0)
+        #self.core_field.addItems(['2','4'])
+        #self.core_field.setCurrentIndex(0)
         self.render_field.addItems(['SELECT','Maya','Renderman'])
         self.render_field.setCurrentIndex(0)
         self._setup_validators()
@@ -46,7 +48,7 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
         self.scene_field.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('^[A-Za-z0-9_\-\.]+$'), self))
         
     def browse(self):
-        foldername = QtGui.QFileDialog.getExistingDirectory(directory='Z:\\MAYA\\projects\\')
+        foldername = QtGui.QFileDialog.getExistingDirectory(directory='Z:\\MAYA\\projects\\default\\')
         if foldername:
             self.scene_field.clear()
             self.project_field.setText(foldername)
@@ -74,7 +76,8 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
                 'start'     : start_frame,
                 'end'       : end_frame,
                 'step'      : str(self.step_field.value()),
-                'threads'   : self.core_field.currentText()
+                'threads'   : 4, #self.core_field.currentText(),
+                'ext'       : None
                 }
     
     def submit_job(self):
@@ -90,9 +93,12 @@ class SubmitGui(QtGui.QDialog, Ui_SubmitMainWindow):
             
             # Key env vars that influence submission
             os.environ['HEAD_NODE'] = str(self.head_node_field.currentText())
-            os.environ['RRT_DEBUG'] = str(self.rrt_debug.isChecked())
-            spec.submit_job(pause=True if (os.getenv('RRT_DEBUG', False) or self.pause.isChecked()) else False)
-            self.quit()
+            if self.rrt_debug.isChecked():
+                os.environ['RRT_DEBUG'] = '1'
+            else:   
+                os.environ['RRT_DEBUG'] = '0'
+            spec.submit_job(pause=True if ((os.getenv('RRT_DEBUG', False) == '1') or self.pause.isChecked()) else False)
+            #self.quit()
             
         except Exception, e:
             alert = QtGui.QMessageBox(self)
